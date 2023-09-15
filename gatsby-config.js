@@ -6,6 +6,7 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-svgr",
     "gatsby-plugin-image",
+    "gatsby-plugin-netlify",
     {
       resolve: "gatsby-plugin-env-variables",
       options: {
