@@ -1,4 +1,5 @@
 import React from "react"
+import theme from "../styles/theme"
 
 const Layout = ({ children }) => {
   return (
@@ -10,6 +11,9 @@ const Layout = ({ children }) => {
           maxWidth: 1450,
           backgroundColor: `#f5f5f5`,
           borderRadius: 45,
+          [theme.mobile]: {
+            backgroundColor: "transparent",
+          },
         }}
       >
         <div css={{ margin: "0 auto" }}>

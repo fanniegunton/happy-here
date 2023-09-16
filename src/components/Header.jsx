@@ -21,12 +21,26 @@ const Header = () => (
 
           [theme.mobile]: {
             ...theme.h1,
+            paddingBottom: 10,
             textAlign: "center",
           },
         }}
       >
-        Happy Hour Finder
+        Happy Here!
       </h1>
+      <h3
+        css={{
+          ...theme.h3,
+
+          [theme.mobile]: {
+            ...theme.h3,
+            paddingBottom: 10,
+            textAlign: "center",
+          },
+        }}
+      >
+        Your friendly, neighborhood happy hour finder.
+      </h3>
       <div
         css={{
           display: "flex",
@@ -40,6 +54,7 @@ const Header = () => (
           },
           [theme.mobile]: {
             marginTop: 20,
+            flexDirection: "row",
             justifyContent: "center",
           },
         }}

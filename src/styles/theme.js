@@ -35,9 +35,6 @@ export default {
     [breakpoints.mobile]: {
       fontSize: 48,
     },
-    [breakpoints.smallMobile]: {
-      fontSize: 36,
-    },
   },
   h2: {
     fontFamily: displayFontFamily,
