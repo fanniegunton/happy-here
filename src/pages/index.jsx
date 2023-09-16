@@ -20,6 +20,7 @@ const Home = ({ data }) => (
           border: "4px solid black",
           borderRadius: 45,
           textAlign: "center",
+          [theme.mobile]: { display: "none" },
         }}
       >
         <h2>PLACEHOLDER FOR CRITERIA SELECTOR</h2>
@@ -34,15 +35,11 @@ const Home = ({ data }) => (
         css={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          // gridGap: "60px 60px",
           margin: "0 auto",
+          justifyContent: "center",
           justifyItems: "center",
-          // padding: 60,
-          // [theme.tablet]: {
-          gridGap: "30px 30px",
-          // padding: 10,
-          // },
-          "@media (max-width: 700px)": {
+          gap: "30px 10px",
+          [theme.tablet]: {
             gridTemplateColumns: "1fr",
           },
         }}
