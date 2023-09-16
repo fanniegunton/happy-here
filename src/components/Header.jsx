@@ -8,6 +8,11 @@ const Header = () => (
         display: "flex",
         justifyContent: "space-between",
         paddingBottom: 60,
+        [theme.mobile]: {
+          justifyContent: "center",
+          flexDirection: "column",
+          paddingBottom: 20,
+        },
       }}
     >
       <h1
@@ -16,6 +21,7 @@ const Header = () => (
 
           [theme.mobile]: {
             ...theme.h1,
+            textAlign: "center",
           },
         }}
       >
@@ -27,6 +33,15 @@ const Header = () => (
           justifyContent: "end",
           alignItems: "center",
           gridGap: 20,
+          [theme.tablet]: {
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "0 20px",
+          },
+          [theme.mobile]: {
+            marginTop: 20,
+            justifyContent: "center",
+          },
         }}
       >
         <a
