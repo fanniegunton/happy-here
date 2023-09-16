@@ -1,18 +1,18 @@
 import React from "react"
-import theme from "../styles/theme"
 
 const Layout = ({ children }) => {
   return (
     <>
       <div
         css={{
-          margin: `90px auto`,
+          margin: `90px`,
           maxWidth: 1450,
-          padding: `2rem`,
+          padding: "60px",
           backgroundColor: `#f5f5f5`,
+          borderRadius: 45,
         }}
       >
-        <div>
+        <div css={{ margin: "0 auto" }}>
           <div>{children}</div>
         </div>
       </div>
