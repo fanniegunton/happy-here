@@ -46,12 +46,7 @@ const Header = () => (
         </div>
       </div>
     </div>
-    <div css={{ display: "flex", justifyContent: "space-between" }}>
-      <div css={{ ...theme.subtitle }}>
-        <p>Need to know where to go get happy in Austin? We got you. </p>
-        <p>Fill in the blanks and find your happy 👇🏼 </p>
-      </div>
-    </div>
+    <div css={{ display: "flex", justifyContent: "space-between" }}></div>
   </div>
 )
 
