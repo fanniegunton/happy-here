@@ -6,8 +6,8 @@ const Layout = ({ children }) => {
       <div
         css={{
           margin: `90px`,
-          maxWidth: 1450,
           padding: "60px",
+          maxWidth: 1450,
           backgroundColor: `#f5f5f5`,
           borderRadius: 45,
         }}
