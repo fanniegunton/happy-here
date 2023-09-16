@@ -1,6 +1,5 @@
 import React from "react"
 import { graphql } from "gatsby"
-import moment from "moment"
 import { Global } from "@emotion/react"
 import theme, { globalStyles } from "../styles/theme"
 import Layout from "../components/Layout"
@@ -16,9 +15,10 @@ const Home = ({ data }) => (
       <div
         css={{
           ...theme.h2,
-          marginTop: 60,
-          padding: "10px",
+          margin: "60px 0 30px",
+          padding: 30,
           border: "4px solid black",
+          borderRadius: 45,
           textAlign: "center",
         }}
       >
@@ -34,8 +34,17 @@ const Home = ({ data }) => (
         css={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gridGap: "60px 60px",
-          padding: 60,
+          // gridGap: "60px 60px",
+          margin: "0 auto",
+          justifyItems: "center",
+          // padding: 60,
+          // [theme.tablet]: {
+          gridGap: "30px 30px",
+          // padding: 10,
+          // },
+          "@media (max-width: 700px)": {
+            gridTemplateColumns: "1fr",
+          },
         }}
       >
         {data.establishment.nodes &&
