@@ -1,16 +1,21 @@
 import React from "react"
-import theme, { globalStyles } from "../styles/theme"
+import theme from "../styles/theme"
 
 const Header = () => (
   <div>
-    <div css={{ display: "flex", justifyContent: "space-between" }}>
+    <div
+      css={{
+        display: "flex",
+        justifyContent: "space-between",
+        paddingBottom: 60,
+      }}
+    >
       <h1
         css={{
           ...theme.h1,
-          paddingBottom: 60,
+
           [theme.mobile]: {
             ...theme.h1,
-            paddingBottom: 30,
           },
         }}
       >
@@ -20,30 +25,36 @@ const Header = () => (
         css={{
           display: "flex",
           justifyContent: "end",
-          alignItems: "end",
+          alignItems: "center",
           gridGap: 20,
         }}
       >
-        <div
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
           css={{
             ...theme.subtitle,
             padding: "10px",
             border: "2px solid black",
+            borderRadius: 50,
             textAlign: "center",
           }}
         >
           insta
-        </div>
-        <div
+        </a>
+        <a
+          href="mailto:happyhappyhere@gmail.com"
           css={{
             ...theme.subtitle,
             padding: "10px",
             border: "2px solid black",
+            borderRadius: 50,
             textAlign: "center",
           }}
         >
           email
-        </div>
+        </a>
       </div>
     </div>
     <div css={{ display: "flex", justifyContent: "space-between" }}></div>
