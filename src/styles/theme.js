@@ -1,9 +1,9 @@
 import normalize from "emotion-normalize"
 
 const breakpoints = {
+  smallMobile: "@media (max-width: 400px)",
+  mobile: "@media (max-width: 700px)",
   tablet: "@media (max-width: 900px)",
-  mobile: "@media (max-width: 600px)",
-  smallMobile: "@media (max-width: 370px)",
 }
 
 const colors = {
