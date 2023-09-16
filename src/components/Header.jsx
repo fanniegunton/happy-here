@@ -15,32 +15,34 @@ const Header = () => (
         },
       }}
     >
-      <h1
-        css={{
-          ...theme.h1,
-
-          [theme.mobile]: {
+      <div>
+        <h1
+          css={{
             ...theme.h1,
-            paddingBottom: 10,
-            textAlign: "center",
-          },
-        }}
-      >
-        Happy Here!
-      </h1>
-      <h3
-        css={{
-          ...theme.h3,
 
-          [theme.mobile]: {
-            ...theme.h3,
-            paddingBottom: 10,
-            textAlign: "center",
-          },
-        }}
-      >
-        Your friendly, neighborhood happy hour finder.
-      </h3>
+            [theme.mobile]: {
+              ...theme.h1,
+              paddingBottom: 10,
+              textAlign: "center",
+            },
+          }}
+        >
+          Happy Here!
+        </h1>
+        <h4
+          css={{
+            ...theme.h4,
+
+            [theme.mobile]: {
+              ...theme.h4,
+              paddingBottom: 10,
+              textAlign: "center",
+            },
+          }}
+        >
+          Your friendly, neighborhood happy hour finder.
+        </h4>
+      </div>
       <div
         css={{
           display: "flex",
