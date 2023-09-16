@@ -17,17 +17,7 @@ const EstablishmentTile = ({
     <div
       key={_id}
       css={{
-        maxWidth: 1000,
-        display: "flex",
-        flexDirection: "column",
         padding: 30,
-        [theme.mobile]: {
-          width: 450,
-        },
-        [theme.smallMobile]: {
-          maxWidth: 500,
-          padding: 10,
-        },
       }}
     >
       <div
@@ -36,6 +26,9 @@ const EstablishmentTile = ({
           padding: 30,
           borderRadius: 45,
           border: "4px dotted #000",
+          minHeight: 475,
+          minWidth: 275,
+          maxWidth: 475,
         }}
       >
         <div
