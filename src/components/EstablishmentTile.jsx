@@ -54,14 +54,6 @@ const EstablishmentTile = ({
               alignItems: "center",
             }}
           >
-            {/* <HHStatusIndicator
-              hours={hours}
-              css={{
-                margin: 10,
-                justifyItems: "center",
-                alignItems: "center",
-              }}
-            /> */}
             <HHStatusIndicator
               hours={happyHourTimes}
               css={{
@@ -69,7 +61,6 @@ const EstablishmentTile = ({
                 width: 40,
                 height: 40,
                 borderRadius: 50,
-                // background: theme.white,
               }}
             />
           </div>
@@ -81,7 +72,6 @@ const EstablishmentTile = ({
         </a>
         <p>
           <span css={{ ...theme.bolded }}>Open Hours: </span>
-          {/* {hours} */}
           {hours.map((line, index) => (
             <div key={index}>{line}</div>
           ))}
