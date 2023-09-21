@@ -5,32 +5,13 @@ import theme, { globalStyles } from "../styles/theme"
 import Layout from "../components/Layout"
 import Header from "../components/Header"
 import EstablishmentTile from "../components/EstablishmentTile"
-import EstablishmentsViewer from "../components/EstablishmentsViewer"
 
-const Home = ({ data }) => (
+const Home = ({ data }) => {
+  return (
   <div>
     <Layout>
       <Global styles={globalStyles} />
-      <Header />
-      <div
-        css={{
-          ...theme.h2,
-          margin: "60px 0 30px",
-          padding: 30,
-          border: "4px solid black",
-          borderRadius: 45,
-          textAlign: "center",
-          [theme.mobile]: { display: "none" },
-        }}
-      >
-        <h2>PLACEHOLDER FOR CRITERIA SELECTOR</h2>
-        {/* <EstablishmentsViewer
-          title={data.establishment.nodes.name}
-          defaultFilters={["hideClosed"]}
-          showingAll={false}
-          preserveOrder
-        /> */}
-      </div>
+        <Header css={{ margin: "0 auto" }} />
       <div
         css={{
           display: "grid",
@@ -38,9 +19,10 @@ const Home = ({ data }) => (
           margin: "0 auto",
           justifyContent: "center",
           justifyItems: "center",
-          gap: "30px 10px",
+            gap: "30px 0",
           [theme.tablet]: {
             gridTemplateColumns: "1fr",
+              gap: "10px 0",
           },
         }}
       >
@@ -52,6 +34,7 @@ const Home = ({ data }) => (
     </Layout>
   </div>
 )
+}
 
 export default Home
 
