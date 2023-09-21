@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-// import PropTypes from "prop-types"
 import { hoursCover } from "../lib/parseHours"
 import theme from "../styles/theme"
 import { Tooltip } from "@material-ui/core"
@@ -7,7 +6,7 @@ import { Tooltip } from "@material-ui/core"
 const colors = {
   default: theme.black,
   open: theme.sodaYellow,
-  closed: "#D14C5C",
+  closed: theme.fireRed,
 }
 
 const HHStatusIndicator = ({ hours, className }) => {
@@ -74,11 +73,3 @@ const HHStatusIndicator = ({ hours, className }) => {
 }
 
 export default HHStatusIndicator
-
-// HHStatusIndicator.propTypes = {
-//   hours: PropTypes.oneOfType([
-//     PropTypes.bool,
-//     PropTypes.arrayOf(PropTypes.string),
-//   ]).isRequired,
-//   className: PropTypes.string,
-// }
