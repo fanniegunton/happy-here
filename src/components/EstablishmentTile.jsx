@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
 import theme from "../styles/theme"
 import HHStatusIndicator from "../components/HHStatusIndicator"
@@ -13,6 +13,24 @@ const EstablishmentTile = ({
   happyHourTimes,
   happyHourDetails,
 }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    const checkHours = () => {
+      setIsOpen(hoursCover(happyHourTimes, new Date()))
+    }
+
+    // Check hours right away
+    checkHours()
+
+    // Check hours every second
+    const timer = window.setInterval(checkHours, 30_000)
+
+    return () => {
+      window.clearInterval(timer)
+    }
+  }, [happyHourTimes])
+
   return (
     <div
       key={_id}
@@ -23,12 +41,9 @@ const EstablishmentTile = ({
       <div
         css={{
           backgroundColor: theme.candyBlue,
-          padding: 30,
+          backgroundColor: isOpen ? theme.sodaYellow : theme.candyBlue,
           borderRadius: 45,
-          border: "4px dotted #000",
-          minHeight: 475,
-          minWidth: 275,
-          maxWidth: 475,
+          border: isOpen ? "16px double #B13076" : "2px solid #000",
         }}
       >
         <div
