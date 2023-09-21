@@ -60,14 +60,6 @@ export const query = graphql`
     establishment: allSanityEstablishment {
       nodes {
         ...EstablishmentTile
-        name
-        address
-        neighborhood
-        website
-        _id
-        hours
-        happyHourTimes
-        happyHourDetails
       }
     }
   }
