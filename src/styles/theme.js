@@ -14,6 +14,7 @@ const colors = {
   candyBlue: "#9FC9C2",
   sodaYellow: "#D8B85B",
   fireRed: "#D14C5C",
+  coral: "#d28e79",
 }
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"
@@ -206,7 +207,7 @@ export const globalStyles = [
     body: {
       color: colors.black,
       backgroundColor: colors.white,
-      background: "linear-gradient(90deg, #CDA564 0%, #E4AA8E 70%)",
+      // background: "linear-gradient(90deg, #CDA564 0%, #E4AA8E 70%)",
       background:
         "linear-gradient(90deg, #D28E79 0%, #CDA564 47.92%, #D28E79 98.44%)",
     },

@@ -12,7 +12,7 @@ const IconRow = ({
     <Icon
       css={{
         color: iconColor,
-        // marginRight: 8,
+        marginRight: 8,
         flex: "0 0 16px",
       }}
     />

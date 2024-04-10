@@ -16,6 +16,7 @@ const EstablishmentTile = ({
   hours,
   happyHourTimes,
   happyHourDetails,
+  happyHourMenu,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -47,12 +48,18 @@ const EstablishmentTile = ({
     >
       <div
         css={{
-          padding: 40,
-          backgroundColor: isOpen ? theme.sodaYellow : theme.candyBlue,
-          borderRadius: 45,
-          border: isOpen ? "16px double #B13076" : "2px solid #000",
-          maxWidth: 325,
+          padding: isOpen ? "40px 80px 40px 100px" : "40px 80px 40px 60px",
+          backgroundColor: isOpen ? theme.sodaYellow : theme.coral,
+          borderRadius: isOpen ? "31% 17% 37% 13%" : "3% 37% 7% 31%",
+          border: isOpen ? "16px double #B13076" : "8px solid #B13076",
+          maxWidth: 625,
+          minHeight: 400,
           ...theme.extraFloatBox,
+          [theme.mobile]: {
+            maxWidth: 350,
+            padding: isOpen ? "120px 60px 60px" : "30px 60px 30px 50px",
+            borderRadius: isOpen ? "50%" : "20px",
+          },
           [theme.smallMobile]: {
             padding: 20,
           },
@@ -93,11 +100,15 @@ const EstablishmentTile = ({
             >
               <IconRow
                 icon={Icons.Clock}
-                css={{ justifyContent: "center", fontSize: 14, marginRight: 0 }}
-              ></IconRow>
-              {happyHourTimes.map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
+                css={{
+                  justifyContent: "center",
+                  fontSize: 14,
+                }}
+              >
+                {happyHourTimes.map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+              </IconRow>
             </div>
           )}
           {happyHourDetails?.includes("\n") ? (
@@ -125,11 +136,21 @@ const EstablishmentTile = ({
               {happyHourDetails}
             </p>
           )}
+          {happyHourMenu && (
+            <IconButton
+              icon={Icons.Menu}
+              href={happyHourMenu}
+              target="_blank"
+              rel="noopener noreferrer"
+              css={{ width: "auto", marginBottom: 24 }}
+            />
+          )}
           <div
             css={{
               textTransform: "capitalize",
               fontSize: 12,
               marginBottom: 24,
+              maxWidth: 240,
             }}
           >
             <div css={{ marginBottom: 16 }}>
@@ -189,5 +210,6 @@ export const query = graphql`
     hours
     happyHourTimes
     happyHourDetails
+    happyHourMenu
   }
 `
