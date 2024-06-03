@@ -11,7 +11,9 @@ const colors = {
   black: "#000000",
   pink: "#CC6F97",
   hotPink: "#B13076",
+  babyPink: "#FFE7E3",
   candyBlue: "#9FC9C2",
+  bananaYellow: "#FFF393",
   sodaYellow: "#D8B85B",
   fireRed: "#D14C5C",
   coral: "#d28e79",
@@ -177,7 +179,7 @@ export const globalStyles = [
       fontFamily: displayFontFamily,
       fontSize: 16,
       color: colors.black,
-      background: colors.white,
+      background: colors.bananaYellow,
       lineHeight: 1.375,
       margin: 0,
       padding: 0,
@@ -208,8 +210,8 @@ export const globalStyles = [
       color: colors.black,
       backgroundColor: colors.white,
       // background: "linear-gradient(90deg, #CDA564 0%, #E4AA8E 70%)",
-      background:
-        "linear-gradient(90deg, #D28E79 0%, #CDA564 47.92%, #D28E79 98.44%)",
+      background: colors.bananaYellow,
+      // "linear-gradient(90deg, #D28E79 0%, #CDA564 47.92%, #D28E79 98.44%)",
     },
     a: {
       color: "inherit",
@@ -224,7 +226,7 @@ export const globalStyles = [
       marginInlineEnd: 0,
     },
     ul: {
-      listStyleType: "none",
+      // listStyleType: "none",
       marginBlockStart: 0,
       marginBlockEnd: 0,
       marginInlineStart: 0,
