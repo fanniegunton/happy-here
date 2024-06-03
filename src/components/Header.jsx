@@ -40,41 +40,45 @@ const Header = () => (
         drinks and food become less costly, and thus, more delicious. <br />{" "}
       </h4>
     </div>
-    <div
+    {/* <div
       css={{
         display: "flex",
         gridGap: 20,
       }}
+    > */}
+    <a
+      href="https://www.instagram.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      css={{
+        ...theme.subtitle,
+        fontFamily: theme.fancyFontFamily,
+        padding: "10px",
+        border: "2px solid black",
+        borderRadius: 50,
+        textAlign: "center",
+      }}
     >
-      <a
-        href="https://www.instagram.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        css={{
-          ...theme.subtitle,
-          fontFamily: theme.fancyFontFamily,
-          padding: "10px",
-          border: "2px solid black",
-          borderRadius: 50,
-          textAlign: "center",
-        }}
-      >
-        insta
-      </a>
-      <a
-        href="mailto:happyhappyhere@gmail.com"
-        css={{
-          ...theme.subtitle,
-          fontFamily: theme.fancyFontFamily,
-          padding: "10px",
-          border: "2px solid black",
-          borderRadius: 50,
-          textAlign: "center",
-        }}
-      >
-        email
-      </a>
-    </div>
+      insta
+    </a>
+    <p css={{ margin: "20px 0" }}>
+      We are always seeking and reviewing new HH spots! If you have a
+      suggestion, drop us a line:
+    </p>
+    <a
+      href="mailto:happyhappyhere@gmail.com"
+      css={{
+        ...theme.subtitle,
+        fontFamily: theme.fancyFontFamily,
+        padding: "10px",
+        border: "2px solid black",
+        borderRadius: 50,
+        textAlign: "center",
+      }}
+    >
+      email
+    </a>
+    {/* </div> */}
   </div>
 )
 
