@@ -18,11 +18,11 @@ const EstablishmentTile = ({
   happyHourDetails,
   happyHourMenu,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isHappyHour, setHappyHour] = useState(false)
 
   useEffect(() => {
     const checkHours = () => {
-      setIsOpen(hoursCover(happyHourTimes, new Date()))
+      setHappyHour(hoursCover(happyHourTimes, new Date()))
     }
 
     // Check hours right away
@@ -48,17 +48,21 @@ const EstablishmentTile = ({
     >
       <div
         css={{
-          padding: isOpen ? "40px 80px 40px 100px" : "40px 80px 40px 60px",
-          backgroundColor: isOpen ? theme.sodaYellow : theme.coral,
-          borderRadius: isOpen ? "31% 17% 37% 13%" : "3% 37% 7% 31%",
-          border: isOpen ? "16px double #B13076" : "8px solid #B13076",
+          padding: isHappyHour ? "40px 80px 40px 100px" : "40px 80px 40px 60px",
+          // backgroundColor: isHappyHour ? theme.babyPink : "#F9D261",
+          background: isHappyHour
+            ? "linear-gradient(135deg, #FECBC3 0%, #FFF393 67.92%, #FECBC3 98.44%)"
+            : // : theme.babyPink,
+              "#FFF0EE",
+          borderRadius: isHappyHour ? "31% 17% 37% 13%" : "3% 37% 7% 31%",
+          border: isHappyHour ? "16px double #B13076" : "16px double #FECBC3",
           maxWidth: 625,
           minHeight: 400,
           ...theme.extraFloatBox,
           [theme.mobile]: {
             maxWidth: 350,
-            padding: isOpen ? "120px 60px 60px" : "30px 60px 30px 50px",
-            borderRadius: isOpen ? "50%" : "20px",
+            padding: isHappyHour ? "120px 60px 60px" : "30px 60px 30px 50px",
+            borderRadius: isHappyHour ? "50%" : "20px",
           },
           [theme.smallMobile]: {
             padding: 20,
@@ -117,6 +121,7 @@ const EstablishmentTile = ({
                 listStyleType: "none",
                 paddingInlineStart: 0,
                 marginBottom: 30,
+                maxWidth: 240,
               }}
             >
               {happyHourDetails
