@@ -4,6 +4,7 @@ const breakpoints = {
   smallMobile: "@media (max-width: 400px)",
   mobile: "@media (max-width: 700px)",
   tablet: "@media (max-width: 900px)",
+  smallDesktop: "@media (max-width: 1100px)",
 }
 
 const colors = {
@@ -17,6 +18,16 @@ const colors = {
   sodaYellow: "#D8B85B",
   fireRed: "#D14C5C",
   coral: "#d28e79",
+  nudeStone: "#FFD7B9",
+  playBlue: "#4F67B1",
+  stainedCork: "#B44B28",
+  mocha: "#caa498",
+  mutedLemon: "#e1c994",
+  lightGrout: "e4e3e4",
+  lemonYellow: "#ffde50",
+  oceanBlue: "#006eff",
+  valenciaOrange: "#e09232",
+  lilac: "#b5b5ff",
 }
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"
@@ -37,7 +48,7 @@ export default {
       fontSize: 64,
     },
     [breakpoints.mobile]: {
-      fontSize: 48,
+      fontSize: 40,
     },
   },
   h2: {
@@ -67,17 +78,32 @@ export default {
     },
   },
 
-  nav: {
-    fontFamily: displayFontFamily,
-    fontSize: 24,
-    fontWeight: 400,
-    lineHeight: 1.1,
-    textTransform: "uppercase",
+  h3Alt: {
+    fontFamily: fancyFontFamily,
+    fontSize: 36,
+    fontWeight: 500,
+    lineHeight: 1.35,
+    letterSpacing: "0.03em",
+    margin: 0,
     [breakpoints.tablet]: {
-      fontSize: 22,
+      fontSize: 32,
     },
     [breakpoints.mobile]: {
-      fontSize: 20,
+      fontSize: 28,
+    },
+  },
+
+  nav: {
+    fontFamily: displayFontFamily,
+    fontSize: 20,
+    fontWeight: 400,
+    lineHeight: 1.0,
+    textTransform: "uppercase",
+    [breakpoints.tablet]: {
+      fontSize: 18,
+    },
+    [breakpoints.mobile]: {
+      fontSize: 14,
     },
   },
   postTitle: {
@@ -106,15 +132,16 @@ export default {
   },
   subtitle: {
     fontFamily: displayFontFamily,
-    fontSize: 20,
-    fontWeight: 400,
+    fontSize: 24,
+    fontWeight: 300,
     lineHeight: 1.7,
     [breakpoints.tablet]: {
-      fontSize: 18,
-      lineHeight: 1.5,
-    },
-    [breakpoints.smallMobile]: {
       fontSize: 16,
+      lineHeight: 1.5,
+      fontWeight: 400,
+    },
+    [breakpoints.mobile]: {
+      fontSize: 14,
       lineHeight: 1.3,
     },
   },
@@ -131,7 +158,7 @@ export default {
   },
   bolded: {
     fontFamily: displayFontFamily,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 700,
     color: colors.black,
     lineHeight: 1.375,
@@ -179,8 +206,9 @@ export const globalStyles = [
       fontFamily: displayFontFamily,
       fontSize: 16,
       color: colors.black,
-      background: colors.bananaYellow,
+      background: colors.lilac,
       lineHeight: 1.375,
+      height: "100%",
       margin: 0,
       padding: 0,
       border: 0,
@@ -208,10 +236,13 @@ export const globalStyles = [
     },
     body: {
       color: colors.black,
-      backgroundColor: colors.white,
+      backgroundColor: colors.lilac,
       // background: "linear-gradient(90deg, #CDA564 0%, #E4AA8E 70%)",
-      background: colors.bananaYellow,
-      // "linear-gradient(90deg, #D28E79 0%, #CDA564 47.92%, #D28E79 98.44%)",
+      // background: "linear-gradient(90deg, #D28E79 0%, #CDA564 47.92%, #D28E79 98.44%)",
+      margin: 0,
+      padding: 0,
+      minHeight: "100vh",
+      // overflow: "hidden",
     },
     a: {
       color: "inherit",
@@ -226,7 +257,7 @@ export const globalStyles = [
       marginInlineEnd: 0,
     },
     ul: {
-      // listStyleType: "none",
+      listStyleType: "none",
       marginBlockStart: 0,
       marginBlockEnd: 0,
       marginInlineStart: 0,
