@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
 import theme from "../styles/theme"
 import IconButton from "../components/IconButton"
-import IconRow from "../components/IconRow"
 import Icons from "../lib/icons"
 import { hoursCover } from "../lib/parseHours"
 
@@ -48,133 +47,190 @@ const EstablishmentTile = ({
     >
       <div
         css={{
-          padding: isHappyHour ? "40px 80px 40px 100px" : "40px 80px 40px 60px",
-          // backgroundColor: isHappyHour ? theme.babyPink : "#F9D261",
-          background: isHappyHour
-            ? "linear-gradient(135deg, #FECBC3 0%, #FFF393 67.92%, #FECBC3 98.44%)"
-            : // : theme.babyPink,
-              "#FFF0EE",
-          borderRadius: isHappyHour ? "31% 17% 37% 13%" : "3% 37% 7% 31%",
-          border: isHappyHour ? "16px double #B13076" : "16px double #FECBC3",
-          maxWidth: 625,
-          minHeight: 400,
+          position: "relative",
+          padding: 30,
+          background: isHappyHour ? theme.lilac : theme.babyPink,
+          borderRadius: 20,
+          border: isHappyHour
+            ? "16px double rgb(232, 221, 66)"
+            : "16px double #CC6F97",
+          maxWidth: 525,
           ...theme.extraFloatBox,
           [theme.mobile]: {
             maxWidth: 350,
-            padding: isHappyHour ? "120px 60px 60px" : "30px 60px 30px 50px",
-            borderRadius: isHappyHour ? "50%" : "20px",
-          },
-          [theme.smallMobile]: {
-            padding: 20,
+            minWidth: "85vw",
+            padding: "20px 20px 30px",
           },
         }}
       >
         <div
           css={{
             display: "flex",
-            alignItems: "center",
+            margin: "0 auto",
+            alignItems: "start",
             flexDirection: "column",
             justifyContent: "center",
             textAlign: "center",
+            maxWidth: 300,
+            [theme.mobile]: {
+              display: "grid",
+              margin: "0 auto",
+              justifyContent: "center",
+              maxWidth: 200,
+            },
           }}
         >
           <h3
             css={{
-              ...theme.h3,
-              fontSize: 28,
-              textAlign: "center",
-              paddingBottom: "30px",
+              ...theme.h3Alt,
+              fontSize: 40,
+              textWrap: "balance",
+              marginBottom: 20,
               minWidth: 240,
               [theme.tablet]: { marginBottom: 16 },
-              [theme.smallMobile]: {
-                fontSize: 24,
-                paddingBottom: 10,
-                minWidth: 200,
+              [theme.mobile]: {
+                marginBottom: 10,
               },
             }}
           >
             {name}
           </h3>
-          {happyHourTimes && (
-            <div
-              css={{
-                marginBottom: 30,
-                fontSize: 18,
-              }}
-            >
-              <IconRow
-                icon={Icons.Clock}
+          <div
+            css={{
+              borderTop: "4px double #4F67B1",
+              minWidth: 300,
+            }}
+          >
+            <div css={{ paddingTop: 10, paddingBottom: 10 }}>
+              <span
                 css={{
-                  justifyContent: "center",
-                  fontSize: 14,
+                  fontFamily: theme.fancyFontFamily,
+                  fontWeight: 500,
+                  fontSize: 16,
+                }}
+              >
+                Happy Hour Deets:{" "}
+              </span>
+            </div>
+            {happyHourTimes && (
+              <div
+                css={{
+                  marginBottom: 20,
+                  fontSize: 16,
                 }}
               >
                 {happyHourTimes.map((line, index) => (
                   <div key={index}>{line}</div>
                 ))}
-              </IconRow>
-            </div>
-          )}
-          {happyHourDetails?.includes("\n") ? (
-            <ul
-              css={{
-                listStyleType: "none",
-                paddingInlineStart: 0,
-                marginBottom: 30,
-                maxWidth: 240,
-              }}
-            >
-              {happyHourDetails
-                .split("\n")
-                .filter(Boolean)
-                .map((line, index) => (
-                  <li
-                    key={index}
-                    css={{ ...theme.bolded, fontSize: 14, textAlign: "left" }}
-                  >
-                    {line}
-                  </li>
-                ))}
-            </ul>
-          ) : (
-            <p css={{ ...theme.bolded, fontSize: 14, marginBottom: 24 }}>
-              {happyHourDetails}
-            </p>
-          )}
-          {happyHourMenu && (
-            <IconButton
-              icon={Icons.Menu}
-              href={happyHourMenu}
-              target="_blank"
-              rel="noopener noreferrer"
-              css={{ width: "auto", marginBottom: 24 }}
-            />
-          )}
+              </div>
+            )}
+            {happyHourDetails?.includes("\n") ? (
+              <ul
+                css={{
+                  paddingInlineStart: 0,
+                  maxWidth: 180,
+                  margin: "0 auto",
+                }}
+              >
+                {happyHourDetails
+                  .split("\n")
+                  .filter(Boolean)
+                  .map((line, index) => (
+                    <li
+                      key={index}
+                      css={{
+                        ...theme.bolded,
+                        listStyleType: "disc",
+                        fontSize: 14,
+                        textAlign: "left",
+                        "&:last-child": {
+                          marginBottom: 16,
+                        },
+                      }}
+                    >
+                      {line}
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <div css={{ ...theme.bolded, fontSize: 16, marginBottom: 18 }}>
+                {happyHourDetails}
+              </div>
+            )}
+            {happyHourMenu && (
+              <IconButton
+                icon={Icons.Menu}
+                href={happyHourMenu}
+                target="_blank"
+                rel="noopener noreferrer"
+                css={{
+                  width: "auto",
+                  margin: "0 auto 12px",
+                  justifyContent: "center",
+                }}
+              />
+            )}
+          </div>
+        </div>
+        <div
+          css={{
+            display: "block",
+            border: "4px double #4F67B1",
+            borderRadius: 20,
+            padding: "12px 6px 6px",
+            textAlign: "center",
+            [theme.tablet]: {
+              maxWidth: "fit-content",
+              marginInline: "auto",
+              padding: "10px 20px",
+            },
+          }}
+        >
           <div
             css={{
               textTransform: "capitalize",
               fontSize: 12,
-              marginBottom: 24,
+              margin: "0 auto 24px",
               maxWidth: 240,
+              [theme.mobile]: {
+                marginBottom: 16,
+              },
             }}
           >
-            <div css={{ marginBottom: 16 }}>
-              {address} <br />{" "}
-              <span css={{ fontStyle: "italic" }}>{neighborhood}</span>
+            <div css={{ paddingBottom: 10 }}>
+              <span
+                css={{
+                  fontFamily: theme.fancyFontFamily,
+                  fontWeight: 500,
+                  fontSize: 20,
+                }}
+              >
+                Location Info:{" "}
+              </span>
             </div>
-            <p css={{ fontSize: 12 }}>
-              <span css={{ ...theme.bolded }}>Hours of operation: </span>
-              {hours.map((line, index) => (
-                <div key={index}>{line}</div>
-              ))}
-            </p>
+            <div css={{ marginBottom: 6 }}>{address}</div>
+            <div
+              css={{
+                ...theme.fancyFontFamily,
+                fontStyle: "italic",
+                marginBottom: 6,
+              }}
+            >
+              {neighborhood}
+            </div>
+            {hours.map((line, index) => (
+              <div key={index} css={{ fontSize: 14 }}>
+                {line}
+              </div>
+            ))}
           </div>
           <div
             css={{
-              [theme.tablet]: {
-                display: "flex",
-                justifyContent: "center",
-              },
+              display: "flex",
+              gap: 20,
+              marginRight: 0,
+              textAlign: "center",
+              justifyContent: "space-evenly",
             }}
           >
             {website && (
@@ -183,7 +239,12 @@ const EstablishmentTile = ({
                 href={website}
                 target="_blank"
                 rel="noopener noreferrer"
-                css={{ width: "auto", marginRight: 40 }}
+                css={{
+                  width: "auto",
+                  transform: "scale(1.5)",
+                  justifyContent: "center",
+                  color: isHappyHour ? theme.oceanBlue : theme.hotPink,
+                }}
               />
             )}
             {instagram && (
@@ -192,7 +253,12 @@ const EstablishmentTile = ({
                 href={instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                css={{ width: "auto" }}
+                css={{
+                  width: "auto",
+                  transform: "scale(1.5)",
+                  justifyContent: "center",
+                  color: isHappyHour ? theme.oceanBlue : theme.hotPink,
+                }}
               />
             )}
           </div>
@@ -216,5 +282,6 @@ export const query = graphql`
     happyHourTimes
     happyHourDetails
     happyHourMenu
+    whatWeHaveHere
   }
 `
