@@ -30,8 +30,7 @@ const Home = ({ data }) => {
             },
           }}
         >
-          {data.establishment.nodes &&
-            data.establishment.nodes.map((tile) => (
+          {sortedEstablishments.map((tile) => (
               <EstablishmentTile key={tile._id} {...tile} />
             ))}
         </div>

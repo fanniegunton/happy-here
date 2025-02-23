@@ -32,7 +32,7 @@ export const parseTimes = (times) =>
       return hr + min
     })
 
-const parseHours = (hours) => {
+export const parseHours = (hours) => {
   if (!/[0-9]/.test(hours)) return []
   hours = hours.toLowerCase()
 
