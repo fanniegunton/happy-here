@@ -19,6 +19,7 @@ import { ReactComponent as Menu } from "../images/Menu.svg"
 import { ReactComponent as Merch } from "../images/Merch.svg"
 import { ReactComponent as Phone } from "../images/Phone.svg"
 import { ReactComponent as Pin } from "../images/Pin.svg"
+import { ReactComponent as Star } from "../images/Star.svg"
 import { ReactComponent as Tag } from "../images/Tag.svg"
 import { ReactComponent as Tiles } from "../images/Tiles.svg"
 import { ReactComponent as Warning } from "../images/Warning.svg"
@@ -47,6 +48,7 @@ const Icons = {
   Merch,
   Phone,
   Pin,
+  Star,
   Tag,
   Tiles,
   Warning,
