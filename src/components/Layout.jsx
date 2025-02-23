@@ -6,16 +6,18 @@ const Layout = ({ children }) => {
     <>
       <div
         css={{
-          margin: `0 auto`,
-          padding: "90px 90px 60px",
+          margin: 10,
+          padding: 60,
           maxWidth: 1450,
+          border: "8px solid #006eff",
           borderRadius: 45,
           [theme.tablet]: {
             margin: "0 auto",
             padding: "90px 0 0",
-            justifyContent: "center",
-            justifyItems: "center",
-            textAlign: "center",
+          },
+          [theme.mobile]: {
+            border: "none",
+            padding: "20px 10px 0",
           },
         }}
       >
