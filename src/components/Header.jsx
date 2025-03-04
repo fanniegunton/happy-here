@@ -8,15 +8,15 @@ const Header = () => (
     css={{
       display: "block",
       marginBottom: 60,
-      padding: "60px",
-      background:
-        "linear-gradient(135deg, #b5b5ff 0%, #e4e3e4 67.92%, #B13076 98.44%)",
-      borderRadius: "20px",
-      border: "16px double #4F67B1",
-      ...theme.extraFloatBox,
-      [theme.mobile]: {
-        padding: 10,
-      },
+      padding: "0 20px",
+      background: theme.white,
+      // "linear-gradient(135deg, #b5b5ff 0%, #e4e3e4 67.92%, #B13076 98.44%)",
+      // borderRadius: "20px",
+      // border: "16px double #4F67B1",
+      // ...theme.extraFloatBox,
+      // [theme.mobile]: {
+      //   padding: 20,
+      // },
     }}
   >
     <div
@@ -34,9 +34,10 @@ const Header = () => (
       <h1
         css={{
           ...theme.h1,
+          justifySelf: "start",
         }}
       >
-        Happy Here
+        Happy Here: Happy Hours in Austin
       </h1>
       <div
         css={{
@@ -44,6 +45,7 @@ const Header = () => (
           maxWidth: 600,
           textWrap: "balance",
           display: "flex",
+          justifySelf: "end",
           gap: ".75em",
           [theme.mobile]: {
             display: "grid",
