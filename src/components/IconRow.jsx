@@ -4,7 +4,7 @@ import theme from "../styles/theme"
 
 const IconRow = ({
   icon: Icon,
-  iconColor = theme.hotPink,
+  iconColor = theme.black,
   children,
   className,
 }) => (
