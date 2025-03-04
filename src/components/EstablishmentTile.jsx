@@ -1,21 +1,45 @@
 import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
+import { Tooltip } from "react-tooltip"
 import theme from "../styles/theme"
 import IconButton from "../components/IconButton"
-import Icons from "../lib/icons"
 import { hoursCover } from "../lib/parseHours"
+import SanityImage from "gatsby-plugin-sanity-image"
+import {
+  Clock,
+  MapPin,
+  UtensilsCrossed,
+  Beer,
+  Wine,
+  Martini,
+  Coffee,
+  CupSoda,
+  Store,
+  TreePalm,
+  PawPrint,
+  UserRound,
+  UsersRound,
+  ConciergeBell,
+  CalendarCheck,
+} from "lucide-react"
+import IconRow from "./IconRow"
+import Icons from "../lib/icons"
 
 const EstablishmentTile = ({
   _id,
   name,
   address,
   neighborhood,
+  photo,
   website,
   instagram,
   hours,
   happyHourTimes,
   happyHourDetails,
   happyHourMenu,
+  whatWeHaveHere,
+  theSpaceIsLike,
+  ownershipIdentifiedAs,
 }) => {
   const [isHappyHour, setHappyHour] = useState(false)
 
@@ -39,7 +63,7 @@ const EstablishmentTile = ({
     <div
       key={_id}
       css={{
-        padding: "30px 0",
+        padding: 30,
         [theme.tablet]: {
           padding: 20,
         },
@@ -48,18 +72,15 @@ const EstablishmentTile = ({
       <div
         css={{
           position: "relative",
-          padding: 30,
-          background: isHappyHour ? theme.lilac : theme.babyPink,
+          background: isHappyHour ? theme.lilac : theme.white,
+
           borderRadius: 20,
-          border: isHappyHour
-            ? "16px double rgb(232, 221, 66)"
-            : "16px double #CC6F97",
+          border: "4px solid #006eff",
           maxWidth: 525,
-          ...theme.extraFloatBox,
+          // ...theme.extraFloatBox,
           [theme.mobile]: {
             maxWidth: 350,
             minWidth: "85vw",
-            padding: "20px 20px 30px",
           },
         }}
       >
@@ -71,118 +92,461 @@ const EstablishmentTile = ({
             flexDirection: "column",
             justifyContent: "center",
             textAlign: "center",
-            maxWidth: 300,
+            minWidth: 300,
+            maxWidth: 375,
+            width: "100%",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             [theme.mobile]: {
               display: "grid",
               margin: "0 auto",
               justifyContent: "center",
-              maxWidth: 200,
             },
           }}
         >
-          <h3
-            css={{
-              ...theme.h3Alt,
-              fontSize: 40,
-              textWrap: "balance",
-              marginBottom: 20,
-              minWidth: 240,
-              [theme.tablet]: { marginBottom: 16 },
-              [theme.mobile]: {
-                marginBottom: 10,
-              },
-            }}
-          >
-            {name}
-          </h3>
-          <div
-            css={{
-              borderTop: "4px double #4F67B1",
-              minWidth: 300,
-            }}
-          >
-            <div css={{ paddingTop: 10, paddingBottom: 10 }}>
-              <span
-                css={{
-                  fontFamily: theme.fancyFontFamily,
-                  fontWeight: 500,
-                  fontSize: 16,
-                }}
-              >
-                Happy Hour Deets:{" "}
-              </span>
+          {photo && (
+            <SanityImage
+              {...photo}
+              width={300}
+              height={200}
+              alt={`Photo of ${name}`}
+              css={{
+                width: "100%",
+                objectFit: "cover",
+                borderRadius: "17px 17px 0 0",
+              }}
+            />
+          )}
+          <div css={{ textAlign: "left", margin: "30px 30px 10px" }}>
+            <h3
+              css={{
+                ...theme.h3Alt,
+                fontSize: 24,
+                textWrap: "balance",
+                minWidth: 240,
+                [theme.tablet]: { marginBottom: 16 },
+                [theme.mobile]: {
+                  marginBottom: 10,
+                },
+              }}
+            >
+              {name}
+            </h3>
+            <div
+              css={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.25rem",
+                fontSize: "0.875rem",
+                lineHeight: "1.25rem",
+                paddingBottom: 16,
+              }}
+            >
+              <MapPin css={{ height: "1rem", width: "1rem" }} />
+              {neighborhood}
             </div>
-            {happyHourTimes && (
+            <div
+              css={{
+                display: "flex",
+                gap: 20,
+                marginRight: 0,
+                marginBottom: 10,
+                textAlign: "center",
+                justifyContent: "start",
+              }}
+            >
+              {happyHourMenu && (
+                <IconButton
+                  icon={Icons.Menu}
+                  href={happyHourMenu}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={{
+                    width: "auto",
+                    transform: "scale(1.5)",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+              {website && (
+                <IconButton
+                  icon={Icons.Website}
+                  href={website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={{
+                    width: "auto",
+                    transform: "scale(1.5)",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+              {instagram && (
+                <IconButton
+                  icon={Icons.Instagram}
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={{
+                    width: "auto",
+                    transform: "scale(1.5)",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+            </div>
+            <div css={{ marginBottom: "1rem " }}>
+              {happyHourTimes && (
+                <div
+                  css={{
+                    fontSize: "0.875rem",
+                    lineHeight: "1.25rem",
+                    fontWeight: 500,
+                  }}
+                >
+                  Happy Hour Times:{" "}
+                  {happyHourTimes.map((line, index) => (
+                    <div key={index}>{line}</div>
+                  ))}
+                </div>
+              )}
               <div
                 css={{
-                  marginBottom: 20,
+                  marginTop: 4,
+                  marginBottom: 16,
                   fontSize: 16,
+                  lineHeight: "1.25rem",
                 }}
               >
-                {happyHourTimes.map((line, index) => (
-                  <div key={index}>{line}</div>
-                ))}
+                {happyHourDetails?.includes("\n") ? (
+                  <ul
+                    css={{
+                      paddingInlineStart: 20,
+                      maxWidth: "max-content",
+                    }}
+                  >
+                    {happyHourDetails
+                      .split("\n")
+                      .filter(Boolean)
+                      .map((line, index) => (
+                        <li
+                          key={index}
+                          css={{
+                            fontSize: 14,
+                            listStyleType: "disc",
+                            textAlign: "left",
+                            "&:last-child": {
+                              marginBottom: 16,
+                            },
+                          }}
+                        >
+                          {line}
+                        </li>
+                      ))}
+                  </ul>
+                ) : (
+                  <div css={{ fontSize: 14, marginBottom: 16 }}>
+                    {happyHourDetails}
+                  </div>
+                )}
               </div>
-            )}
-            {happyHourDetails?.includes("\n") ? (
-              <ul
+              <div
                 css={{
-                  paddingInlineStart: 0,
-                  maxWidth: 180,
-                  margin: "0 auto",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr",
                 }}
               >
-                {happyHourDetails
-                  .split("\n")
-                  .filter(Boolean)
-                  .map((line, index) => (
-                    <li
-                      key={index}
-                      css={{
-                        ...theme.bolded,
-                        listStyleType: "disc",
-                        fontSize: 14,
-                        textAlign: "left",
-                        "&:last-child": {
-                          marginBottom: 16,
-                        },
-                      }}
-                    >
-                      {line}
-                    </li>
-                  ))}
-              </ul>
-            ) : (
-              <div css={{ ...theme.bolded, fontSize: 16, marginBottom: 18 }}>
-                {happyHourDetails}
+                {whatWeHaveHere.includes("cocktails") && (
+                  <IconRow
+                    icon={Martini}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Cocktails
+                  </IconRow>
+                )}
+                {whatWeHaveHere.includes("wine") && (
+                  <IconRow
+                    icon={Wine}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    {" "}
+                    Wine{" "}
+                  </IconRow>
+                )}
+                {whatWeHaveHere.includes("beer") && (
+                  <IconRow
+                    icon={Beer}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    {" "}
+                    Beer{" "}
+                  </IconRow>
+                )}
+                {whatWeHaveHere.includes("food") && (
+                  <IconRow
+                    icon={UtensilsCrossed}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    {" "}
+                    Food{" "}
+                  </IconRow>
+                )}
+                {whatWeHaveHere.includes("naDrinks") && (
+                  <IconRow
+                    icon={CupSoda}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    {" "}
+                    Non-Alcoholic Drinks{" "}
+                  </IconRow>
+                )}
+                {whatWeHaveHere.includes("coffee") && (
+                  <IconRow
+                    icon={Coffee}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    {" "}
+                    Coffee{" "}
+                  </IconRow>
+                )}
+                {/* </div>
+              <div css={{ display: "flex" }}> */}
+                {theSpaceIsLike.includes("indoor") && (
+                  <IconRow
+                    icon={Store}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Indoors
+                  </IconRow>
+                )}
+                {theSpaceIsLike.includes("patio") && (
+                  <IconRow
+                    icon={TreePalm}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Patio
+                  </IconRow>
+                )}
+                {theSpaceIsLike.includes("barSeating") && (
+                  <IconRow
+                    icon={ConciergeBell}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Bar Seating
+                  </IconRow>
+                )}
+                {theSpaceIsLike.includes("dogFriendly") && (
+                  <IconRow
+                    icon={PawPrint}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Dog Friendly
+                  </IconRow>
+                )}
+                {theSpaceIsLike.includes("smallGroups") && (
+                  <IconRow
+                    icon={UserRound}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Small Groups Only
+                  </IconRow>
+                )}
+                {theSpaceIsLike.includes("bigGroups") && (
+                  <IconRow
+                    icon={UsersRound}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Big Groups Welcome
+                  </IconRow>
+                )}
+                {theSpaceIsLike.includes("reservationsRec") && (
+                  <IconRow
+                    icon={CalendarCheck}
+                    css={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      borderRadius: "9999px",
+                      borderWidth: 1,
+                      borderColor: theme.oceanBlue,
+                      borderStyle: "solid",
+                      paddingLeft: 10,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      marginRight: 4,
+                    }}
+                  >
+                    Reservations Recommended
+                  </IconRow>
+                )}
               </div>
-            )}
-            {happyHourMenu && (
-              <IconButton
-                icon={Icons.Menu}
-                href={happyHourMenu}
-                target="_blank"
-                rel="noopener noreferrer"
-                css={{
-                  width: "auto",
-                  margin: "0 auto 12px",
-                  justifyContent: "center",
-                }}
-              />
-            )}
+            </div>
           </div>
         </div>
         <div
           css={{
-            display: "block",
-            border: "4px double #4F67B1",
-            borderRadius: 20,
-            padding: "12px 6px 6px",
-            textAlign: "center",
+            borderRadius: "0 0 17px 17px",
+            padding: "16px 0 6px",
+            backgroundColor: theme.lightGrout,
             [theme.tablet]: {
               maxWidth: "fit-content",
-              marginInline: "auto",
-              padding: "10px 20px",
             },
           }}
         >
@@ -190,77 +554,18 @@ const EstablishmentTile = ({
             css={{
               textTransform: "capitalize",
               fontSize: 12,
-              margin: "0 auto 24px",
-              maxWidth: 240,
+              margin: "0 30px 20px",
+              maxWidth: 300,
               [theme.mobile]: {
                 marginBottom: 16,
               },
             }}
           >
-            <div css={{ paddingBottom: 10 }}>
-              <span
-                css={{
-                  fontFamily: theme.fancyFontFamily,
-                  fontWeight: 500,
-                  fontSize: 20,
-                }}
-              >
-                Location Info:{" "}
-              </span>
-            </div>
             <div css={{ marginBottom: 6 }}>{address}</div>
-            <div
-              css={{
-                ...theme.fancyFontFamily,
-                fontStyle: "italic",
-                marginBottom: 6,
-              }}
-            >
-              {neighborhood}
-            </div>
+            <div css={{ marginBottom: 6 }}>Open Hours:</div>
             {hours.map((line, index) => (
-              <div key={index} css={{ fontSize: 14 }}>
-                {line}
-              </div>
+              <div key={index}>{line}</div>
             ))}
-          </div>
-          <div
-            css={{
-              display: "flex",
-              gap: 20,
-              marginRight: 0,
-              textAlign: "center",
-              justifyContent: "space-evenly",
-            }}
-          >
-            {website && (
-              <IconButton
-                icon={Icons.Website}
-                href={website}
-                target="_blank"
-                rel="noopener noreferrer"
-                css={{
-                  width: "auto",
-                  transform: "scale(1.5)",
-                  justifyContent: "center",
-                  color: isHappyHour ? theme.oceanBlue : theme.hotPink,
-                }}
-              />
-            )}
-            {instagram && (
-              <IconButton
-                icon={Icons.Instagram}
-                href={instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                css={{
-                  width: "auto",
-                  transform: "scale(1.5)",
-                  justifyContent: "center",
-                  color: isHappyHour ? theme.oceanBlue : theme.hotPink,
-                }}
-              />
-            )}
           </div>
         </div>
       </div>
@@ -275,6 +580,9 @@ export const query = graphql`
     _id
     name
     address
+    photo {
+      ...ImageWithPreview
+    }
     neighborhood
     website
     instagram
@@ -283,5 +591,7 @@ export const query = graphql`
     happyHourDetails
     happyHourMenu
     whatWeHaveHere
+    theSpaceIsLike
+    ownershipIdentifiedAs
   }
 `
