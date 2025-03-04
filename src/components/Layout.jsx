@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
       <div
         css={{
           margin: 10,
-          padding: 60,
+          padding: 40,
           maxWidth: 1450,
           border: "8px solid #006eff",
           borderRadius: 45,
@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
           },
           [theme.mobile]: {
             border: "none",
-            padding: "20px 10px 0",
+            padding: "0 0 0 0",
           },
         }}
       >
