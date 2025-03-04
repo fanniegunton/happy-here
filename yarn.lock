@@ -6771,6 +6771,14 @@ gatsby-plugin-react-helmet@^3.0.10:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+gatsby-plugin-sanity-image@^0.13.5:
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sanity-image/-/gatsby-plugin-sanity-image-0.13.5.tgz#67c1d66c065d690523c2b664ee44ec75700c5808"
+  integrity sha512-k4/b7WHtULliaigIPNM4sWUvp1VtpFrYdIEJ9vL3fx5xsTfNMxXC0BiQlDR2uxwtgclE0sLbMpCFvMmUq84mUg==
+  dependencies:
+    "@emotion/react" "^11.10.0"
+    "@sanity/image-url" "^1.0.1"
+
 gatsby-plugin-svgr@^3.0.0-beta.0:
   version "3.0.0-beta.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-svgr/-/gatsby-plugin-svgr-3.0.0-beta.0.tgz#7e5315f51dae2663a447899322ea1487cef93dd6"

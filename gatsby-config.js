@@ -48,6 +48,16 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: "gatsby-plugin-sanity-image",
+      options: {
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_DATASET,
+
+        // Automatically use `SanityImage.asset.alt` as alt text
+        altFieldName: "altText",
+      },
+    },
     process.env.GOOGLE_ANALYTICS_ID && {
       resolve: "gatsby-plugin-google-analytics",
       options: {
