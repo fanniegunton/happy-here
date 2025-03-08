@@ -368,7 +368,7 @@ const EstablishmentTile = ({
                   )}
                   {theSpaceIsLike.includes("reservationsRec") && (
                     <AmmenityPill icon={CalendarCheck}>
-                      Reso Reco'd
+                      Reso Reco’d
                     </AmmenityPill>
                   )}
                 </div>
