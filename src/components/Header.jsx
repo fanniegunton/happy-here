@@ -1,29 +1,23 @@
 import React from "react"
 import theme from "../styles/theme"
-import { Link } from "gatsby"
 import insta from "../images/Instagram.svg"
 
 const Header = () => (
   <div
     css={{
-      display: "block",
       marginBottom: 60,
       padding: "0 20px",
       background: theme.white,
-      // "linear-gradient(135deg, #b5b5ff 0%, #e4e3e4 67.92%, #B13076 98.44%)",
-      // borderRadius: "20px",
-      // border: "16px double #4F67B1",
-      // ...theme.extraFloatBox,
-      // [theme.mobile]: {
-      //   padding: 20,
-      // },
+      [theme.mobile]: {
+        margin: "0 30px",
+        padding: 0,
+      },
     }}
   >
     <div
       css={{
-        display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        alignItems: "center",
+        display: "flex",
+        alignItems: "start",
         justifyContent: "space-between",
         marginBottom: 20,
         [theme.tablet]: {
@@ -42,17 +36,14 @@ const Header = () => (
       <div
         css={{
           ...theme.nav,
+          flex: "1 0 auto",
           maxWidth: 600,
           textWrap: "balance",
           display: "flex",
-          justifySelf: "end",
+          alignItems: "center",
+          justifyContent: "end",
+          transform: "0 16px",
           gap: ".75em",
-          [theme.mobile]: {
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            fontSize: 14,
-            textAlign: "right",
-          },
         }}
       >
         {/* <Link to="/lists">Lists</Link>
@@ -70,8 +61,8 @@ const Header = () => (
               width: "auto",
               color: theme.black,
               [theme.mobile]: {
-                alignContent: "center",
-                margin: "0 auto",
+                alignContent: "end",
+                marginLeft: 8,
               },
             }}
           />
@@ -82,6 +73,7 @@ const Header = () => (
       <div
         css={{
           ...theme.subtitle,
+          fontWeight: 400,
           maxWidth: 600,
           textWrap: "balance",
           [theme.tablet]: {
