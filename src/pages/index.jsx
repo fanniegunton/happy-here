@@ -15,33 +15,6 @@ const Home = ({ data }) => {
       <Layout>
         <Global styles={globalStyles} />
         <Header css={{ margin: "0 auto" }} />
-        {/* <p css={{ margin: "20px 0" }}>
-          We are always seeking and reviewing new HH spots! If you have a
-          suggestion, drop us a line:
-        </p>
-        <div
-          css={{
-            display: "flex",
-            gridGap: 20,
-            ...theme.subtitle,
-            fontFamily: theme.fancyFontFamily,
-            textAlign: "center",
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-          }}
-        >
-          <a
-            href="mailto:happyhappyhere@gmail.com"
-            css={{
-              padding: 10,
-              color: theme.white,
-              background: theme.hotPink,
-              borderRadius: 50,
-            }}
-          >
-            email
-          </a>
-        </div> */}
         <div
           css={{
             display: "grid",
@@ -55,12 +28,11 @@ const Home = ({ data }) => {
             },
             [theme.tablet]: {
               gridTemplateColumns: "1fr",
-              gap: "10px 0",
+              gap: 0,
             },
+            [theme.mobile]: { margin: 0 },
           }}
         >
-          {/* {data.establishment.nodes &&
-            data.establishment.nodes.map((tile) => ( */}
           {sortedEstablishments.map((tile) => (
             <EstablishmentTile key={tile._id} {...tile} />
           ))}
