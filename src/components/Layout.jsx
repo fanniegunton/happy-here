@@ -1,9 +1,18 @@
 import React from "react"
 import theme from "../styles/theme"
+import { Helmet } from "react-helmet"
 
 const Layout = ({ children }) => {
   return (
     <>
+      <Helmet>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
       <div
         css={{
           margin: "10px auto",
@@ -11,10 +20,6 @@ const Layout = ({ children }) => {
           maxWidth: 1450,
           border: "8px solid #006eff",
           borderRadius: 45,
-          [theme.tablet]: {
-            margin: "0 auto",
-            padding: "90px 0 0",
-          },
           [theme.mobile]: {
             border: "none",
             padding: "40px 0",
