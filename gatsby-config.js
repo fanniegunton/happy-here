@@ -40,11 +40,7 @@ module.exports = {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
         google: {
-          families: [
-            "Roboto:400,400italic,500,700,900",
-            "Lato:300,400,400i,700,900",
-            "Abril Fatface:400",
-          ],
+          families: ["Lato:300,400,400i,700,900"],
         },
       },
     },

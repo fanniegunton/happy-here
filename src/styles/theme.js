@@ -31,7 +31,7 @@ const colors = {
 }
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"
-const fancyFontFamily = "Abril Fatface, Georgia, serif"
+const fancyFontFamily = "Playfair Display, Georgia, serif"
 
 export default {
   ...colors,
@@ -44,6 +44,7 @@ export default {
     fontWeight: 300,
     fontSize: 72,
     lineHeight: 1.35,
+    letterSpacing: "-0.02em",
     [breakpoints.tablet]: {
       fontSize: 64,
     },
