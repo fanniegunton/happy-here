@@ -8,7 +8,15 @@ import EstablishmentTile from "../components/EstablishmentTile"
 import { sortEstablishments } from "../lib/sortEstablishments"
 
 const Home = ({ data }) => {
-  const sortedEstablishments = sortEstablishments(data.establishment.nodes)
+  // Filter out test establishment if not in development environment
+  let establishments = data.establishment.nodes
+  if (process.env.NODE_ENV !== "development") {
+    establishments = establishments.filter(
+      (est) => est._id !== "b95f53fc-ae57-4605-b4b6-6ceb785a1756"
+    )
+  }
+
+  const sortedEstablishments = sortEstablishments(establishments)
 
   return (
     <div>
