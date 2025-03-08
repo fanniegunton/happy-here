@@ -51,7 +51,7 @@ const Header = () => (
         <Link to="/journal">Journal</Link> */}
         <a href="mailto:happyhappyhere@gmail.com">Contact</a>
         <a
-          href="https://www.instagram.com/"
+          href="https://www.instagram.com/takeouttracker/"
           target="_blank"
           rel="noopener noreferrer"
         >
