@@ -24,6 +24,9 @@ import {
 } from "lucide-react"
 import IconRow from "./IconRow"
 import Icons from "../lib/icons"
+import { getTodayEndTime } from "../lib/getTodayTime"
+import { getNextStartTime } from "../lib/getNextStartTime"
+import { formatMilitaryTime } from "../lib/formatMilitaryTime"
 
 const EstablishmentTile = ({
   _id,
@@ -58,6 +61,34 @@ const EstablishmentTile = ({
       window.clearInterval(timer)
     }
   }, [happyHourTimes])
+
+  const todayEndTime = getTodayEndTime(happyHourTimes)
+  const formattedEndTime =
+    todayEndTime !== null ? formatMilitaryTime(todayEndTime) : "Closed"
+
+
+  // Declare variables in a scope accessible to the entire component.
+  let nextHappyHourDay = ""
+  let nextHappyHourTime = ""
+
+  const nextStartDate = getNextStartTime(happyHourTimes)
+  if (nextStartDate) {
+    // Format the time portion using your formatting helper.
+    const militaryTime =
+      nextStartDate.getHours() * 100 + nextStartDate.getMinutes()
+    const formattedTime = formatMilitaryTime(militaryTime)
+
+    // If the next start date is today, use "Today", otherwise use the weekday name.
+    const now = new Date()
+    const dayLabel =
+      nextStartDate.toDateString() === now.toDateString()
+        ? "Today"
+        : nextStartDate.toLocaleDateString("en-US", { weekday: "long" })
+
+    // Assign to the outer variables
+    nextHappyHourDay = dayLabel
+    nextHappyHourTime = formattedTime
+
 
   return (
     <div
@@ -117,7 +148,77 @@ const EstablishmentTile = ({
               }}
             />
           )}
-          <div css={{ textAlign: "left", margin: "30px 30px 10px" }}>
+          <div>
+            <div
+              css={{
+                float: "right",
+                marginLeft: 16,
+                position: "relative",
+                right: 0,
+              }}
+            >
+              {isHappyHour ? (
+                <div
+                  css={{
+                    maxWidth: 180,
+                    alignItems: "center",
+                    borderRadius: "10px 0 0 10px",
+                    backgroundColor: theme.oceanBlue,
+                    color: theme.white,
+                    padding: "16px 10px",
+                    textAlign: "center",
+                    fontWeight: 600,
+                    [theme.mobile]: {
+                      marginTop: "-12px",
+                      borderRadius: "0 0 0 10px",
+                    },
+                  }}
+                >
+                  <div
+                    css={{
+                      fontSize: 11,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.01em",
+                      opacity: 0.8,
+                    }}
+                  >
+                    It’s Happy Hour
+                  </div>
+                  until {""}
+                  {formattedEndTime}
+                </div>
+              ) : (
+                <div
+                  css={{
+                    maxWidth: 180,
+                    alignItems: "center",
+                    borderRadius: "10px 0 0 10px",
+                    backgroundColor: theme.lightGrout,
+                    color: theme.black,
+                    padding: 16,
+                    textAlign: "center",
+                    fontSize: 16,
+                    fontWeight: 600,
+                    [theme.mobile]: {
+                      marginTop: "-12px",
+                      borderRadius: "0 0 0 10px",
+                    },
+                  }}
+                >
+                  <div
+                    css={{
+                      fontSize: 11,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.01em",
+                      opacity: 0.8,
+                    }}
+                  >
+                    Next HH starts{" "}
+                  </div>
+                  {nextHappyHourDay} <br /> {nextHappyHourTime}
+                </div>
+              )}
+            </div>
             <h3
               css={{
                 ...theme.h3Alt,
