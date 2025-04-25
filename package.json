@@ -60,7 +60,7 @@
     "develop": "gatsby develop",
     "build": "gatsby build",
     "clean": "gatsby clean",
-    "test": "jest"
+    "test": "vitest run"
   },
   "resolutions": {
     "chokidar": "^3.3.0"
