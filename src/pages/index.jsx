@@ -6,6 +6,7 @@ import Layout from "../components/Layout"
 import Header from "../components/Header"
 import EstablishmentTile from "../components/EstablishmentTile"
 import { sortEstablishments } from "../lib/sortEstablishments"
+import FilterBar from "../components/FilterBar"
 
 const Home = ({ data }) => {
   // Filter out test establishment if not in development environment
@@ -26,20 +27,44 @@ const Home = ({ data }) => {
   const [hasDogFriendly, setHasDogFriendly] = React.useState(false)
   const [hasBigGroups, setHasBigGroups] = React.useState(false)
 
+  const filters = {
+    hasWine,
+    setHasWine,
+    hasBeer,
+    setHasBeer,
+    hasCocktails,
+    setHasCocktails,
+    hasFood,
+    setHasFood,
+    hasCoffee,
+    setHasCoffee,
+    hasPatio,
+    setHasPatio,
+    hasBarSeating,
+    setHasBarSeating,
+    hasDogFriendly,
+    setHasDogFriendly,
+    hasBigGroups,
+    setHasBigGroups,
+  }
+
   const sortedEstablishments = sortEstablishments(establishments)
 
   const filteredEstablishments = sortedEstablishments.filter((est) => {
-    if (hasWine && !est.whatWeHaveHere.includes("wine")) return false
-    if (hasBeer && !est.whatWeHaveHere.includes("beer")) return false
-    if (hasCocktails && !est.whatWeHaveHere.includes("cocktails")) return false
-    if (hasFood && !est.whatWeHaveHere.includes("food")) return false
-    if (hasCoffee && !est.whatWeHaveHere.includes("coffee")) return false
-    if (hasPatio && !est.theSpaceIsLike.includes("patio")) return false
-    if (hasBarSeating && !est.theSpaceIsLike.includes("barSeating"))
+    if (filters.hasWine && !est.whatWeHaveHere.includes("wine")) return false
+    if (filters.hasBeer && !est.whatWeHaveHere.includes("beer")) return false
+    if (filters.hasCocktails && !est.whatWeHaveHere.includes("cocktails"))
       return false
-    if (hasDogFriendly && !est.theSpaceIsLike.includes("dogFriendly"))
+    if (filters.hasFood && !est.whatWeHaveHere.includes("food")) return false
+    if (filters.hasCoffee && !est.whatWeHaveHere.includes("coffee"))
       return false
-    if (hasBigGroups && !est.theSpaceIsLike.includes("bigGroups")) return false
+    if (filters.hasPatio && !est.theSpaceIsLike.includes("patio")) return false
+    if (filters.hasBarSeating && !est.theSpaceIsLike.includes("barSeating"))
+      return false
+    if (filters.hasDogFriendly && !est.theSpaceIsLike.includes("dogFriendly"))
+      return false
+    if (filters.hasBigGroups && !est.theSpaceIsLike.includes("bigGroups"))
+      return false
 
     return true // only return true if it passed all active filters
   })
@@ -49,107 +74,7 @@ const Home = ({ data }) => {
       <Layout>
         <Global styles={globalStyles} />
         <Header css={{ margin: "0 auto" }} />
-        <div
-          css={{
-            margin: "0 auto 10px",
-            padding: "0 20px",
-            ...theme.postTitle,
-            fontWeight: 700,
-            [theme.mobile]: {
-              margin: "0 30px 10px",
-              padding: 0,
-            },
-          }}
-        >
-          Only show me places with:
-        </div>
-        <div
-          css={{
-            margin: "0 auto",
-            padding: "0 20px",
-            ...theme.subtitle,
-            [theme.mobile]: {
-              margin: "0 30px",
-              padding: 0,
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-            },
-          }}
-        >
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasWine(!hasWine)}
-            />
-            Wine
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasBeer(!hasBeer)}
-            />
-            Beer
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasCocktails(!hasCocktails)}
-            />
-            Cocktails
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasFood(!hasFood)}
-            />
-            Food
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasCoffee(!hasCoffee)}
-            />
-            Coffee
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasPatio(!hasPatio)}
-            />
-            Patio
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasBarSeating(!hasBarSeating)}
-            />
-            Bar Seating
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasBigGroups(!hasBigGroups)}
-            />
-            Room for 4 or more
-          </label>
-          <label css={{ marginRight: 20 }}>
-            <input
-              css={{ marginRight: 10 }}
-              type="checkbox"
-              onChange={() => setHasDogFriendly(!hasDogFriendly)}
-            />
-            🐶🐾 Friendly //{" "}
-          </label>{" "}
-          */}
-        </div>
+        <FilterBar filters={filters} />
         <div
           css={{
             display: "grid",

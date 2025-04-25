@@ -1,153 +1,133 @@
-import React, { useCallback, useRef } from "react"
-import moment from "moment"
-import Checkbox from "../components/Checkbox"
-import ModeSelector from "../components/ModeSelector"
-import hexToRgb from "../lib/hexToRgb"
+// src/components/FilterBar.js
+import React from "react"
 import theme from "../styles/theme"
-import { debounce } from "lodash-es"
 
-const FilterBar = ({
-  listTitle,
-  defaultSearchQuery,
-  mode,
-  filters,
-  dispatch,
-  className,
-}) => {
-  const searchRef = useRef()
-
-  const updateSearchQuery = useCallback(
-    debounce(
-      (value) =>
-        dispatch({
-          action: "setSearchQuery",
-          value: searchRef.current.value,
-        }),
-      500
-    ),
-    []
-  )
-
-  const toggleFilter = (value) =>
-    dispatch({
-      action: "toggleFilter",
-      value,
-    })
+const FilterBar = ({ filters }) => {
+  const {
+    hasWine,
+    setHasWine,
+    hasBeer,
+    setHasBeer,
+    hasCocktails,
+    setHasCocktails,
+    hasFood,
+    setHasFood,
+    hasCoffee,
+    setHasCoffee,
+    hasPatio,
+    setHasPatio,
+    hasBarSeating,
+    setHasBarSeating,
+    hasDogFriendly,
+    setHasDogFriendly,
+    hasBigGroups,
+    setHasBigGroups,
+  } = filters
 
   return (
-    <div
-      css={{
-        padding: "16px var(--pagePadding)",
-        display: "flex",
-        justifyContent: "space-between",
-        background: theme.n10,
-        zIndex: 5,
-        boxShadow: `0 1px 10px ${hexToRgb(theme.n10, 0.5)}`,
-        "@supports (backdrop-filter: blur(6px))": {
-          background: hexToRgb(theme.n10, 0.75),
-          backdropFilter: "blur(6px)",
-        },
-        [theme.mobile]: {
-          padding: "8px var(--pagePadding)",
-        },
-      }}
-      className={className}
-    >
-      <div css={{ flex: "1 1 auto", marginRight: 24 }}>
-        <div
-          css={{
-            ...theme.smallcaps,
-            color: theme.n40,
-            fontSize: 10,
-            marginBottom: 8,
-          }}
-        >
-          Filters
-        </div>
-
-        <div
-          css={{
-            display: "flex",
-            [theme.mobile]: { display: "block" },
-          }}
-        >
-          <input
-            ref={searchRef}
-            type="search"
-            placeholder={`Search ${listTitle}`}
-            defaultValue={defaultSearchQuery}
-            onChange={updateSearchQuery}
-            css={{
-              flex: "1 1 300px",
-              maxWidth: 400,
-              marginRight: 16,
-              fontSize: 12,
-              fontFamily: "inherit",
-              borderRadius: 10,
-              color: theme.n40,
-              padding: "0.5em 0.8em",
-              outline: 0,
-              border: `1px solid ${theme.n20}`,
-              lineHeight: 1,
-              ":focus": {
-                border: `1px solid ${theme.n40}`,
-              },
-              "::placeholder": {
-                color: theme.n40,
-              },
-              [theme.mobile]: { minWidth: "50vw" },
-              [theme.smallMobile]: { minWidth: 160 },
-            }}
-          />
-
-          <Checkbox
-            onChange={() => toggleFilter("hideClosed")}
-            checked={filters.has("hideClosed")}
-            css={{ flex: "0 0 auto", [theme.mobile]: { display: "none" } }}
-          >
-            Offering Takeout/Delivery
-          </Checkbox>
-
-          <Checkbox
-            onChange={() => toggleFilter("currentlyOpen")}
-            checked={filters.has("currentlyOpen")}
-            css={{
-              flex: "0 0 auto",
-              marginLeft: 8,
-              [theme.mobile]: { margin: "8px 0 0 0" },
-            }}
-          >
-            Open{" "}
-            {filters.has("currentlyOpen")
-              ? `at ${moment().format("h:mma")}`
-              : "now"}
-          </Checkbox>
-        </div>
+    <>
+      <div
+        css={{
+          margin: "0 auto 10px",
+          padding: "0 20px",
+          ...theme.postTitle,
+          fontWeight: 700,
+          [theme.mobile]: {
+            margin: "0 30px 10px",
+            padding: 0,
+          },
+        }}
+      >
+        Only show me places with:
       </div>
 
       <div
         css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
+          margin: "0 auto",
+          padding: "0 20px",
+          ...theme.subtitle,
+          [theme.mobile]: {
+            margin: "0 30px",
+            padding: 0,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+          },
         }}
       >
-        <div
-          css={{
-            ...theme.smallcaps,
-            color: theme.n40,
-            fontSize: 10,
-            marginBottom: 8,
-          }}
-        >
-          View Mode
-        </div>
-        <ModeSelector
-          activeMode={mode}
-          setMode={(value) => dispatch({ action: "setViewMode", value })}
-        />
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasWine(!hasWine)}
+          />
+          Wine
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasBeer(!hasBeer)}
+          />
+          Beer
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasCocktails(!hasCocktails)}
+          />
+          Cocktails
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasFood(!hasFood)}
+          />
+          Food
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasCoffee(!hasCoffee)}
+          />
+          Coffee
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasPatio(!hasPatio)}
+          />
+          Patio
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasBarSeating(!hasBarSeating)}
+          />
+          Bar Seating
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasBigGroups(!hasBigGroups)}
+          />
+          Room for 4 or more
+        </label>
+        <label css={{ marginRight: 20 }}>
+          <input
+            type="checkbox"
+            css={{ marginRight: 10 }}
+            onChange={() => setHasDogFriendly(!hasDogFriendly)}
+          />
+          🐶🐾 Friendly
+        </label>
       </div>
-    </div>
+    </>
   )
 }
 
