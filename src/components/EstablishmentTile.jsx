@@ -19,6 +19,7 @@ import {
   UsersRound,
   ConciergeBell,
   CalendarCheck,
+  Sparkles,
 } from "lucide-react"
 import Icons from "../lib/icons"
 import AmmenityPill from "./AmmenityPill"
@@ -369,6 +370,16 @@ const EstablishmentTile = ({
                   {theSpaceIsLike.includes("reservationsRec") && (
                     <AmmenityPill icon={CalendarCheck}>
                       Reso Reco’d
+                    </AmmenityPill>
+                  )}
+                  {theSpaceIsLike.includes("staffPick") && (
+                    <AmmenityPill
+                      icon={Sparkles}
+                      css={{
+                        background: theme.lemonYellow,
+                      }}
+                    >
+                      Staff Pick!
                     </AmmenityPill>
                   )}
                 </div>
