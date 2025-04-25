@@ -21,8 +21,10 @@ const Layout = ({ children }) => {
           border: "8px solid #006eff",
           borderRadius: 45,
           [theme.mobile]: {
-            border: "none",
+            margin: "0 auto",
             padding: "40px 0",
+            border: "4px solid #006eff",
+            borderRadius: 0,
           },
         }}
       >
