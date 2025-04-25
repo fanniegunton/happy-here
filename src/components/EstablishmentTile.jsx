@@ -106,7 +106,7 @@ const EstablishmentTile = ({
             maxWidth: 525,
             // ...theme.extraFloatBox,
             [theme.mobile]: {
-              maxWidth: 350,
+              maxWidth: 400,
               minWidth: "85vw",
             },
           }}
@@ -136,6 +136,9 @@ const EstablishmentTile = ({
                   width: "100%",
                   objectFit: "cover",
                   borderRadius: "17px 17px 0 0",
+                  [theme.mobile]: {
+                    height: 150,
+                  },
                 }}
               />
             )}
@@ -192,6 +195,7 @@ const EstablishmentTile = ({
                       fontWeight: 600,
                       [theme.mobile]: {
                         marginTop: "-12px",
+                        padding: 12,
                         borderRadius: "0 0 0 10px",
                       },
                     }}
@@ -220,7 +224,7 @@ const EstablishmentTile = ({
                   textAlign: "left",
                   margin: "16px 30px",
                   [theme.mobile]: {
-                    margin: "12px 30px 8px",
+                    margin: "12px 20px 8px",
                   },
                 }}
               >
@@ -232,7 +236,7 @@ const EstablishmentTile = ({
                 textAlign: "left",
                 margin: "30px 30px 10px",
                 [theme.mobile]: {
-                  margin: "20px 30px 10px",
+                  margin: "0 20px",
                 },
               }}
             >
@@ -287,6 +291,9 @@ const EstablishmentTile = ({
                       marginBottom: 16,
                       fontSize: 16,
                       lineHeight: "1.25rem",
+                      [theme.mobile]: {
+                        marginBottom: 8,
+                      },
                     }}
                   >
                     {happyHourDetails?.includes("\n") ? (
@@ -347,8 +354,6 @@ const EstablishmentTile = ({
                   {whatWeHaveHere.includes("coffee") && (
                     <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>
                   )}
-                  {/* </div>
-              <div css={{ display: "flex" }}> */}
                   {theSpaceIsLike.includes("indoor") && (
                     <AmmenityPill icon={Store}>Indoors</AmmenityPill>
                   )}
@@ -389,13 +394,23 @@ const EstablishmentTile = ({
           <div
             css={{
               borderRadius: "0 0 17px 17px",
-              padding: "16px 0 6px",
+              padding: "16px 0 8px",
               backgroundColor: theme.lightGrout,
+              [theme.mobile]: {
+                padding: "8px 0",
+              },
             }}
           >
             <details>
               <summary
-                css={{ cursor: "pointer", fontSize: 12, margin: "0 30px 12px" }}
+                css={{
+                  cursor: "pointer",
+                  fontSize: 12,
+                  margin: "0 30px 12px",
+                  [theme.mobile]: {
+                    margin: "0 20px 12px",
+                  },
+                }}
               >
                 Full Address, Hours, & Contact Info
               </summary>
