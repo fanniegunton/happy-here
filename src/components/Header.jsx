@@ -8,8 +8,9 @@ const Header = () => (
       padding: "0 20px",
       background: theme.white,
       [theme.mobile]: {
-        margin: "0 30px",
-        padding: 0,
+        margin: 0,
+        padding: "20px 30px 0",
+        background: theme.lightGrout,
       },
     }}
   >

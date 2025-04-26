@@ -47,7 +47,7 @@ const FilterBar = ({ filters }) => {
           padding: "0 20px",
           ...theme.subtitle,
           [theme.mobile]: {
-            margin: "0 30px",
+            margin: "0 30px 20px",
             padding: 0,
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
