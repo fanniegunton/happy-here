@@ -1,7 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
-import { Global } from "@emotion/react"
-import theme, { globalStyles } from "../styles/theme"
+import theme from "../styles/theme"
 import Layout from "../components/Layout"
 import Header from "../components/Header"
 import EstablishmentTile from "../components/EstablishmentTile"
@@ -72,7 +71,6 @@ const Home = ({ data }) => {
   return (
     <div>
       <Layout>
-        <Global styles={globalStyles} />
         <Header css={{ margin: "0 auto" }} />
         <FilterBar filters={filters} />
         <div

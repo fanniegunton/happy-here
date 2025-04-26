@@ -1,6 +1,9 @@
 import React from "react"
-import theme from "../styles/theme"
+import theme, { globalStyles } from "../styles/theme"
 import { Helmet } from "react-helmet"
+import Nav from "./Nav"
+import { Global } from "@emotion/react"
+import Footer from "./Footer"
 
 const Layout = ({ children }) => {
   return (
@@ -28,9 +31,12 @@ const Layout = ({ children }) => {
           },
         }}
       >
+        <Global styles={globalStyles} />
+        <Nav />
         <div css={{ margin: "0 auto" }}>
           <div>{children}</div>
         </div>
+        <Footer />
       </div>
     </>
   )
