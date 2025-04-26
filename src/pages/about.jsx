@@ -9,11 +9,16 @@ const About = () => {
         css={{
           padding: "0 20px",
           maxWidth: 1000,
+          p: {
+            ...theme.body,
+            fontSize: 20,
+            marginBottom: 20,
+            [theme.mobile]: { fontSize: 16 },
+            a: { textDecoration: "green wavy underline" },
+          },
           [theme.mobile]: {
-            margin: "0 auto",
+            margin: "0 30px",
             padding: 0,
-            border: "4px solid #006eff",
-            borderRadius: 0,
           },
         }}
       >
@@ -31,7 +36,7 @@ const About = () => {
         <div css={{ ...theme.h3, marginBottom: 20 }}>
           Built by Locals, for Locals
         </div>
-        <p css={{ ...theme.body, fontSize: 20, marginBottom: 20 }}>
+        <p>
           Happy Here was created by the same team behind Takeout Tracker, the
           site we (Corey & Fannie) launched during the early days of the
           COVID-19 pandemic to help Austin’s independent restaurants stay
@@ -41,7 +46,7 @@ const About = () => {
           them.
         </p>
         <div css={{ ...theme.h3, marginBottom: 20 }}>Why Happy Here?</div>
-        <p css={{ ...theme.body, fontSize: 20, marginBottom: 20 }}>
+        <p>
           We wanted to make it easier to find great happy hour deals around
           town—a simple, friendly tool to help you discover new places or
           revisit old favorites without the full-price sting. Happy hour is one
@@ -52,7 +57,7 @@ const About = () => {
         <div css={{ ...theme.h3, marginBottom: 20 }}>
           A Love Letter to the Service Industry
         </div>
-        <p css={{ ...theme.body, fontSize: 20, marginBottom: 20 }}>
+        <p>
           Our passion for this project is rooted in more than just a love of
           dining out; it's about recognizing the heart and hustle behind every
           menu, every plate, every pour. The work that goes into running a great
@@ -61,7 +66,7 @@ const About = () => {
           giving that hard work the respect it deserves.
         </p>
         <div css={{ ...theme.h3, marginBottom: 20 }}>What We Track</div>
-        <p css={{ ...theme.body, fontSize: 20, marginBottom: 20 }}>
+        <p>
           On Happy Here, "happy hour" isn't just the classic 4–6 p.m. slot. We
           track reverse happy hours, daily recurring specials (like Wine Down
           Wednesdays), and brunch discounts too—any regular deal you can
@@ -70,7 +75,7 @@ const About = () => {
           on specials or for more about the location itself.
         </p>
         <div css={{ ...theme.h3, marginBottom: 20 }}>Local-First, Always</div>
-        <p css={{ ...theme.body, fontSize: 20, marginBottom: 20 }}>
+        <p>
           We focus on locally owned businesses and Austin-born chains that have
           stayed true to their roots. You won’t find big national fast-casual
           brands on Happy Here, no matter how many discounted apps they offer.
@@ -81,14 +86,7 @@ const About = () => {
         <div css={{ ...theme.h3, marginBottom: 20 }}>
           A Small Team with Big Love for Austin
         </div>
-        <p
-          css={{
-            ...theme.body,
-            fontSize: 20,
-            marginBottom: 20,
-            a: { textDecoration: "green wavy underline" },
-          }}
-        >
+        <p>
           Happy Here is a small project, built and maintained by a tiny team
           (technically both of us, but mostly Fannie this time) with a tight
           feature list and a lot of heart. We’re adding new spots all the time
