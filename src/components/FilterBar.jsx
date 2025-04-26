@@ -20,8 +20,8 @@ const FilterBar = ({ filters }) => {
     setHasBarSeating,
     hasDogFriendly,
     setHasDogFriendly,
-    hasBigGroups,
-    setHasBigGroups,
+    hasNaDrinks,
+    setHasNaDrinks,
   } = filters
 
   return (
@@ -114,9 +114,9 @@ const FilterBar = ({ filters }) => {
           <input
             type="checkbox"
             css={{ marginRight: 10, cursor: "pointer" }}
-            onChange={() => setHasBigGroups(!hasBigGroups)}
+            onChange={() => setHasNaDrinks(!hasNaDrinks)}
           />
-          Room for 4 or more
+          NA Drinks
         </label>
         <label css={{ marginRight: 20 }}>
           <input

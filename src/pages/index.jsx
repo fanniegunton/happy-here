@@ -24,7 +24,7 @@ const Home = ({ data }) => {
   const [hasPatio, setHasPatio] = React.useState(false)
   const [hasBarSeating, setHasBarSeating] = React.useState(false)
   const [hasDogFriendly, setHasDogFriendly] = React.useState(false)
-  const [hasBigGroups, setHasBigGroups] = React.useState(false)
+  const [hasNaDrinks, setHasNaDrinks] = React.useState(false)
 
   const filters = {
     hasWine,
@@ -43,8 +43,8 @@ const Home = ({ data }) => {
     setHasBarSeating,
     hasDogFriendly,
     setHasDogFriendly,
-    hasBigGroups,
-    setHasBigGroups,
+    hasNaDrinks,
+    setHasNaDrinks,
   }
 
   const sortedEstablishments = sortEstablishments(establishments)
@@ -62,7 +62,7 @@ const Home = ({ data }) => {
       return false
     if (filters.hasDogFriendly && !est.theSpaceIsLike.includes("dogFriendly"))
       return false
-    if (filters.hasBigGroups && !est.theSpaceIsLike.includes("bigGroups"))
+    if (filters.hasNaDrinks && !est.whatWeHaveHere.includes("naDrinks"))
       return false
 
     return true // only return true if it passed all active filters
