@@ -14,7 +14,7 @@ const Nav = () => {
         alignItems: "start",
         justifyContent: "space-between",
         [theme.mobile]: {
-          padding: 0,
+          display: "block",
         },
       }}
     >
@@ -28,6 +28,7 @@ const Nav = () => {
               width: 150,
               objectFit: "cover",
               borderRadius: 90,
+              margin: "0 auto",
             }}
           />
         )}
@@ -46,11 +47,8 @@ const Nav = () => {
           gap: 40,
           [theme.mobile]: {
             marginTop: 20,
-            justifyContent: "start",
-            background: theme.lilac,
-            marginRight: "-30px",
-            marginLeft: "-30px",
-            padding: "10px 0 10px 30px",
+            justifyContent: "center",
+            padding: "10px 0",
           },
         }}
       >
