@@ -15,6 +15,7 @@ const Nav = () => {
         justifyContent: "space-between",
         [theme.mobile]: {
           display: "block",
+          margin: "0 auto 20px",
         },
       }}
     >
@@ -29,6 +30,9 @@ const Nav = () => {
               objectFit: "cover",
               borderRadius: 90,
               margin: "0 auto",
+              [theme.mobile]: {
+                width: 100,
+              },
             }}
           />
         )}
@@ -46,7 +50,7 @@ const Nav = () => {
           transform: "0 16px",
           gap: 40,
           [theme.mobile]: {
-            marginTop: 20,
+            marginTop: 16,
             justifyContent: "center",
             padding: "10px 0",
           },

@@ -22,6 +22,7 @@ const Header = () => (
         [theme.mobile]: {
           display: "block",
           paddingBottom: 0,
+          marginBottom: 16,
         },
       }}
     >
