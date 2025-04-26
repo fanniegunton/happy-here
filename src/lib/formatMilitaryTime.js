@@ -7,6 +7,9 @@
 export const formatMilitaryTime = (time) => {
   if (typeof time !== "number") return ""
 
+  // ===> normalize 2400 to 0 so it becomes midnight (12 AM)
+  if (time === 2400) time = 0
+
   // Extract hours and minutes
   const hour = Math.floor(time / 100)
   const minutes = time % 100
