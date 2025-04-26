@@ -6,7 +6,17 @@ import photo from "../assets/HH-logo.jpg"
 
 const Footer = () => {
   return (
-    <div css={{ margin: "120px auto 0", padding: "0 20px 20px" }}>
+    <div
+      css={{
+        margin: "120px auto 0",
+        padding: "0 20px 20px",
+        [theme.mobile]: {
+          margin: "60px auto 0",
+          paddingBottom: 40,
+          background: theme.lilac,
+        },
+      }}
+    >
       <div
         css={{
           display: "flex",
@@ -31,11 +41,14 @@ const Footer = () => {
               gap: 40,
               [theme.mobile]: {
                 marginTop: 20,
+                justifyContent: "space-between",
+              },
+              "@media (max-width: 580px)": {
+                flexDirection: "row",
+                flexWrap: "wrap",
+                alignItems: "start",
                 justifyContent: "start",
-                background: theme.lilac,
-                marginRight: "-30px",
-                marginLeft: "-30px",
-                padding: "10px 0 10px 30px",
+                gap: 20,
               },
             }}
           >
@@ -68,6 +81,11 @@ const Footer = () => {
               fontSize: 18,
               maxWidth: "60%",
               textWrap: "balance",
+              [theme.mobile]: {
+                fontSize: 16,
+                maxWidth: "100%",
+                marginTop: 40,
+              },
             }}
           >
             Happy Here tracks Austin’s happiest hours—built by locals, for
@@ -75,7 +93,13 @@ const Footer = () => {
             people behind them.
           </div>
         </div>
-        <Link to="/" css={{ maxWidth: "45%" }}>
+        <Link
+          to="/"
+          css={{
+            maxWidth: "45%",
+            [theme.mobile]: { alignContent: "end" },
+          }}
+        >
           {photo && (
             <img
               src={photo}
@@ -85,6 +109,9 @@ const Footer = () => {
                 width: 80,
                 objectFit: "cover",
                 borderRadius: 90,
+                [theme.mobile]: {
+                  width: 120,
+                },
               }}
             />
           )}

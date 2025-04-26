@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
           borderRadius: 45,
           [theme.mobile]: {
             margin: "0 auto",
-            padding: "20px 0",
+            padding: "20px 0 0",
             border: "4px solid #006eff",
             borderRadius: 0,
           },
