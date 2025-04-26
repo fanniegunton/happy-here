@@ -57,7 +57,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasWine(!hasWine)}
           />
           Wine
@@ -65,7 +65,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasBeer(!hasBeer)}
           />
           Beer
@@ -73,7 +73,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasCocktails(!hasCocktails)}
           />
           Cocktails
@@ -81,7 +81,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasFood(!hasFood)}
           />
           Food
@@ -89,7 +89,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasCoffee(!hasCoffee)}
           />
           Coffee
@@ -97,7 +97,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasPatio(!hasPatio)}
           />
           Patio
@@ -105,7 +105,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasBarSeating(!hasBarSeating)}
           />
           Bar Seating
@@ -113,7 +113,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasBigGroups(!hasBigGroups)}
           />
           Room for 4 or more
@@ -121,7 +121,7 @@ const FilterBar = ({ filters }) => {
         <label css={{ marginRight: 20 }}>
           <input
             type="checkbox"
-            css={{ marginRight: 10 }}
+            css={{ marginRight: 10, cursor: "pointer" }}
             onChange={() => setHasDogFriendly(!hasDogFriendly)}
           />
           🐶🐾 Friendly
