@@ -15,7 +15,7 @@ const Nav = () => {
         justifyContent: "space-between",
         [theme.mobile]: {
           display: "block",
-          margin: "0 auto 20px",
+          margin: "0 auto 40px",
         },
       }}
     >

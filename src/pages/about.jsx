@@ -25,8 +25,9 @@ const About = () => {
         <h1
           css={{
             ...theme.h1,
-            marginBottom: 60,
+            marginBottom: 40,
             [theme.mobile]: {
+              paddingTop: 20,
               fontSize: 40,
             },
           }}
