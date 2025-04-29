@@ -29,7 +29,7 @@ const FilterBar = ({ filters }) => {
       <div
         css={{
           margin: "0 auto 10px",
-          padding: "0 20px",
+          padding: "0 20px 20px",
           ...theme.postTitle,
           fontWeight: 700,
           [theme.mobile]: {
@@ -44,8 +44,10 @@ const FilterBar = ({ filters }) => {
       <div
         css={{
           margin: "0 auto",
-          padding: "0 20px",
+          padding: "0 20px 20px",
           ...theme.subtitle,
+          display: "flex",
+          flexWrap: "wrap",
           [theme.mobile]: {
             margin: "0 30px 20px",
             padding: 0,
