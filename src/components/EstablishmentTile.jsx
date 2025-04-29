@@ -91,7 +91,6 @@ const EstablishmentTile = ({
       <div
         key={_id}
         css={{
-          padding: 30,
           [theme.tablet]: {
             padding: 20,
           },

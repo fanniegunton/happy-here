@@ -80,7 +80,7 @@ const Home = ({ data }) => {
             margin: "0 auto",
             justifyContent: "center",
             justifyItems: "center",
-            gap: "20px 20px",
+            gap: "40px 40px",
             [theme.smallDesktop]: {
               gridTemplateColumns: "1fr 1fr",
             },
