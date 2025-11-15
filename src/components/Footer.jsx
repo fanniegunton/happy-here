@@ -8,8 +8,7 @@ const Footer = () => {
   return (
     <div
       css={{
-        margin: "120px auto 0",
-        padding: "0 20px 20px",
+        margin: "120px -40px -40px",
         [theme.mobile]: {
           margin: "60px auto 0",
           paddingBottom: 40,
@@ -21,8 +20,15 @@ const Footer = () => {
         css={{
           display: "flex",
           justifyContent: "space-between",
+          background: theme.oceanBlue, // Change this to customize footer background color
+          color: theme.white,
+          padding: "20px 40px 40px",
+          borderRadius: "0 0 37px 37px", // Match Layout's 45px border radius minus 8px border
           [theme.mobile]: {
             padding: 0,
+            background: "transparent",
+            borderRadius: 0,
+            color: "inherit",
           },
         }}
       >
@@ -76,7 +82,7 @@ const Footer = () => {
           </div>
           <div
             css={{
-              marginTop: 20,
+              marginTop: 40,
               fontFamily: theme.fancyFontFamily,
               fontSize: 18,
               maxWidth: "60%",
