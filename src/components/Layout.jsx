@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
       </Helmet>
       <div
         css={{
-          margin: 20,
+          margin: "20px 20px 40px",
           padding: 40,
           maxWidth: 1450,
           border: "8px solid #006eff",
