@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import theme from "../styles/theme"
 import IconButton from "../components/IconButton"
 import { hoursCover } from "../lib/parseHours"
@@ -45,6 +45,12 @@ const EstablishmentTile = ({
 }) => {
   const [isHappyHour, setHappyHour] = useState(false)
 
+  // Create URL-friendly slug from establishment name
+  const slug = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+
   useEffect(() => {
     const checkHours = () => {
       setHappyHour(hoursCover(happyHourTimes, new Date()))
@@ -86,8 +92,9 @@ const EstablishmentTile = ({
     // Assign to the outer variables
     nextHappyHourDay = dayLabel
     nextHappyHourTime = formattedTime
+  }
 
-    return (
+  return (
       <div
         key={_id}
         css={{
@@ -125,21 +132,35 @@ const EstablishmentTile = ({
             }}
           >
             {photo && (
-              <SanityImage
-                {...photo}
-                width={300}
-                height={200}
-                alt={`Photo of ${name}`}
+              <Link
+                to={`/establishment/${slug}`}
                 css={{
+                  textDecoration: "none",
+                  color: "inherit",
                   display: "block",
-                  width: "100%",
-                  objectFit: "cover",
-                  borderRadius: "17px 17px 0 0",
-                  [theme.mobile]: {
-                    height: 150,
-                  },
+                  cursor: "pointer",
                 }}
-              />
+              >
+                <SanityImage
+                  {...photo}
+                  width={300}
+                  height={200}
+                  alt={`Photo of ${name}`}
+                  css={{
+                    display: "block",
+                    width: "100%",
+                    objectFit: "cover",
+                    borderRadius: "17px 17px 0 0",
+                    transition: "opacity 0.2s",
+                    "&:hover": {
+                      opacity: 0.9,
+                    },
+                    [theme.mobile]: {
+                      height: 150,
+                    },
+                  }}
+                />
+              </Link>
             )}
             <div>
               <div
@@ -214,21 +235,34 @@ const EstablishmentTile = ({
                 )}
               </div>
 
-              <h3
+              <Link
+                to={`/establishment/${slug}`}
                 css={{
-                  ...theme.h3Alt,
-                  fontFamily: theme.fancyFontFamily,
-                  fontSize: 24,
-                  textWrap: "balance",
-                  textAlign: "left",
-                  margin: "16px 30px",
-                  [theme.mobile]: {
-                    margin: "12px 20px 8px",
-                  },
+                  textDecoration: "none",
+                  color: "inherit",
                 }}
               >
-                {name}
-              </h3>
+                <h3
+                  css={{
+                    ...theme.h3Alt,
+                    fontFamily: theme.fancyFontFamily,
+                    fontSize: 24,
+                    textWrap: "balance",
+                    textAlign: "left",
+                    margin: "16px 30px",
+                    cursor: "pointer",
+                    transition: "color 0.2s",
+                    "&:hover": {
+                      color: theme.oceanBlue,
+                    },
+                    [theme.mobile]: {
+                      margin: "12px 20px 8px",
+                    },
+                  }}
+                >
+                  {name}
+                </h3>
+              </Link>
             </div>
             <div
               css={{
@@ -487,8 +521,7 @@ const EstablishmentTile = ({
           </div>
         </div>
       </div>
-    )
-  }
+  )
 }
 
 export default EstablishmentTile
