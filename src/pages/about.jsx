@@ -95,8 +95,9 @@ const About = () => {
           restaurant we should check out—or if you spot something that needs a
           tweak—you can{" "}
           <a href="mailto:happyhappyhere@gmail.com">send us a suggestion</a>{" "}
-          anytime or send a DM. We’re always happy to hear from fellow happy
-          hour hunters.
+          anytime or{" "}
+          <a href="https://www.instagram.com/takeouttracker/"> send a DM</a>.
+          We’re always happy to hear from fellow happy hour hunters!
         </p>
       </div>
     </Layout>
