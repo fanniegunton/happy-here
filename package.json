@@ -28,6 +28,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@material-ui/core": "^4.12.4",
+    "@sanity/client": "^7.12.1",
     "@svgr/webpack": "^6.5.1",
     "debounce": "^1.2.0",
     "dotenv": "^16.0.3",
@@ -46,12 +47,14 @@
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-source-sanity": "^7.5.1",
     "google-map-react": "^1.1.7",
+    "leaflet": "^1.9.4",
     "lodash-es": "^4.17.15",
     "lucide-react": "^0.475.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^5.2.0",
+    "react-leaflet": "^5.0.0",
     "react-scrolllock": "^5.0.1",
     "react-tooltip": "^5.28.0",
     "react-window": "^1.8.5"
