@@ -56,6 +56,7 @@ const Nav = () => {
           },
         }}
       >
+        <Link to="/map">Map</Link>
         {/* <Link to="/lists">Lists</Link> */}
         <Link to="/about">About</Link>
         {/* <Link to="/journal">Journal</Link> */}
