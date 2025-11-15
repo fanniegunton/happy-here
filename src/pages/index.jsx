@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useMemo, useEffect } from "react"
 import { graphql } from "gatsby"
+import Fuse from "fuse.js"
 import theme from "../styles/theme"
 import Layout from "../components/Layout"
 import Header from "../components/Header"
@@ -7,7 +8,7 @@ import EstablishmentTile from "../components/EstablishmentTile"
 import { sortEstablishments } from "../lib/sortEstablishments"
 import FilterBar from "../components/FilterBar"
 
-const Home = ({ data }) => {
+const Home = ({ data, location }) => {
   // Filter out test establishment if not in development environment
   let establishments = data.establishment.nodes
   if (process.env.NODE_ENV !== "development") {
@@ -16,15 +17,39 @@ const Home = ({ data }) => {
     )
   }
 
-  const [hasWine, setHasWine] = React.useState(false)
-  const [hasBeer, setHasBeer] = React.useState(false)
-  const [hasCocktails, setHasCocktails] = React.useState(false)
-  const [hasFood, setHasFood] = React.useState(false)
-  const [hasCoffee, setHasCoffee] = React.useState(false)
-  const [hasPatio, setHasPatio] = React.useState(false)
-  const [hasBarSeating, setHasBarSeating] = React.useState(false)
-  const [hasDogFriendly, setHasDogFriendly] = React.useState(false)
-  const [hasNaDrinks, setHasNaDrinks] = React.useState(false)
+  // Helper to get initial state from URL params
+  const getInitialState = (param) => {
+    if (typeof window === "undefined") return false
+    const params = new URLSearchParams(location.search)
+    return params.get(param) === "true"
+  }
+
+  const getInitialSearch = () => {
+    if (typeof window === "undefined") return ""
+    const params = new URLSearchParams(location.search)
+    return params.get("search") || ""
+  }
+
+  const [searchQuery, setSearchQuery] = React.useState(getInitialSearch)
+  const [hasWine, setHasWine] = React.useState(() => getInitialState("wine"))
+  const [hasBeer, setHasBeer] = React.useState(() => getInitialState("beer"))
+  const [hasCocktails, setHasCocktails] = React.useState(() =>
+    getInitialState("cocktails")
+  )
+  const [hasFood, setHasFood] = React.useState(() => getInitialState("food"))
+  const [hasCoffee, setHasCoffee] = React.useState(() =>
+    getInitialState("coffee")
+  )
+  const [hasPatio, setHasPatio] = React.useState(() => getInitialState("patio"))
+  const [hasBarSeating, setHasBarSeating] = React.useState(() =>
+    getInitialState("barSeating")
+  )
+  const [hasDogFriendly, setHasDogFriendly] = React.useState(() =>
+    getInitialState("dogFriendly")
+  )
+  const [hasNaDrinks, setHasNaDrinks] = React.useState(() =>
+    getInitialState("naDrinks")
+  )
 
   const filters = {
     hasWine,
@@ -47,9 +72,90 @@ const Home = ({ data }) => {
     setHasNaDrinks,
   }
 
+  // Update URL when filters change
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const params = new URLSearchParams()
+
+    // Add search query if present
+    if (searchQuery) {
+      params.set("search", searchQuery)
+    }
+
+    // Add filter params if active
+    if (hasWine) params.set("wine", "true")
+    if (hasBeer) params.set("beer", "true")
+    if (hasCocktails) params.set("cocktails", "true")
+    if (hasFood) params.set("food", "true")
+    if (hasCoffee) params.set("coffee", "true")
+    if (hasPatio) params.set("patio", "true")
+    if (hasBarSeating) params.set("barSeating", "true")
+    if (hasDogFriendly) params.set("dogFriendly", "true")
+    if (hasNaDrinks) params.set("naDrinks", "true")
+
+    // Update URL without page reload
+    const newUrl = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname
+
+    window.history.replaceState({}, "", newUrl)
+  }, [
+    searchQuery,
+    hasWine,
+    hasBeer,
+    hasCocktails,
+    hasFood,
+    hasCoffee,
+    hasPatio,
+    hasBarSeating,
+    hasDogFriendly,
+    hasNaDrinks,
+  ])
+
   const sortedEstablishments = sortEstablishments(establishments)
 
-  const filteredEstablishments = sortedEstablishments.filter((est) => {
+  // Configure Fuse.js for fuzzy search
+  const fuse = useMemo(
+    () =>
+      new Fuse(sortedEstablishments, {
+        keys: ["name", "neighborhood", "address", "whatWeHaveHere", "theSpaceIsLike"],
+        threshold: 0.3, // Lower = more strict matching
+        ignoreLocation: true,
+      }),
+    [sortedEstablishments]
+  )
+
+  // Apply search filter first (AND search for multiple terms)
+  const searchFilteredEstablishments = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return sortedEstablishments
+    }
+
+    // Split search query into individual terms
+    const searchTerms = searchQuery.trim().toLowerCase().split(/\s+/)
+
+    // Filter establishments that match ALL search terms
+    return sortedEstablishments.filter((est) => {
+      // Convert establishment data to searchable strings
+      const searchableContent = [
+        est.name,
+        est.neighborhood,
+        est.address,
+        ...(est.whatWeHaveHere || []),
+        ...(est.theSpaceIsLike || []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+
+      // Check if ALL search terms are found
+      return searchTerms.every((term) => searchableContent.includes(term))
+    })
+  }, [searchQuery, sortedEstablishments])
+
+  // Then apply amenity filters
+  const filteredEstablishments = searchFilteredEstablishments.filter((est) => {
     if (filters.hasWine && !est.whatWeHaveHere.includes("wine")) return false
     if (filters.hasBeer && !est.whatWeHaveHere.includes("beer")) return false
     if (filters.hasCocktails && !est.whatWeHaveHere.includes("cocktails"))
@@ -72,7 +178,12 @@ const Home = ({ data }) => {
     <div>
       <Layout>
         <Header css={{ margin: "0 auto" }} />
-        <FilterBar filters={filters} />
+        <FilterBar
+          filters={filters}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          resultCount={filteredEstablishments.length}
+        />
         <div
           css={{
             display: "grid",
