@@ -95,432 +95,434 @@ const EstablishmentTile = ({
   }
 
   return (
+    // <div
+    //   key={_id}
+    //   css={{
+    //     [theme.tablet]: {
+    //       padding: 20,
+    //     },
+    //   }}
+    // >
+    <div
+      key={_id}
+      css={{
+        position: "relative",
+        background: theme.white,
+        borderRadius: 20,
+        border: isHappyHour ? "4px solid #006eff" : "4px solid #e4e3e4",
+        maxWidth: 525,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        // ...theme.extraFloatBox,
+        [theme.tablet]: {
+          padding: 20,
+        },
+        [theme.mobile]: {
+          maxWidth: 400,
+          minWidth: "85vw",
+        },
+      }}
+    >
+      {/* Happy Hour Status Badge - positioned relative to card */}
       <div
-        key={_id}
         css={{
-          [theme.tablet]: {
-            padding: 20,
+          position: "absolute",
+          right: 0,
+          top: 170,
+          zIndex: 10,
+          [theme.mobile]: {
+            top: 130,
           },
         }}
       >
+        {isHappyHour ? (
+          <div
+            css={{
+              maxWidth: 180,
+              alignItems: "center",
+              borderRadius: "10px 0 0 10px",
+              backgroundColor: theme.oceanBlue,
+              color: theme.white,
+              padding: "16px 10px",
+              textAlign: "center",
+              fontWeight: 600,
+            }}
+          >
+            <div
+              css={{
+                fontSize: 11,
+                textTransform: "uppercase",
+                letterSpacing: "0.01em",
+                opacity: 0.8,
+              }}
+            >
+              It's Happy Hour
+            </div>
+            until {""}
+            {formattedEndTime}
+          </div>
+        ) : (
+          <div
+            css={{
+              maxWidth: 180,
+              alignItems: "center",
+              borderRadius: "10px 0 0 10px",
+              backgroundColor: theme.lightGrout,
+              color: theme.black,
+              padding: 16,
+              textAlign: "center",
+              fontSize: 16,
+              fontWeight: 600,
+            }}
+          >
+            <div
+              css={{
+                fontSize: 11,
+                textTransform: "uppercase",
+                letterSpacing: "0.01em",
+                opacity: 0.8,
+              }}
+            >
+              Next HH starts{" "}
+            </div>
+            {nextHappyHourDay} <br /> {nextHappyHourTime}
+          </div>
+        )}
+      </div>
+
+      <div
+        css={{
+          margin: "0 auto",
+          alignItems: "start",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          textAlign: "center",
+          minWidth: 300,
+          maxWidth: 375,
+          width: "100%",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {photo && (
+          <Link
+            to={`/establishment/${slug}`}
+            css={{
+              textDecoration: "none",
+              color: "inherit",
+              display: "block",
+              cursor: "pointer",
+            }}
+          >
+            <SanityImage
+              {...photo}
+              width={300}
+              height={200}
+              alt={`Photo of ${name}`}
+              css={{
+                display: "block",
+                width: "100%",
+                objectFit: "cover",
+                borderRadius: "17px 17px 0 0",
+                transition: "opacity 0.2s",
+                "&:hover": {
+                  opacity: 0.9,
+                },
+                [theme.mobile]: {
+                  height: 150,
+                },
+              }}
+            />
+          </Link>
+        )}
+        <div>
+
+          <Link
+            to={`/establishment/${slug}`}
+            css={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            <h3
+              css={{
+                ...theme.h3Alt,
+                fontFamily: theme.fancyFontFamily,
+                fontSize: 24,
+                textWrap: "balance",
+                textAlign: "left",
+                margin: "16px 30px",
+                cursor: "pointer",
+                transition: "color 0.2s",
+                "&:hover": {
+                  color: theme.oceanBlue,
+                },
+                [theme.mobile]: {
+                  margin: "12px 20px 8px",
+                },
+              }}
+            >
+              {name}
+            </h3>
+          </Link>
+        </div>
         <div
           css={{
-            position: "relative",
-            background: theme.white,
-            borderRadius: 20,
-            border: isHappyHour ? "4px solid #006eff" : "4px solid #e4e3e4",
-            maxWidth: 525,
-            // ...theme.extraFloatBox,
+            textAlign: "left",
+            margin: "30px 30px 10px",
             [theme.mobile]: {
-              maxWidth: 400,
-              minWidth: "85vw",
+              margin: "0 20px",
             },
           }}
         >
           <div
             css={{
-              margin: "0 auto",
-              alignItems: "start",
-              flexDirection: "column",
-              justifyContent: "center",
-              textAlign: "center",
-              minWidth: 300,
-              maxWidth: 375,
-              width: "100%",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
-            {photo && (
-              <Link
-                to={`/establishment/${slug}`}
-                css={{
-                  textDecoration: "none",
-                  color: "inherit",
-                  display: "block",
-                  cursor: "pointer",
-                }}
-              >
-                <SanityImage
-                  {...photo}
-                  width={300}
-                  height={200}
-                  alt={`Photo of ${name}`}
-                  css={{
-                    display: "block",
-                    width: "100%",
-                    objectFit: "cover",
-                    borderRadius: "17px 17px 0 0",
-                    transition: "opacity 0.2s",
-                    "&:hover": {
-                      opacity: 0.9,
-                    },
-                    [theme.mobile]: {
-                      height: 150,
-                    },
-                  }}
-                />
-              </Link>
-            )}
-            <div>
-              <div
-                css={{
-                  float: "right",
-                  marginLeft: 16,
-                  position: "relative",
-                  right: 0,
-                }}
-              >
-                {isHappyHour ? (
-                  <div
-                    css={{
-                      maxWidth: 180,
-                      alignItems: "center",
-                      borderRadius: "10px 0 0 10px",
-                      backgroundColor: theme.oceanBlue,
-                      color: theme.white,
-                      padding: "16px 10px",
-                      textAlign: "center",
-                      fontWeight: 600,
-                      [theme.mobile]: {
-                        marginTop: "-12px",
-                        borderRadius: "0 0 0 10px",
-                      },
-                    }}
-                  >
-                    <div
-                      css={{
-                        fontSize: 11,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.01em",
-                        opacity: 0.8,
-                      }}
-                    >
-                      It’s Happy Hour
-                    </div>
-                    until {""}
-                    {formattedEndTime}
-                  </div>
-                ) : (
-                  <div
-                    css={{
-                      maxWidth: 180,
-                      alignItems: "center",
-                      borderRadius: "10px 0 0 10px",
-                      backgroundColor: theme.lightGrout,
-                      color: theme.black,
-                      padding: 16,
-                      textAlign: "center",
-                      fontSize: 16,
-                      fontWeight: 600,
-                      [theme.mobile]: {
-                        marginTop: "-12px",
-                        padding: 12,
-                        borderRadius: "0 0 0 10px",
-                      },
-                    }}
-                  >
-                    <div
-                      css={{
-                        fontSize: 11,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.01em",
-                        opacity: 0.8,
-                      }}
-                    >
-                      Next HH starts{" "}
-                    </div>
-                    {nextHappyHourDay} <br /> {nextHappyHourTime}
-                  </div>
-                )}
-              </div>
-
-              <Link
-                to={`/establishment/${slug}`}
-                css={{
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
-              >
-                <h3
-                  css={{
-                    ...theme.h3Alt,
-                    fontFamily: theme.fancyFontFamily,
-                    fontSize: 24,
-                    textWrap: "balance",
-                    textAlign: "left",
-                    margin: "16px 30px",
-                    cursor: "pointer",
-                    transition: "color 0.2s",
-                    "&:hover": {
-                      color: theme.oceanBlue,
-                    },
-                    [theme.mobile]: {
-                      margin: "12px 20px 8px",
-                    },
-                  }}
-                >
-                  {name}
-                </h3>
-              </Link>
-            </div>
             <div
               css={{
-                textAlign: "left",
-                margin: "30px 30px 10px",
-                [theme.mobile]: {
-                  margin: "0 20px",
-                },
+                display: "grid",
+                marginRight: 0,
+                marginBottom: 10,
+                justifyContent: "start",
               }}
             >
               <div
                 css={{
-                  display: "flex",
-                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "0.25rem",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
                 }}
               >
-                <div
+                <MapPin
                   css={{
-                    display: "grid",
-                    marginRight: 0,
-                    marginBottom: 10,
-                    justifyContent: "start",
+                    height: "1rem",
+                    width: "1rem",
+                    marginRight: 4,
                   }}
-                >
-                  <div
-                    css={{
-                      alignItems: "center",
-                      gap: "0.25rem",
-                      fontSize: "0.875rem",
-                      lineHeight: "1.25rem",
-                    }}
-                  >
-                    <MapPin
-                      css={{
-                        height: "1rem",
-                        width: "1rem",
-                        marginRight: 4,
-                      }}
-                    />
-                    {neighborhood}
-                  </div>
-                </div>
-              </div>
-
-              <div css={{ marginBottom: "1rem " }}>
-                <details>
-                  <summary
-                    css={{
-                      cursor: "pointer",
-                      fontSize: 12,
-                      marginTop: 6,
-                    }}
-                  >
-                    Happy Hour Details
-                  </summary>
-                  <div
-                    css={{
-                      marginTop: 4,
-                      marginBottom: 16,
-                      fontSize: 16,
-                      lineHeight: "1.25rem",
-                      [theme.mobile]: {
-                        marginBottom: 8,
-                      },
-                    }}
-                  >
-                    {happyHourDetails?.includes("\n") ? (
-                      <ul
-                        css={{
-                          paddingInlineStart: 20,
-                          maxWidth: "max-content",
-                        }}
-                      >
-                        {happyHourDetails
-                          .split("\n")
-                          .filter(Boolean)
-                          .map((line, index) => (
-                            <li
-                              key={index}
-                              css={{
-                                fontSize: 14,
-                                listStyleType: "disc",
-                                textAlign: "left",
-                                "&:last-child": {
-                                  marginBottom: 16,
-                                },
-                              }}
-                            >
-                              {line}
-                            </li>
-                          ))}
-                      </ul>
-                    ) : (
-                      <div css={{ fontSize: 14, marginBottom: 16 }}>
-                        {happyHourDetails}
-                      </div>
-                    )}
-                  </div>
-                </details>
-                <div
-                  css={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    marginTop: 16,
-                  }}
-                >
-                  {whatWeHaveHere.includes("cocktails") && (
-                    <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>
-                  )}
-                  {whatWeHaveHere.includes("wine") && (
-                    <AmmenityPill icon={Wine}>Wine</AmmenityPill>
-                  )}
-                  {whatWeHaveHere.includes("beer") && (
-                    <AmmenityPill icon={Beer}>Beer</AmmenityPill>
-                  )}
-                  {whatWeHaveHere.includes("food") && (
-                    <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>
-                  )}
-                  {whatWeHaveHere.includes("naDrinks") && (
-                    <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>
-                  )}
-                  {whatWeHaveHere.includes("coffee") && (
-                    <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("indoor") && (
-                    <AmmenityPill icon={Store}>Indoors</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("patio") && (
-                    <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("barSeating") && (
-                    <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("dogFriendly") && (
-                    <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("smallGroups") && (
-                    <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("bigGroups") && (
-                    <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("reservationsRec") && (
-                    <AmmenityPill icon={CalendarCheck}>
-                      Reso Reco’d
-                    </AmmenityPill>
-                  )}
-                  {theSpaceIsLike.includes("staffPick") && (
-                    <AmmenityPill
-                      icon={Sparkles}
-                      css={{
-                        background: theme.lemonYellow,
-                      }}
-                    >
-                      Staff Pick!
-                    </AmmenityPill>
-                  )}
-                </div>
+                />
+                {neighborhood}
               </div>
             </div>
           </div>
-          <div
-            css={{
-              borderRadius: "0 0 17px 17px",
-              padding: "16px 0 8px",
-              backgroundColor: theme.lightGrout,
-              [theme.mobile]: {
-                padding: "8px 0",
-              },
-            }}
-          >
+
+          <div css={{ marginBottom: "1rem " }}>
             <details>
               <summary
                 css={{
                   cursor: "pointer",
                   fontSize: 12,
-                  margin: "0 30px 12px",
-                  [theme.mobile]: {
-                    margin: "0 20px 12px",
-                  },
+                  marginTop: 6,
                 }}
               >
-                Full Address, Hours, & Contact Info
+                Happy Hour Details
               </summary>
               <div
                 css={{
-                  textTransform: "capitalize",
-                  fontSize: 12,
-                  margin: "0 30px 20px",
-                  maxWidth: 300,
+                  marginTop: 4,
+                  marginBottom: 16,
+                  fontSize: 16,
+                  lineHeight: "1.25rem",
                   [theme.mobile]: {
-                    marginBottom: 16,
+                    marginBottom: 8,
                   },
                 }}
               >
-                <div css={{ marginBottom: 6 }}>{address}</div>
-                <div css={{ marginBottom: 4, fontWeight: 600 }}>
-                  Open Hours:
-                </div>
-                {hours.map((line, index) => (
-                  <div key={index}>{line}</div>
-                ))}
-                <div css={{ marginTop: 6, marginBottom: 4, fontWeight: 600 }}>
-                  Happy Hour Hours:{" "}
-                </div>
-                {happyHourTimes && (
-                  <div>
-                    {happyHourTimes.map((line, index) => (
-                      <div key={index}>{line}</div>
-                    ))}
+                {happyHourDetails?.includes("\n") ? (
+                  <ul
+                    css={{
+                      paddingInlineStart: 20,
+                      maxWidth: "max-content",
+                    }}
+                  >
+                    {happyHourDetails
+                      .split("\n")
+                      .filter(Boolean)
+                      .map((line, index) => (
+                        <li
+                          key={index}
+                          css={{
+                            fontSize: 14,
+                            listStyleType: "disc",
+                            textAlign: "left",
+                            "&:last-child": {
+                              marginBottom: 16,
+                            },
+                          }}
+                        >
+                          {line}
+                        </li>
+                      ))}
+                  </ul>
+                ) : (
+                  <div css={{ fontSize: 14, marginBottom: 16 }}>
+                    {happyHourDetails}
                   </div>
                 )}
-                <div css={{ marginTop: 8 }}>
-                  {happyHourMenu && (
-                    <IconButton
-                      icon={Icons.Menu}
-                      href={happyHourMenu}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      css={{
-                        width: "auto",
-                        transform: "scale(1.5)",
-                        justifyContent: "center",
-                      }}
-                    />
-                  )}
-                  {website && (
-                    <IconButton
-                      icon={Icons.Website}
-                      href={website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      css={{
-                        width: "auto",
-                        transform: "scale(1.5)",
-                        justifyContent: "center",
-                      }}
-                    />
-                  )}
-                  {instagram && (
-                    <IconButton
-                      icon={Icons.Instagram}
-                      href={instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      css={{
-                        width: "auto",
-                        transform: "scale(1.5)",
-                        justifyContent: "center",
-                      }}
-                    />
-                  )}
-                </div>
               </div>
             </details>
+            <div
+              css={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginTop: 16,
+              }}
+            >
+              {whatWeHaveHere.includes("cocktails") && (
+                <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("wine") && (
+                <AmmenityPill icon={Wine}>Wine</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("beer") && (
+                <AmmenityPill icon={Beer}>Beer</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("food") && (
+                <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("naDrinks") && (
+                <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("coffee") && (
+                <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("indoor") && (
+                <AmmenityPill icon={Store}>Indoors</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("patio") && (
+                <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("barSeating") && (
+                <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("dogFriendly") && (
+                <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("smallGroups") && (
+                <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("bigGroups") && (
+                <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("reservationsRec") && (
+                <AmmenityPill icon={CalendarCheck}>Reso Reco’d</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("staffPick") && (
+                <AmmenityPill
+                  icon={Sparkles}
+                  css={{
+                    background: theme.lemonYellow,
+                  }}
+                >
+                  Staff Pick!
+                </AmmenityPill>
+              )}
+            </div>
           </div>
         </div>
       </div>
+      <div
+        css={{
+          borderRadius: "0 0 17px 17px",
+          padding: "16px 0 8px",
+          backgroundColor: theme.lightGrout,
+          [theme.mobile]: {
+            padding: "8px 0",
+          },
+        }}
+      >
+        <details>
+          <summary
+            css={{
+              cursor: "pointer",
+              fontSize: 12,
+              margin: "0 30px 12px",
+              [theme.mobile]: {
+                margin: "0 20px 12px",
+              },
+            }}
+          >
+            Full Address, Hours, & Contact Info
+          </summary>
+          <div
+            css={{
+              textTransform: "capitalize",
+              fontSize: 12,
+              margin: "0 30px 20px",
+              maxWidth: 300,
+              [theme.mobile]: {
+                marginBottom: 16,
+              },
+            }}
+          >
+            <div css={{ marginBottom: 6 }}>{address}</div>
+            <div css={{ marginBottom: 4, fontWeight: 600 }}>Open Hours:</div>
+            {hours.map((line, index) => (
+              <div key={index}>{line}</div>
+            ))}
+            <div css={{ marginTop: 6, marginBottom: 4, fontWeight: 600 }}>
+              Happy Hour Hours:{" "}
+            </div>
+            {happyHourTimes && (
+              <div>
+                {happyHourTimes.map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+              </div>
+            )}
+            <div css={{ marginTop: 8 }}>
+              {happyHourMenu && (
+                <IconButton
+                  icon={Icons.Menu}
+                  href={happyHourMenu}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={{
+                    width: "auto",
+                    transform: "scale(1.5)",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+              {website && (
+                <IconButton
+                  icon={Icons.Website}
+                  href={website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={{
+                    width: "auto",
+                    transform: "scale(1.5)",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+              {instagram && (
+                <IconButton
+                  icon={Icons.Instagram}
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={{
+                    width: "auto",
+                    transform: "scale(1.5)",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+    // </div>
   )
 }
 
