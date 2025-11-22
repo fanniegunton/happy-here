@@ -36,7 +36,7 @@ const Footer = () => {
           <div
             css={{
               ...theme.nav,
-              fontSize: 16,
+              fontSize: 18,
               flex: "1 0 auto",
               maxWidth: 600,
               textWrap: "balance",
@@ -71,10 +71,11 @@ const Footer = () => {
                 src={insta}
                 css={{
                   width: "auto",
-                  color: theme.black,
+                  filter: "brightness(0) invert(1)", // Make Instagram icon white
                   [theme.mobile]: {
                     alignContent: "end",
                     marginLeft: 8,
+                    filter: "none",
                   },
                 }}
               />
@@ -85,6 +86,7 @@ const Footer = () => {
               marginTop: 40,
               fontFamily: theme.fancyFontFamily,
               fontSize: 18,
+              lineHeight: 1.8,
               maxWidth: "60%",
               textWrap: "balance",
               [theme.mobile]: {
