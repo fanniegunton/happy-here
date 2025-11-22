@@ -7,6 +7,7 @@ import Header from "../components/Header"
 import EstablishmentTile from "../components/EstablishmentTile"
 import { sortEstablishments } from "../lib/sortEstablishments"
 import FilterBar from "../components/FilterBar"
+import { hoursCover } from "../lib/parseHours"
 
 const Home = ({ data, location }) => {
   // Filter out test establishment if not in development environment
@@ -174,6 +175,14 @@ const Home = ({ data, location }) => {
     return true // only return true if it passed all active filters
   })
 
+  // Separate establishments into happy hour now vs later
+  const happyHourNow = filteredEstablishments.filter((est) =>
+    hoursCover(est.happyHourTimes, new Date())
+  )
+  const happyHourLater = filteredEstablishments.filter(
+    (est) => !hoursCover(est.happyHourTimes, new Date())
+  )
+
   return (
     <div>
       <Layout>
@@ -184,28 +193,120 @@ const Home = ({ data, location }) => {
           setSearchQuery={setSearchQuery}
           resultCount={filteredEstablishments.length}
         />
-        <div
-          css={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            margin: "0 auto",
-            justifyContent: "center",
-            justifyItems: "center",
-            gap: "40px 40px",
-            [theme.smallDesktop]: {
-              gridTemplateColumns: "1fr 1fr",
-            },
-            [theme.tablet]: {
-              gridTemplateColumns: "1fr",
-              gap: 0,
-            },
-            [theme.mobile]: { margin: 0 },
-          }}
-        >
-          {filteredEstablishments.map((tile) => (
-            <EstablishmentTile key={tile._id} {...tile} />
-          ))}
-        </div>
+
+        {/* Divider before happy hour now section */}
+        {happyHourNow.length > 0 && (
+          <div
+            css={{
+              margin: "40px -40px 0",
+              borderTop: "4px dotted #006eff",
+              [theme.mobile]: {
+                margin: "30px -20px 0",
+                borderTop: "2px dotted #006eff",
+              },
+            }}
+          />
+        )}
+
+        {/* Happy Hour Now Section */}
+        {happyHourNow.length > 0 && (
+          <>
+            <h2
+              css={{
+                ...theme.h2,
+                fontFamily: theme.fancyFontFamily,
+                fontSize: 36,
+                marginBottom: 24,
+                marginTop: 60,
+                textAlign: "left",
+                [theme.mobile]: {
+                  fontSize: 28,
+                },
+              }}
+            >
+              It's Happy Hour!
+            </h2>
+            <div
+              css={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                margin: "0 auto",
+                justifyContent: "center",
+                justifyItems: "center",
+                gap: "40px 40px",
+                [theme.smallDesktop]: {
+                  gridTemplateColumns: "1fr 1fr",
+                },
+                [theme.tablet]: {
+                  gridTemplateColumns: "1fr",
+                  gap: 0,
+                },
+                [theme.mobile]: { margin: 0 },
+              }}
+            >
+              {happyHourNow.map((tile) => (
+                <EstablishmentTile key={tile._id} {...tile} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Divider between sections */}
+        {happyHourNow.length > 0 && happyHourLater.length > 0 && (
+          <div
+            css={{
+              margin: "60px -40px",
+              borderTop: "4px dotted #006eff",
+              [theme.mobile]: {
+                margin: "40px -20px",
+                borderTop: "2px dotted #006eff",
+              },
+            }}
+          />
+        )}
+
+        {/* Not Right Now Section */}
+        {happyHourLater.length > 0 && (
+          <>
+            <h2
+              css={{
+                ...theme.h2,
+                fontFamily: theme.fancyFontFamily,
+                fontSize: 36,
+                marginBottom: 24,
+                marginTop: 20,
+                textAlign: "left",
+                [theme.mobile]: {
+                  fontSize: 28,
+                },
+              }}
+            >
+              Not Right Now
+            </h2>
+            <div
+              css={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                margin: "0 auto",
+                justifyContent: "center",
+                justifyItems: "center",
+                gap: "40px 40px",
+                [theme.smallDesktop]: {
+                  gridTemplateColumns: "1fr 1fr",
+                },
+                [theme.tablet]: {
+                  gridTemplateColumns: "1fr",
+                  gap: 0,
+                },
+                [theme.mobile]: { margin: 0 },
+              }}
+            >
+              {happyHourLater.map((tile) => (
+                <EstablishmentTile key={tile._id} {...tile} />
+              ))}
+            </div>
+          </>
+        )}
       </Layout>
     </div>
   )
