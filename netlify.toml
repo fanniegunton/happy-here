@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm build"
+  command = "yarn build"
   publish = "public"
 
 [build.environment]
