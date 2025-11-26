@@ -95,18 +95,9 @@ const EstablishmentTile = ({
   }
 
   return (
-    // <div
-    //   key={_id}
-    //   css={{
-    //     [theme.tablet]: {
-    //       padding: 20,
-    //     },
-    //   }}
-    // >
     <div
       key={_id}
       css={{
-        position: "relative",
         background: theme.white,
         borderRadius: 20,
         border: isHappyHour ? "4px solid #006eff" : "4px solid #e4e3e4",
@@ -114,83 +105,15 @@ const EstablishmentTile = ({
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // ...theme.extraFloatBox,
         [theme.tablet]: {
-          padding: 20,
+          maxWidth: 450,
         },
         [theme.mobile]: {
-          maxWidth: 400,
-          minWidth: "85vw",
+          maxWidth: 380,
+          margin: "0 auto",
         },
       }}
     >
-      {/* Happy Hour Status Badge - positioned relative to card */}
-      <div
-        css={{
-          position: "absolute",
-          right: 0,
-          top: 170,
-          zIndex: 10,
-          [theme.mobile]: {
-            top: 130,
-          },
-        }}
-      >
-        {isHappyHour ? (
-          <div
-            css={{
-              maxWidth: 180,
-              alignItems: "center",
-              borderRadius: "10px 0 0 10px",
-              backgroundColor: theme.oceanBlue,
-              color: theme.white,
-              padding: "16px 10px",
-              textAlign: "center",
-              fontWeight: 600,
-            }}
-          >
-            <div
-              css={{
-                fontSize: 11,
-                textTransform: "uppercase",
-                letterSpacing: "0.01em",
-                opacity: 0.8,
-              }}
-            >
-              It's Happy Hour
-            </div>
-            until {""}
-            {formattedEndTime}
-          </div>
-        ) : (
-          <div
-            css={{
-              maxWidth: 180,
-              alignItems: "center",
-              borderRadius: "10px 0 0 10px",
-              backgroundColor: theme.lightGrout,
-              color: theme.black,
-              padding: 16,
-              textAlign: "center",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            <div
-              css={{
-                fontSize: 11,
-                textTransform: "uppercase",
-                letterSpacing: "0.01em",
-                opacity: 0.8,
-              }}
-            >
-              Next HH starts{" "}
-            </div>
-            {nextHappyHourDay} <br /> {nextHappyHourTime}
-          </div>
-        )}
-      </div>
-
       <div
         css={{
           margin: "0 auto",
@@ -198,8 +121,6 @@ const EstablishmentTile = ({
           flexDirection: "column",
           justifyContent: "flex-start",
           textAlign: "center",
-          minWidth: 300,
-          maxWidth: 375,
           width: "100%",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -208,36 +129,106 @@ const EstablishmentTile = ({
           flexDirection: "column",
         }}
       >
+        {/* Image container with badge positioned relative to it */}
         {photo && (
-          <Link
-            to={`/establishment/${slug}`}
+          <div
             css={{
-              textDecoration: "none",
-              color: "inherit",
-              display: "block",
-              cursor: "pointer",
+              position: "relative",
+              width: "100%",
             }}
           >
-            <SanityImage
-              {...photo}
-              width={300}
-              height={200}
-              alt={`Photo of ${name}`}
+            <Link
+              to={`/establishment/${slug}`}
               css={{
+                textDecoration: "none",
+                color: "inherit",
                 display: "block",
-                width: "100%",
-                objectFit: "cover",
-                borderRadius: "17px 17px 0 0",
-                transition: "opacity 0.2s",
-                "&:hover": {
-                  opacity: 0.9,
-                },
-                [theme.mobile]: {
-                  height: 150,
-                },
+                cursor: "pointer",
               }}
-            />
-          </Link>
+            >
+              <SanityImage
+                {...photo}
+                width={300}
+                height={200}
+                alt={`Photo of ${name}`}
+                css={{
+                  display: "block",
+                  width: "100%",
+                  aspectRatio: "3 / 2",
+                  objectFit: "cover",
+                  borderRadius: "17px 17px 0 0",
+                  transition: "opacity 0.2s",
+                  "&:hover": {
+                    opacity: 0.9,
+                  },
+                }}
+              />
+            </Link>
+
+            {/* Happy Hour Status Badge - positioned relative to image */}
+            <div
+              css={{
+                position: "absolute",
+                right: 0,
+                bottom: 10,
+                zIndex: 10,
+              }}
+            >
+              {isHappyHour ? (
+                <div
+                  css={{
+                    maxWidth: 180,
+                    alignItems: "center",
+                    borderRadius: "10px 0 0 10px",
+                    backgroundColor: theme.oceanBlue,
+                    color: theme.white,
+                    padding: "16px 10px",
+                    textAlign: "center",
+                    fontWeight: 600,
+                  }}
+                >
+                  <div
+                    css={{
+                      fontSize: 11,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.01em",
+                      opacity: 0.8,
+                    }}
+                  >
+                    It's Happy Hour
+                  </div>
+                  until {""}
+                  {formattedEndTime}
+                </div>
+              ) : (
+                <div
+                  css={{
+                    maxWidth: 180,
+                    alignItems: "center",
+                    borderRadius: "10px 0 0 10px",
+                    backgroundColor: theme.lightGrout,
+                    color: theme.black,
+                    padding: 16,
+                    textAlign: "center",
+                    fontSize: 16,
+                    fontWeight: 600,
+                  }}
+                >
+                  <div
+                    css={{
+                      fontSize: 11,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.01em",
+                      opacity: 0.8,
+                    }}
+                  >
+                    Next HH starts{" "}
+                  </div>
+                  {nextHappyHourDay} <br /> {nextHappyHourTime}
+                </div>
+              )}
+            </div>
+          </div>
         )}
         <div>
 
@@ -261,6 +252,9 @@ const EstablishmentTile = ({
                 "&:hover": {
                   color: theme.oceanBlue,
                 },
+                [theme.tablet]: {
+                  margin: "14px 24px",
+                },
                 [theme.mobile]: {
                   margin: "12px 20px 8px",
                 },
@@ -274,6 +268,9 @@ const EstablishmentTile = ({
           css={{
             textAlign: "left",
             margin: "30px 30px 10px",
+            [theme.tablet]: {
+              margin: "24px 24px 10px",
+            },
             [theme.mobile]: {
               margin: "0 20px",
             },
@@ -433,6 +430,9 @@ const EstablishmentTile = ({
           borderRadius: "0 0 17px 17px",
           padding: "16px 0 8px",
           backgroundColor: theme.lightGrout,
+          [theme.tablet]: {
+            padding: "12px 0 8px",
+          },
           [theme.mobile]: {
             padding: "8px 0",
           },
@@ -444,6 +444,9 @@ const EstablishmentTile = ({
               cursor: "pointer",
               fontSize: 12,
               margin: "0 30px 12px",
+              [theme.tablet]: {
+                margin: "0 24px 12px",
+              },
               [theme.mobile]: {
                 margin: "0 20px 12px",
               },
@@ -457,8 +460,11 @@ const EstablishmentTile = ({
               fontSize: 12,
               margin: "0 30px 20px",
               maxWidth: 300,
+              [theme.tablet]: {
+                margin: "0 24px 20px",
+              },
               [theme.mobile]: {
-                marginBottom: 16,
+                margin: "0 20px 16px",
               },
             }}
           >
