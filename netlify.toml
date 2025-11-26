@@ -4,4 +4,4 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  YARN_CACHE_FOLDER=./.yarn-cache
+  YARN_CACHE_FOLDER = "/.yarn-cache"
