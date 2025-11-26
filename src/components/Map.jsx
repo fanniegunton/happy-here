@@ -1,22 +1,20 @@
 import React, { useEffect, useRef } from "react"
 
 const Map = ({ establishments, happyHourStatus, theme }) => {
-  const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
+  const markersRef = useRef([])
+  const leafletRef = useRef(null)
 
+  // Initialize map once
   useEffect(() => {
     // Only load Leaflet on client side
     if (typeof window === "undefined") return
 
-    // Don't initialize if already initialized
-    if (mapInstanceRef.current) return
-
-    let leaflet
-
     const loadMap = async () => {
       // Dynamically import Leaflet
-      leaflet = await import("leaflet")
+      const leaflet = await import("leaflet")
       await import("leaflet/dist/leaflet.css")
+      leafletRef.current = leaflet
 
       // Calculate center
       const validEstablishments = establishments.filter(
@@ -40,77 +38,14 @@ const Map = ({ establishments, happyHourStatus, theme }) => {
 
       // Add tile layer
       leaflet
-        .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        })
+        .tileLayer(
+          "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+          {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          }
+        )
         .addTo(mapInstance)
-
-      // Add markers
-      validEstablishments.forEach((establishment) => {
-        const isHappyHour = happyHourStatus[establishment._id]
-        const slug = establishment.name
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/(^-|-$)/g, "")
-
-        // Create custom icon
-        const markerHtml = `
-          <svg width="32" height="40" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 0C7.163 0 0 7.163 0 16c0 12 16 24 16 24s16-12 16-24c0-8.837-7.163-16-16-16z"
-                  fill="${isHappyHour ? theme.oceanBlue : theme.lemonYellow}"
-                  stroke="${isHappyHour ? theme.white : theme.darkGray}"
-                  stroke-width="2"/>
-            <circle cx="16" cy="16" r="6"
-                    fill="${isHappyHour ? theme.white : theme.darkGray}"/>
-          </svg>
-        `
-
-        const icon = leaflet.divIcon({
-          html: markerHtml,
-          className: "custom-marker",
-          iconSize: [32, 40],
-          iconAnchor: [16, 40],
-          popupAnchor: [0, -40],
-        })
-
-        // Format happy hour times
-        const happyHourTimesHTML = establishment.happyHourTimes
-          ? establishment.happyHourTimes
-              .map(
-                (time) =>
-                  `<div style="font-size: 13px; color: ${theme.darkGray}; line-height: 1.4;">${time}</div>`
-              )
-              .join("")
-          : ""
-
-        // Create popup content (entire popup is clickable)
-        const popupContent = `
-          <a href="/establishment/${slug}" style="text-decoration: none; color: inherit; display: block; cursor: pointer;">
-            <div style="padding: 12px;">
-              <h3 style="font-size: 16px; font-family: 'Playfair Display', serif; margin: 0 0 6px 0; color: ${theme.oceanBlue};">
-                ${establishment.name}
-              </h3>
-              ${
-                isHappyHour
-                  ? `<div style="font-size: 11px; font-weight: 600; color: ${theme.white}; background-color: ${theme.oceanBlue}; padding: 3px 6px; border-radius: 4px; text-align: center; margin-bottom: 6px; display: inline-block;">
-                       Happy Hour Now!
-                     </div>`
-                  : ""
-              }
-              ${happyHourTimesHTML}
-            </div>
-          </a>
-        `
-
-        // Add marker
-        leaflet
-          .marker([establishment.location.lat, establishment.location.lng], {
-            icon,
-          })
-          .bindPopup(popupContent)
-          .addTo(mapInstance)
-      })
     }
 
     loadMap()
@@ -122,7 +57,86 @@ const Map = ({ establishments, happyHourStatus, theme }) => {
         mapInstanceRef.current = null
       }
     }
-  }, []) // Empty dependency array - only run once
+  }, []) // Only run once
+
+  // Update markers when happyHourStatus changes
+  useEffect(() => {
+    if (!mapInstanceRef.current || !leafletRef.current) return
+
+    const leaflet = leafletRef.current
+
+    // Remove existing markers
+    markersRef.current.forEach((marker) => marker.remove())
+    markersRef.current = []
+
+    // Add new markers
+    const validEstablishments = establishments.filter(
+      (est) => est.location?.lat && est.location?.lng
+    )
+
+    validEstablishments.forEach((establishment) => {
+      const isHappyHour = happyHourStatus[establishment._id]
+      const slug = establishment.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+
+      // Format happy hour times
+      const happyHourTimesHTML = establishment.happyHourTimes
+        ? establishment.happyHourTimes
+            .map(
+              (time) =>
+                `<div style="font-size: 13px; color: ${theme.black}; line-height: 1.4;">${time}</div>`
+            )
+            .join("")
+        : ""
+
+      // Create popup content (entire popup is clickable)
+      const popupContent = `
+        <a href="/establishment/${slug}" style="text-decoration: none; color: inherit; display: block; cursor: pointer;">
+          <div style="padding: 12px;">
+            <h3 style="font-size: 16px; font-family: 'Playfair Display', serif; margin: 0 0 6px 0; color: ${
+              theme.oceanBlue
+            };">
+              ${establishment.name}
+            </h3>
+            ${
+              isHappyHour
+                ? `<div style="font-size: 11px; font-weight: 600; color: ${theme.white}; background-color: ${theme.oceanBlue}; padding: 3px 6px; border-radius: 4px; text-align: center; margin-bottom: 6px; display: inline-block;">
+                     Happy Hour Now!
+                   </div>`
+                : ""
+            }
+            ${happyHourTimesHTML}
+          </div>
+        </a>
+      `
+
+      // Create circle marker with styling based on happy hour status
+      const marker = leaflet
+        .circleMarker(
+          [establishment.location.lat, establishment.location.lng],
+          {
+            radius: 8,
+            fillColor: theme.white,
+            fillOpacity: 1,
+            color: isHappyHour ? theme.oceanBlue : theme.black,
+            // weight: isHappyHour ? 4 : 2,
+            weight: 4,
+            opacity: 1,
+            interactive: true,
+          }
+        )
+        .bindPopup(popupContent, {
+          maxWidth: 300,
+          className: "establishment-popup",
+          autoClose: false,
+        })
+        .addTo(mapInstanceRef.current)
+
+      markersRef.current.push(marker)
+    })
+  }, [establishments, happyHourStatus, theme])
 
   return (
     <div

@@ -275,5 +275,8 @@ export const globalStyles = [
     ".in-your-face-box": {
       boxShadow: "var(--shadow-elevation-high)",
     },
+    ".leaflet-popup-content": {
+      margin: "3px 14px 3px 10px",
+    },
   },
 ]
