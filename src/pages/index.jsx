@@ -120,7 +120,13 @@ const Home = ({ data, location }) => {
   const fuse = useMemo(
     () =>
       new Fuse(sortedEstablishments, {
-        keys: ["name", "neighborhood", "address", "whatWeHaveHere", "theSpaceIsLike"],
+        keys: [
+          "name",
+          "neighborhood",
+          "address",
+          "whatWeHaveHere",
+          "theSpaceIsLike",
+        ],
         threshold: 0.3, // Lower = more strict matching
         ignoreLocation: true,
       }),
@@ -219,8 +225,15 @@ const Home = ({ data, location }) => {
                 marginBottom: 24,
                 marginTop: 60,
                 textAlign: "left",
+                [theme.tablet]: {
+                  margin: "36px auto 24px",
+                  textWrapStyle: "auto",
+                  maxWidth: 375,
+                  textAlign: "center",
+                },
                 [theme.mobile]: {
                   fontSize: 28,
+                  padding: "0 16px",
                 },
               }}
             >
@@ -239,9 +252,12 @@ const Home = ({ data, location }) => {
                 },
                 [theme.tablet]: {
                   gridTemplateColumns: "1fr",
-                  gap: 0,
+                  gap: "30px",
                 },
-                [theme.mobile]: { margin: 0 },
+                [theme.mobile]: {
+                  margin: 0,
+                  gap: "24px",
+                },
               }}
             >
               {happyHourNow.map((tile) => (
@@ -276,12 +292,19 @@ const Home = ({ data, location }) => {
                 marginBottom: 24,
                 marginTop: 20,
                 textAlign: "left",
+                [theme.tablet]: {
+                  margin: "36px auto 24px",
+                  textWrapStyle: "auto",
+                  maxWidth: 375,
+                  textAlign: "center",
+                },
                 [theme.mobile]: {
                   fontSize: 28,
+                  padding: "0 16px",
                 },
               }}
             >
-              Not Right Now
+              Let the Countdown Begin! ⏰
             </h2>
             <div
               css={{
@@ -296,9 +319,12 @@ const Home = ({ data, location }) => {
                 },
                 [theme.tablet]: {
                   gridTemplateColumns: "1fr",
-                  gap: 0,
+                  gap: "30px",
                 },
-                [theme.mobile]: { margin: 0 },
+                [theme.mobile]: {
+                  margin: 0,
+                  gap: "24px",
+                },
               }}
             >
               {happyHourLater.map((tile) => (
