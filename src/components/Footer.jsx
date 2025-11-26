@@ -10,8 +10,8 @@ const Footer = () => {
       css={{
         margin: "120px -40px -40px",
         [theme.mobile]: {
-          margin: "60px auto 0",
-          paddingBottom: 40,
+          margin: "40px auto 0",
+          padding: "0 20px 40px",
           background: theme.lilac,
         },
       }}

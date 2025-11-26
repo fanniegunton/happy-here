@@ -95,7 +95,8 @@ const MapPage = ({ data, location }) => {
     return searchFilteredEstablishments.filter((est) => {
       if (hasWine && !est.whatWeHaveHere.includes("wine")) return false
       if (hasBeer && !est.whatWeHaveHere.includes("beer")) return false
-      if (hasCocktails && !est.whatWeHaveHere.includes("cocktails")) return false
+      if (hasCocktails && !est.whatWeHaveHere.includes("cocktails"))
+        return false
       if (hasFood && !est.whatWeHaveHere.includes("food")) return false
       if (hasCoffee && !est.whatWeHaveHere.includes("coffee")) return false
       if (hasPatio && !est.theSpaceIsLike.includes("patio")) return false
@@ -106,7 +107,18 @@ const MapPage = ({ data, location }) => {
       if (hasNaDrinks && !est.whatWeHaveHere.includes("naDrinks")) return false
       return true
     })
-  }, [searchFilteredEstablishments, hasWine, hasBeer, hasCocktails, hasFood, hasCoffee, hasPatio, hasBarSeating, hasDogFriendly, hasNaDrinks])
+  }, [
+    searchFilteredEstablishments,
+    hasWine,
+    hasBeer,
+    hasCocktails,
+    hasFood,
+    hasCoffee,
+    hasPatio,
+    hasBarSeating,
+    hasDogFriendly,
+    hasNaDrinks,
+  ])
 
   // Filter out establishments without location data
   const establishmentsWithLocation = useMemo(
@@ -205,19 +217,20 @@ const MapPage = ({ data, location }) => {
             [theme.mobile]: {
               flexDirection: "column",
               gap: 12,
+              padding: "0 20px",
             },
           }}
         >
-          <div>
+          <h3>
             <strong>{establishmentsWithLocation.length}</strong> establishments
             on map
-          </div>
-          <div>
+          </h3>
+          <h3>
             <strong>
               {Object.values(happyHourStatus).filter(Boolean).length}
             </strong>{" "}
             currently in happy hour
-          </div>
+          </h3>
         </div>
 
         {/* Instructions */}

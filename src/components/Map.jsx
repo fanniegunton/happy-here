@@ -36,6 +36,11 @@ const Map = ({ establishments, happyHourStatus, theme }) => {
       const mapInstance = leaflet.map("map-container").setView(center, 13)
       mapInstanceRef.current = mapInstance
 
+      // Disable scroll wheel zoom on mobile
+      if (window.innerWidth < 700) {
+        mapInstance.scrollWheelZoom.disable()
+      }
+
       // Add tile layer
       leaflet
         .tileLayer(
@@ -141,12 +146,15 @@ const Map = ({ establishments, happyHourStatus, theme }) => {
   return (
     <div
       id="map-container"
-      style={{
-        height: "600px",
+      css={{
+        height: 600,
         width: "100%",
-        borderRadius: "12px",
+        borderRadius: 12,
         overflow: "hidden",
         border: `2px solid ${theme.lightGrout}`,
+        [theme.mobile]: {
+          height: 400,
+        },
       }}
     />
   )
