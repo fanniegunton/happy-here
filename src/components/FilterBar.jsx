@@ -2,9 +2,9 @@
 import React from "react"
 import { Link } from "gatsby"
 import theme from "../styles/theme"
-import { Search, X, Map } from "lucide-react"
+import { Search, X, Map, List } from "lucide-react"
 
-const FilterBar = ({ filters, searchQuery, setSearchQuery, resultCount }) => {
+const FilterBar = ({ filters, searchQuery, setSearchQuery, resultCount, isMapPage }) => {
   const {
     hasWine,
     setHasWine,
@@ -134,7 +134,7 @@ const FilterBar = ({ filters, searchQuery, setSearchQuery, resultCount }) => {
           }}
         >
           <Link
-            to="/map"
+            to={isMapPage ? "/" : "/map"}
             css={{
               display: "flex",
               alignItems: "center",
@@ -154,8 +154,8 @@ const FilterBar = ({ filters, searchQuery, setSearchQuery, resultCount }) => {
               },
             }}
           >
-            <Map size={16} />
-            Map View
+            {isMapPage ? <List size={16} /> : <Map size={16} />}
+            {isMapPage ? "List View" : "Map View"}
           </Link>
           {(hasActiveFilters || searchQuery) && (
             <button
