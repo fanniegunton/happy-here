@@ -1,0 +1,27 @@
+---
+import Layout from '@components/astro/Layout.astro';
+import Header from '@components/astro/Header.astro';
+import HomePage from '@components/react/HomePage';
+import { getAllEstablishments } from '@lib/sanity';
+
+// Fetch data at build time
+const establishments = await getAllEstablishments();
+
+// Filter test establishment in production
+const filteredEstablishments = import.meta.env.PROD
+  ? establishments.filter((est) => est._id !== 'b95f53fc-ae57-4605-b4b6-6ceb785a1756')
+  : establishments;
+---
+
+<Layout title="Happy Here - Find Happy Hours in Austin">
+  <Header />
+
+  {/*
+    Client-side React component handles:
+    - Filter state management
+    - Search functionality
+    - Real-time happy hour checking
+    - Dynamic rendering
+  */}
+  <HomePage establishments={filteredEstablishments} client:load />
+</Layout>

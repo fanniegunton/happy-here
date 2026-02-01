@@ -1,0 +1,539 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - link "Happy Here logo with a happy hour drink" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Happy Here logo with a happy hour drink" [ref=e5]
+      - generic [ref=e6]:
+        - link "Map" [ref=e7] [cursor=pointer]:
+          - /url: /map
+        - link "About" [ref=e8] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e9] [cursor=pointer]:
+          - /url: mailto:happyhappyhere@gmail.com
+        - link "Instagram" [ref=e10] [cursor=pointer]:
+          - /url: https://www.instagram.com/takeouttracker/
+          - img "Instagram" [ref=e11]
+    - main [ref=e12]:
+      - generic [ref=e14]:
+        - 'heading "Happy Here: Happy Hours in Austin" [level=1] [ref=e15]'
+        - generic [ref=e16]:
+          - text: Delicious discounts in ATX!
+          - text: Happy hours, late night deals, specialty days, plus all the deets 🤌🏼
+      - generic [ref=e17]:
+        - generic [ref=e19]:
+          - img [ref=e20]
+          - textbox "Search by name or neighborhood..." [active] [ref=e23]: east
+        - generic [ref=e24]:
+          - generic [ref=e25]: "Only show me places with:"
+          - generic [ref=e26]:
+            - link "Map View" [ref=e27] [cursor=pointer]:
+              - /url: /map
+              - img [ref=e28]
+              - text: Map View
+            - button "Clear All Filters" [ref=e4860] [cursor=pointer]:
+              - img [ref=e4861]
+              - text: Clear All Filters
+        - generic [ref=e30]: Showing 10 establishments
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - checkbox "Wine" [ref=e33] [cursor=pointer]
+            - text: Wine
+          - generic [ref=e34]:
+            - checkbox "Beer" [ref=e35] [cursor=pointer]
+            - text: Beer
+          - generic [ref=e36]:
+            - checkbox "Cocktails" [ref=e37] [cursor=pointer]
+            - text: Cocktails
+          - generic [ref=e38]:
+            - checkbox "Food" [ref=e39] [cursor=pointer]
+            - text: Food
+          - generic [ref=e40]:
+            - checkbox "Coffee" [ref=e41] [cursor=pointer]
+            - text: Coffee
+          - generic [ref=e42]:
+            - checkbox "Patio" [ref=e43] [cursor=pointer]
+            - text: Patio
+          - generic [ref=e44]:
+            - checkbox "Bar Seating" [ref=e45] [cursor=pointer]
+            - text: Bar Seating
+          - generic [ref=e46]:
+            - checkbox "NA Drinks" [ref=e47] [cursor=pointer]
+            - text: NA Drinks
+          - generic [ref=e48]:
+            - checkbox "🐶🐾 Friendly" [ref=e49] [cursor=pointer]
+            - text: 🐶🐾 Friendly
+        - heading "Let the Countdown Begin! ⏰" [level=2] [ref=e163]
+        - generic [ref=e164]:
+          - generic [ref=e386]:
+            - generic [ref=e387]:
+              - generic [ref=e388]:
+                - link "Photo of Whisler's" [ref=e389] [cursor=pointer]:
+                  - /url: /establishment/whisler-s
+                  - img "Photo of Whisler's" [ref=e390]
+                - generic [ref=e392]:
+                  - generic [ref=e393]: Next HH starts
+                  - text: Sunday
+                  - text: 2PM
+              - link "Whisler's" [ref=e395] [cursor=pointer]:
+                - /url: /establishment/whisler-s
+                - heading "Whisler's" [level=3] [ref=e396]
+              - generic [ref=e397]:
+                - generic [ref=e400]:
+                  - img [ref=e401]
+                  - text: East 6th
+                - generic [ref=e404]:
+                  - group [ref=e405]:
+                    - generic "Happy Hour Details" [ref=e406] [cursor=pointer]
+                  - generic [ref=e407]:
+                    - generic [ref=e408]:
+                      - img [ref=e409]
+                      - generic [ref=e411]: Cocktails
+                    - generic [ref=e412]:
+                      - img [ref=e413]
+                      - generic [ref=e415]: Wine
+                    - generic [ref=e416]:
+                      - img [ref=e417]
+                      - generic [ref=e421]: Beer
+                    - generic [ref=e422]:
+                      - img [ref=e423]
+                      - generic [ref=e428]: Food
+                    - generic [ref=e429]:
+                      - img [ref=e430]
+                      - generic [ref=e434]: NA Drinks
+                    - generic [ref=e435]:
+                      - img [ref=e436]
+                      - generic [ref=e441]: Indoors
+                    - generic [ref=e442]:
+                      - img [ref=e443]
+                      - generic [ref=e448]: Patio
+                    - generic [ref=e449]:
+                      - img [ref=e450]
+                      - generic [ref=e453]: Bar Seats
+                    - generic [ref=e454]:
+                      - img [ref=e455]
+                      - generic [ref=e459]: 4+ People OK
+            - group [ref=e461]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e462] [cursor=pointer]
+          - generic [ref=e1012]:
+            - generic [ref=e1013]:
+              - generic [ref=e1014]:
+                - link "Photo of Bufalina Pizza" [ref=e1015] [cursor=pointer]:
+                  - /url: /establishment/bufalina-pizza
+                  - img "Photo of Bufalina Pizza" [ref=e1016]
+                - generic [ref=e1018]:
+                  - generic [ref=e1019]: Next HH starts
+                  - text: Sunday
+                  - text: 4PM
+              - link "Bufalina Pizza" [ref=e1021] [cursor=pointer]:
+                - /url: /establishment/bufalina-pizza
+                - heading "Bufalina Pizza" [level=3] [ref=e1022]
+              - generic [ref=e1023]:
+                - generic [ref=e1026]:
+                  - img [ref=e1027]
+                  - text: East Austin
+                - generic [ref=e1030]:
+                  - group [ref=e1031]:
+                    - generic "Happy Hour Details" [ref=e1032] [cursor=pointer]
+                  - generic [ref=e1033]:
+                    - generic [ref=e1034]:
+                      - img [ref=e1035]
+                      - generic [ref=e1037]: Wine
+                    - generic [ref=e1038]:
+                      - img [ref=e1039]
+                      - generic [ref=e1043]: Beer
+                    - generic [ref=e1044]:
+                      - img [ref=e1045]
+                      - generic [ref=e1050]: Food
+                    - generic [ref=e1051]:
+                      - img [ref=e1052]
+                      - generic [ref=e1057]: Indoors
+                    - generic [ref=e1058]:
+                      - img [ref=e1059]
+                      - generic [ref=e1064]: Patio
+            - group [ref=e1066]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e1067] [cursor=pointer]
+          - generic [ref=e1293]:
+            - generic [ref=e1294]:
+              - generic [ref=e1295]:
+                - link "Photo of Suerte" [ref=e1296] [cursor=pointer]:
+                  - /url: /establishment/suerte
+                  - img "Photo of Suerte" [ref=e1297]
+                - generic [ref=e1299]:
+                  - generic [ref=e1300]: Next HH starts
+                  - text: Sunday
+                  - text: 4PM
+              - link "Suerte" [ref=e1302] [cursor=pointer]:
+                - /url: /establishment/suerte
+                - heading "Suerte" [level=3] [ref=e1303]
+              - generic [ref=e1304]:
+                - generic [ref=e1307]:
+                  - img [ref=e1308]
+                  - text: East Austin
+                - generic [ref=e1311]:
+                  - group [ref=e1312]:
+                    - generic "Happy Hour Details" [ref=e1313] [cursor=pointer]
+                  - generic [ref=e1314]:
+                    - generic [ref=e1315]:
+                      - img [ref=e1316]
+                      - generic [ref=e1318]: Cocktails
+                    - generic [ref=e1319]:
+                      - img [ref=e1320]
+                      - generic [ref=e1322]: Wine
+                    - generic [ref=e1323]:
+                      - img [ref=e1324]
+                      - generic [ref=e1328]: Beer
+                    - generic [ref=e1329]:
+                      - img [ref=e1330]
+                      - generic [ref=e1335]: Food
+                    - generic [ref=e1336]:
+                      - img [ref=e1337]
+                      - generic [ref=e1342]: Indoors
+                    - generic [ref=e1343]:
+                      - img [ref=e1344]
+                      - generic [ref=e1349]: Patio
+                    - generic [ref=e1350]:
+                      - img [ref=e1351]
+                      - generic [ref=e1354]: Bar Seats
+            - group [ref=e1356]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e1357] [cursor=pointer]
+          - generic [ref=e1671]:
+            - generic [ref=e1672]:
+              - generic [ref=e1673]:
+                - link "Photo of Il Brutto" [ref=e1674] [cursor=pointer]:
+                  - /url: /establishment/il-brutto
+                  - img "Photo of Il Brutto" [ref=e1675]
+                - generic [ref=e1677]:
+                  - generic [ref=e1678]: Next HH starts
+                  - text: Sunday
+                  - text: 5PM
+              - link "Il Brutto" [ref=e1680] [cursor=pointer]:
+                - /url: /establishment/il-brutto
+                - heading "Il Brutto" [level=3] [ref=e1681]
+              - generic [ref=e1682]:
+                - generic [ref=e1685]:
+                  - img [ref=e1686]
+                  - text: East Austin
+                - generic [ref=e1689]:
+                  - group [ref=e1690]:
+                    - generic "Happy Hour Details" [ref=e1691] [cursor=pointer]
+                  - generic [ref=e1692]:
+                    - generic [ref=e1693]:
+                      - img [ref=e1694]
+                      - generic [ref=e1696]: Cocktails
+                    - generic [ref=e1697]:
+                      - img [ref=e1698]
+                      - generic [ref=e1700]: Wine
+                    - generic [ref=e1701]:
+                      - img [ref=e1702]
+                      - generic [ref=e1706]: Beer
+                    - generic [ref=e1707]:
+                      - img [ref=e1708]
+                      - generic [ref=e1713]: Food
+                    - generic [ref=e1714]:
+                      - img [ref=e1715]
+                      - generic [ref=e1719]: NA Drinks
+                    - generic [ref=e1720]:
+                      - img [ref=e1721]
+                      - generic [ref=e1726]: Indoors
+                    - generic [ref=e1727]:
+                      - img [ref=e1728]
+                      - generic [ref=e1733]: Patio
+            - group [ref=e1735]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e1736] [cursor=pointer]
+          - generic [ref=e2165]:
+            - generic [ref=e2166]:
+              - generic [ref=e2167]:
+                - link "Photo of Uptown Sports Club" [ref=e2168] [cursor=pointer]:
+                  - /url: /establishment/uptown-sports-club
+                  - img "Photo of Uptown Sports Club" [ref=e2169]
+                - generic [ref=e2171]:
+                  - generic [ref=e2172]: Next HH starts
+                  - text: Monday
+                  - text: 2PM
+              - link "Uptown Sports Club" [ref=e2174] [cursor=pointer]:
+                - /url: /establishment/uptown-sports-club
+                - heading "Uptown Sports Club" [level=3] [ref=e2175]
+              - generic [ref=e2176]:
+                - generic [ref=e2179]:
+                  - img [ref=e2180]
+                  - text: East Austin
+                - generic [ref=e2183]:
+                  - group [ref=e2184]:
+                    - generic "Happy Hour Details" [ref=e2185] [cursor=pointer]
+                  - generic [ref=e2186]:
+                    - generic [ref=e2187]:
+                      - img [ref=e2188]
+                      - generic [ref=e2190]: Cocktails
+                    - generic [ref=e2191]:
+                      - img [ref=e2192]
+                      - generic [ref=e2194]: Wine
+                    - generic [ref=e2195]:
+                      - img [ref=e2196]
+                      - generic [ref=e2200]: Beer
+                    - generic [ref=e2201]:
+                      - img [ref=e2202]
+                      - generic [ref=e2207]: Food
+                    - generic [ref=e2208]:
+                      - img [ref=e2209]
+                      - generic [ref=e2214]: Indoors
+                    - generic [ref=e2215]:
+                      - img [ref=e2216]
+                      - generic [ref=e2221]: Patio
+            - group [ref=e2223]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e2224] [cursor=pointer]
+          - generic [ref=e3031]:
+            - generic [ref=e3032]:
+              - generic [ref=e3033]:
+                - link "Photo of Saigon on 7th" [ref=e3034] [cursor=pointer]:
+                  - /url: /establishment/saigon-on-7th
+                  - img "Photo of Saigon on 7th" [ref=e3035]
+                - generic [ref=e3037]:
+                  - generic [ref=e3038]: Next HH starts
+                  - text: Monday
+                  - text: 3PM
+              - link "Saigon on 7th" [ref=e3040] [cursor=pointer]:
+                - /url: /establishment/saigon-on-7th
+                - heading "Saigon on 7th" [level=3] [ref=e3041]
+              - generic [ref=e3042]:
+                - generic [ref=e3045]:
+                  - img [ref=e3046]
+                  - text: East Austin
+                - generic [ref=e3049]:
+                  - group [ref=e3050]:
+                    - generic "Happy Hour Details" [ref=e3051] [cursor=pointer]
+                  - generic [ref=e3052]:
+                    - generic [ref=e3053]:
+                      - img [ref=e3054]
+                      - generic [ref=e3056]: Cocktails
+                    - generic [ref=e3057]:
+                      - img [ref=e3058]
+                      - generic [ref=e3060]: Wine
+                    - generic [ref=e3061]:
+                      - img [ref=e3062]
+                      - generic [ref=e3066]: Beer
+                    - generic [ref=e3067]:
+                      - img [ref=e3068]
+                      - generic [ref=e3073]: Food
+                    - generic [ref=e3074]:
+                      - img [ref=e3075]
+                      - generic [ref=e3079]: NA Drinks
+                    - generic [ref=e3080]:
+                      - img [ref=e3081]
+                      - generic [ref=e3086]: Indoors
+                    - generic [ref=e3087]:
+                      - img [ref=e3088]
+                      - generic [ref=e3093]: Patio
+                    - generic [ref=e3094]:
+                      - img [ref=e3095]
+                      - generic [ref=e3098]: Up to 4 People
+            - group [ref=e3100]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e3101] [cursor=pointer]
+          - generic [ref=e3470]:
+            - generic [ref=e3471]:
+              - link "Domo Alley Gato" [ref=e3473] [cursor=pointer]:
+                - /url: /establishment/domo-alley-gato
+                - heading "Domo Alley Gato" [level=3] [ref=e3474]
+              - generic [ref=e3475]:
+                - generic [ref=e3478]:
+                  - img [ref=e3479]
+                  - text: East Austin
+                - generic [ref=e3482]:
+                  - group [ref=e3483]:
+                    - generic "Happy Hour Details" [ref=e3484] [cursor=pointer]
+                  - generic [ref=e3485]:
+                    - generic [ref=e3486]:
+                      - img [ref=e3487]
+                      - generic [ref=e3489]: Cocktails
+                    - generic [ref=e3490]:
+                      - img [ref=e3491]
+                      - generic [ref=e3493]: Wine
+                    - generic [ref=e3494]:
+                      - img [ref=e3495]
+                      - generic [ref=e3499]: Beer
+                    - generic [ref=e3500]:
+                      - img [ref=e3501]
+                      - generic [ref=e3506]: Food
+                    - generic [ref=e3507]:
+                      - img [ref=e3508]
+                      - generic [ref=e3512]: NA Drinks
+            - group [ref=e3514]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e3515] [cursor=pointer]
+          - generic [ref=e3516]:
+            - generic [ref=e3517]:
+              - generic [ref=e3518]:
+                - link "Photo of DrinkWell" [ref=e3519] [cursor=pointer]:
+                  - /url: /establishment/drinkwell
+                  - img "Photo of DrinkWell" [ref=e3520]
+                - generic [ref=e3522]:
+                  - generic [ref=e3523]: Next HH starts
+                  - text: Monday
+                  - text: 4PM
+              - link "DrinkWell" [ref=e3525] [cursor=pointer]:
+                - /url: /establishment/drinkwell
+                - heading "DrinkWell" [level=3] [ref=e3526]
+              - generic [ref=e3527]:
+                - generic [ref=e3530]:
+                  - img [ref=e3531]
+                  - text: North Loop
+                - generic [ref=e3534]:
+                  - group [ref=e3535]:
+                    - generic "Happy Hour Details" [ref=e3536] [cursor=pointer]
+                  - generic [ref=e3537]:
+                    - generic [ref=e3538]:
+                      - img [ref=e3539]
+                      - generic [ref=e3541]: Cocktails
+                    - generic [ref=e3542]:
+                      - img [ref=e3543]
+                      - generic [ref=e3545]: Wine
+                    - generic [ref=e3546]:
+                      - img [ref=e3547]
+                      - generic [ref=e3551]: Beer
+                    - generic [ref=e3552]:
+                      - img [ref=e3553]
+                      - generic [ref=e3558]: Food
+                    - generic [ref=e3559]:
+                      - img [ref=e3560]
+                      - generic [ref=e3564]: NA Drinks
+                    - generic [ref=e3565]:
+                      - img [ref=e3566]
+                      - generic [ref=e3571]: Indoors
+                    - generic [ref=e3572]:
+                      - img [ref=e3573]
+                      - generic [ref=e3578]: Patio
+                    - generic [ref=e3579]:
+                      - img [ref=e3580]
+                      - generic [ref=e3583]: Bar Seats
+                    - generic [ref=e3584]:
+                      - img [ref=e3585]
+                      - generic [ref=e3588]: Up to 4 People
+            - group [ref=e3590]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e3591] [cursor=pointer]
+          - generic [ref=e3695]:
+            - generic [ref=e3696]:
+              - generic [ref=e3697]:
+                - link "Photo of Lazarus" [ref=e3698] [cursor=pointer]:
+                  - /url: /establishment/lazarus
+                  - img "Photo of Lazarus" [ref=e3699]
+                - generic [ref=e3701]:
+                  - generic [ref=e3702]: Next HH starts
+                  - text: Monday
+                  - text: 4PM
+              - link "Lazarus" [ref=e3704] [cursor=pointer]:
+                - /url: /establishment/lazarus
+                - heading "Lazarus" [level=3] [ref=e3705]
+              - generic [ref=e3706]:
+                - generic [ref=e3709]:
+                  - img [ref=e3710]
+                  - text: East Austin
+                - generic [ref=e3713]:
+                  - group [ref=e3714]:
+                    - generic "Happy Hour Details" [ref=e3715] [cursor=pointer]
+                  - generic [ref=e3716]:
+                    - generic [ref=e3717]:
+                      - img [ref=e3718]
+                      - generic [ref=e3720]: Wine
+                    - generic [ref=e3721]:
+                      - img [ref=e3722]
+                      - generic [ref=e3726]: Beer
+                    - generic [ref=e3727]:
+                      - img [ref=e3728]
+                      - generic [ref=e3733]: Food
+                    - generic [ref=e3734]:
+                      - img [ref=e3735]
+                      - generic [ref=e3739]: NA Drinks
+                    - generic [ref=e3740]:
+                      - img [ref=e3741]
+                      - generic [ref=e3743]: Coffee
+                    - generic [ref=e3744]:
+                      - img [ref=e3745]
+                      - generic [ref=e3750]: Indoors
+                    - generic [ref=e3751]:
+                      - img [ref=e3752]
+                      - generic [ref=e3755]: Bar Seats
+                    - generic [ref=e3756]:
+                      - img [ref=e3757]
+                      - generic [ref=e3762]: Dog Friendly
+                    - generic [ref=e3763]:
+                      - img [ref=e3764]
+                      - generic [ref=e3768]: 4+ People OK
+            - group [ref=e3770]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e3771] [cursor=pointer]
+          - generic [ref=e4396]:
+            - generic [ref=e4397]:
+              - generic [ref=e4398]:
+                - link "Photo of Licha's Cantina" [ref=e4399] [cursor=pointer]:
+                  - /url: /establishment/licha-s-cantina
+                  - img "Photo of Licha's Cantina" [ref=e4400]
+                - generic [ref=e4402]:
+                  - generic [ref=e4403]: Next HH starts
+                  - text: Tuesday
+                  - text: 4PM
+              - link "Licha's Cantina" [ref=e4405] [cursor=pointer]:
+                - /url: /establishment/licha-s-cantina
+                - heading "Licha's Cantina" [level=3] [ref=e4406]
+              - generic [ref=e4407]:
+                - generic [ref=e4410]:
+                  - img [ref=e4411]
+                  - text: East Austin
+                - generic [ref=e4414]:
+                  - group [ref=e4415]:
+                    - generic "Happy Hour Details" [ref=e4416] [cursor=pointer]
+                  - generic [ref=e4417]:
+                    - generic [ref=e4418]:
+                      - img [ref=e4419]
+                      - generic [ref=e4421]: Cocktails
+                    - generic [ref=e4422]:
+                      - img [ref=e4423]
+                      - generic [ref=e4425]: Wine
+                    - generic [ref=e4426]:
+                      - img [ref=e4427]
+                      - generic [ref=e4431]: Beer
+                    - generic [ref=e4432]:
+                      - img [ref=e4433]
+                      - generic [ref=e4438]: Food
+                    - generic [ref=e4439]:
+                      - img [ref=e4440]
+                      - generic [ref=e4445]: Indoors
+                    - generic [ref=e4446]:
+                      - img [ref=e4447]
+                      - generic [ref=e4452]: Patio
+                    - generic [ref=e4453]:
+                      - img [ref=e4454]
+                      - generic [ref=e4457]: Bar Seats
+            - group [ref=e4459]:
+              - generic "Full Address, Hours, & Contact Info" [ref=e4460] [cursor=pointer]
+    - contentinfo [ref=e4821]:
+      - generic [ref=e4822]:
+        - generic [ref=e4823]:
+          - generic [ref=e4824]:
+            - link "Lists" [ref=e4825] [cursor=pointer]:
+              - /url: /lists
+            - link "About" [ref=e4826] [cursor=pointer]:
+              - /url: /about
+            - link "Journal" [ref=e4827] [cursor=pointer]:
+              - /url: /journal
+            - link "Contact" [ref=e4828] [cursor=pointer]:
+              - /url: mailto:happyhappyhere@gmail.com
+            - link "Instagram" [ref=e4829] [cursor=pointer]:
+              - /url: https://www.instagram.com/takeouttracker/
+              - img "Instagram" [ref=e4830]
+          - generic [ref=e4831]: Happy Here tracks Austin's happiest hours—built by locals, for locals. No chains, no filler, just great food, drinks, and the people behind them.
+        - link "Happy Here logo with a happy hour drink" [ref=e4832] [cursor=pointer]:
+          - /url: /
+          - img "Happy Here logo with a happy hour drink" [ref=e4833]
+  - generic [ref=e4836]:
+    - button "Menu" [ref=e4837]:
+      - img [ref=e4839]
+      - generic: Menu
+    - button "Inspect" [ref=e4843]:
+      - img [ref=e4845]
+      - generic: Inspect
+    - button "Audit" [ref=e4847]:
+      - generic [ref=e4848]:
+        - img [ref=e4849]
+        - img [ref=e4864]
+      - generic: Audit
+    - button "Settings" [ref=e4855]:
+      - img [ref=e4857]
+      - generic: Settings

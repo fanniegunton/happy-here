@@ -1,0 +1,30 @@
+---
+import Layout from '@components/astro/Layout.astro';
+import Header from '@components/astro/Header.astro';
+import EstablishmentPage from '@components/react/EstablishmentPage';
+import { getAllEstablishments, generateSlug } from '@lib/sanity';
+import type { SanityEstablishment } from '@/types/sanity';
+
+// Generate static paths for all establishments at build time
+export async function getStaticPaths() {
+  const establishments = await getAllEstablishments();
+
+  return establishments.map((est) => ({
+    params: { slug: generateSlug(est.name) },
+    props: { establishment: est },
+  }));
+}
+
+interface Props {
+  establishment: SanityEstablishment;
+}
+
+const { establishment } = Astro.props;
+---
+
+<Layout title={`${establishment.name} - Happy Here`}>
+  <Header />
+
+  {/* React component for real-time happy hour status */}
+  <EstablishmentPage establishment={establishment} client:load />
+</Layout>

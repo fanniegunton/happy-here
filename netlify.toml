@@ -1,7 +1,17 @@
 [build]
-  command = "yarn build"
-  publish = "public"
+  command = "pnpm build"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
-  YARN_CACHE_FOLDER = "./.yarn-cache"
+
+[context.production.environment]
+  NODE_ENV = "production"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "development"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

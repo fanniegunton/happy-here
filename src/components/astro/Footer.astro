@@ -1,0 +1,146 @@
+---
+import logo from '../../assets/HH-logo.jpg';
+import instagramIcon from '../../images/Instagram.svg';
+---
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-nav">
+        <a href="/lists">Lists</a>
+        <a href="/about">About</a>
+        <a href="/journal">Journal</a>
+        <a href="mailto:happyhappyhere@gmail.com">Contact</a>
+        <a
+          href="https://www.instagram.com/takeouttracker/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={instagramIcon.src}
+            alt="Instagram"
+            class="instagram-icon"
+          />
+        </a>
+      </div>
+      <div class="footer-description">
+        Happy Here tracks Austin's happiest hours—built by locals, for
+        locals. No chains, no filler, just great food, drinks, and the
+        people behind them.
+      </div>
+    </div>
+    <a href="/" class="footer-logo-link">
+      <img
+        src={logo.src}
+        alt="Happy Here logo with a happy hour drink"
+        class="footer-logo"
+      />
+    </a>
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin: 120px -40px -40px;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    background: #006eff;
+    color: #FFFFFF;
+    padding: 20px 40px 40px;
+    border-radius: 0 0 37px 37px;
+  }
+
+  .footer-left {
+    flex: 1;
+  }
+
+  .footer-nav {
+    font-family: 'Lato', Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.0;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 40px;
+  }
+
+  .instagram-icon {
+    width: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .footer-description {
+    margin-top: 40px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.8;
+    max-width: 60%;
+    text-wrap: balance;
+  }
+
+  .footer-logo-link {
+    max-width: 45%;
+  }
+
+  .footer-logo {
+    display: block;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 90px;
+  }
+
+  @media (max-width: 700px) {
+    footer {
+      margin: 40px auto 0;
+      padding: 0 20px 40px;
+      background: #b5b5ff;
+    }
+
+    .footer-content {
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      color: inherit;
+    }
+
+    .footer-nav {
+      margin-top: 20px;
+      justify-content: space-between;
+    }
+
+    .instagram-icon {
+      align-content: end;
+      margin-left: 8px;
+      filter: none;
+    }
+
+    .footer-description {
+      font-size: 16px;
+      max-width: 100%;
+      margin-top: 40px;
+    }
+
+    .footer-logo-link {
+      align-content: end;
+    }
+
+    .footer-logo {
+      width: 120px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .footer-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: start;
+      justify-content: start;
+      gap: 20px;
+    }
+  }
+</style>

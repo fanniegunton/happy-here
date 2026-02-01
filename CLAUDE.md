@@ -60,7 +60,14 @@ pnpm test               # Run vitest tests
   - Responsive breakpoints: smallMobile (400px), mobile (700px), tablet (900px), smallDesktop (1100px)
   - Color palette with named colors (oceanBlue, lemonYellow, lightGrout, etc.)
   - Typography styles using Lato (display) and Playfair Display (fancy/serif)
-  - CSS custom properties for elevation shadows
+  - CSS custom properties for elevation shadows\
+CSS and styling in this codebase are intentional and carefully considered. When migrating or refactoring:
+  - Preserve existing CSS values exactly (spacing, breakpoints, colors, etc.)
+  - Do not "modernize" or "simplify" CSS patterns unless explicitly asked
+  - If a style seems redundant or outdated, ask before changing it
+  - When converting between CSS syntaxes (e.g., object style to template literals), the output values must match the input exactly 
+
+  ### STYLE-CRITICAL: Do not modify CSS values without explicit approval
 
 ### Pages
 

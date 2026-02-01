@@ -1,0 +1,26 @@
+---
+import Layout from '@components/astro/Layout.astro';
+import Header from '@components/astro/Header.astro';
+import MapPage from '@components/react/MapPage';
+import { getAllEstablishments } from '@lib/sanity';
+
+const establishments = await getAllEstablishments();
+
+// Filter test establishment in production
+const filteredEstablishments = import.meta.env.PROD
+  ? establishments.filter((est) => est._id !== 'b95f53fc-ae57-4605-b4b6-6ceb785a1756')
+  : establishments;
+
+// Filter to only establishments with location data
+const establishmentsWithLocation = filteredEstablishments.filter(
+  (est) => est.location?.lat && est.location?.lng
+);
+---
+
+<Layout title="Map View - Happy Here">
+  <Header />
+
+  <div style="padding: 0 20px; margin-bottom: 40px;">
+    <MapPage establishments={establishmentsWithLocation} client:load />
+  </div>
+</Layout>
