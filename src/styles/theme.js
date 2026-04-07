@@ -28,20 +28,24 @@ const colors = {
   oceanBlue: "#006eff",
   valenciaOrange: "#e09232",
   lilac: "#b5b5ff",
+  lavender: "A78BB5",
+  tobacco: "8B5E2A",
 }
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"
 const fancyFontFamily = "Playfair Display, Georgia, serif"
+const newFontFamily = "owners, sans-serif"
 
 export default {
   ...colors,
   ...breakpoints,
   displayFontFamily,
   fancyFontFamily,
+  newFontFamily,
 
   h1: {
-    fontFamily: fancyFontFamily,
-    fontWeight: 300,
+    fontFamily: newFontFamily,
+    fontWeight: 700,
     fontSize: 72,
     lineHeight: 1.35,
     letterSpacing: "-0.02em",

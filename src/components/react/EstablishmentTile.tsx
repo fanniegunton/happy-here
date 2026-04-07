@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
-import theme from '@styles/theme';
-import IconButton from './IconButton';
-import { hoursCover } from '@lib/parseHours';
-import SanityImage from './SanityImage';
+import React, { useEffect, useState } from "react"
+import theme from "@styles/theme"
+import IconButton from "./IconButton"
+import { hoursCover } from "@lib/parseHours"
+import SanityImage from "./SanityImage"
 import {
   MapPin,
   UtensilsCrossed,
@@ -20,14 +20,14 @@ import {
   ConciergeBell,
   CalendarCheck,
   Sparkles,
-} from 'lucide-react';
-import Icons from '@lib/icons';
-import AmmenityPill from './AmmenityPill';
-import { getTodayEndTime } from '@lib/getTodayTime';
-import { getNextStartTime } from '@lib/getNextStartTime';
-import { formatMilitaryTime } from '@lib/formatMilitaryTime';
-import { generateSlug } from '@lib/slug';
-import type { SanityEstablishment } from '@/types/sanity';
+} from "lucide-react"
+import Icons from "@lib/icons"
+import AmmenityPill from "./AmmenityPill"
+import { getTodayEndTime } from "@lib/getTodayTime"
+import { getNextStartTime } from "@lib/getNextStartTime"
+import { formatMilitaryTime } from "@lib/formatMilitaryTime"
+import { generateSlug } from "@lib/slug"
+import type { SanityEstablishment } from "@/types/sanity"
 
 interface EstablishmentTileProps extends SanityEstablishment {}
 
@@ -46,49 +46,51 @@ export default function EstablishmentTile({
   whatWeHaveHere = [],
   theSpaceIsLike = [],
 }: EstablishmentTileProps) {
-  const [isHappyHour, setHappyHour] = useState(false);
+  const [isHappyHour, setHappyHour] = useState(false)
 
   // Create URL-friendly slug from establishment name
-  const slug = generateSlug(name);
+  const slug = generateSlug(name)
 
   useEffect(() => {
     const checkHours = () => {
-      setHappyHour(hoursCover(happyHourTimes, new Date()));
-    };
+      setHappyHour(hoursCover(happyHourTimes, new Date()))
+    }
 
     // Check hours right away
-    checkHours();
+    checkHours()
 
     // Check hours every 30 seconds
-    const timer = window.setInterval(checkHours, 30_000);
+    const timer = window.setInterval(checkHours, 30_000)
 
     return () => {
-      window.clearInterval(timer);
-    };
-  }, [happyHourTimes]);
+      window.clearInterval(timer)
+    }
+  }, [happyHourTimes])
 
-  const todayEndTime = getTodayEndTime(happyHourTimes);
-  const formattedEndTime = todayEndTime !== null ? formatMilitaryTime(todayEndTime) : 'Closed';
+  const todayEndTime = getTodayEndTime(happyHourTimes)
+  const formattedEndTime =
+    todayEndTime !== null ? formatMilitaryTime(todayEndTime) : "Closed"
 
   // Declare variables for next happy hour
-  let nextHappyHourDay = '';
-  let nextHappyHourTime = '';
+  let nextHappyHourDay = ""
+  let nextHappyHourTime = ""
 
-  const nextStartDate = getNextStartTime(happyHourTimes);
+  const nextStartDate = getNextStartTime(happyHourTimes)
   if (nextStartDate) {
     // Format the time portion
-    const militaryTime = nextStartDate.getHours() * 100 + nextStartDate.getMinutes();
-    const formattedTime = formatMilitaryTime(militaryTime);
+    const militaryTime =
+      nextStartDate.getHours() * 100 + nextStartDate.getMinutes()
+    const formattedTime = formatMilitaryTime(militaryTime)
 
     // If the next start date is today, use "Today", otherwise use the weekday name
-    const now = new Date();
+    const now = new Date()
     const dayLabel =
       nextStartDate.toDateString() === now.toDateString()
-        ? 'Today'
-        : nextStartDate.toLocaleDateString('en-US', { weekday: 'long' });
+        ? "Today"
+        : nextStartDate.toLocaleDateString("en-US", { weekday: "long" })
 
-    nextHappyHourDay = dayLabel;
-    nextHappyHourTime = formattedTime;
+    nextHappyHourDay = dayLabel
+    nextHappyHourTime = formattedTime
   }
 
   return (
@@ -97,49 +99,52 @@ export default function EstablishmentTile({
       css={{
         background: theme.white,
         borderRadius: 20,
-        border: isHappyHour ? '4px solid #006eff' : '4px solid #e4e3e4',
+        // border: isHappyHour ? "4px solid #A78BB5" : "4px solid #8B5E2A",
         maxWidth: 525,
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
         [theme.tablet]: {
           maxWidth: 450,
         },
         [theme.mobile]: {
           maxWidth: 380,
-          margin: '0 auto',
+          margin: "0 auto",
         },
       }}
     >
       <div
         css={{
-          margin: '0 auto',
-          alignItems: 'start',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          textAlign: 'center',
-          width: '100%',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          margin: "0 auto",
+          alignItems: "start",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          textAlign: "center",
+          width: "100%",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           flex: 1,
-          display: 'flex',
+          display: "flex",
         }}
       >
         {/* Image container with badge positioned relative to it */}
         {photo && (
           <div
             css={{
-              position: 'relative',
-              width: '100%',
+              position: "relative",
+              width: "100%",
+              overflow: "hidden",
+              borderRadius: "16px 16px 0 0",
             }}
           >
             <a
               href={`/establishment/${slug}`}
               css={{
-                textDecoration: 'none',
-                color: 'inherit',
-                display: 'block',
-                cursor: 'pointer',
+                textDecoration: "none",
+                color: "inherit",
+                display: "block",
+                cursor: "pointer",
               }}
             >
               <SanityImage
@@ -148,199 +153,205 @@ export default function EstablishmentTile({
                 height={200}
                 alt={`Photo of ${name}`}
                 style={{
-                  display: 'block',
-                  width: '100%',
-                  aspectRatio: '3 / 2',
-                  objectFit: 'cover',
-                  borderRadius: '17px 17px 0 0',
-                  transition: 'opacity 0.2s',
+                  display: "block",
+                  width: "100%",
+                  aspectRatio: "3 / 2",
+                  objectFit: "cover",
+                  filter: "grayscale(60%)",
+                  transition: "opacity 0.2s",
                 }}
               />
             </a>
 
-            {/* Happy Hour Status Badge */}
+            {/* Duotone color overlay */}
             <div
               css={{
-                position: 'absolute',
+                position: "absolute",
+                top: 0,
                 right: 0,
-                bottom: 10,
-                zIndex: 10,
+                bottom: 0,
+                left: 0,
+                backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
+                mixBlendMode: "multiply",
+                pointerEvents: "none",
               }}
-            >
-              {isHappyHour ? (
-                <div
-                  css={{
-                    maxWidth: 180,
-                    alignItems: 'center',
-                    borderRadius: '10px 0 0 10px',
-                    backgroundColor: theme.oceanBlue,
-                    color: theme.white,
-                    padding: '16px 10px',
-                    textAlign: 'center',
-                    fontWeight: 600,
-                  }}
-                >
-                  <div
-                    css={{
-                      fontSize: 11,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.01em',
-                      opacity: 0.8,
-                    }}
-                  >
-                    It's Happy Hour
-                  </div>
-                  until {formattedEndTime}
-                </div>
-              ) : (
-                <div
-                  css={{
-                    maxWidth: 180,
-                    alignItems: 'center',
-                    borderRadius: '10px 0 0 10px',
-                    backgroundColor: theme.lightGrout,
-                    color: theme.black,
-                    padding: 16,
-                    textAlign: 'center',
-                    fontSize: 16,
-                    fontWeight: 600,
-                  }}
-                >
-                  <div
-                    css={{
-                      fontSize: 11,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.01em',
-                      opacity: 0.8,
-                    }}
-                  >
-                    Next HH starts{' '}
-                  </div>
-                  {nextHappyHourDay} <br /> {nextHappyHourTime}
-                </div>
-              )}
-            </div>
+            />
           </div>
         )}
-        <div>
+
+        {/* Status strip */}
+        <div
+          css={{
+            width: "100%",
+            backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
+            color: theme.white,
+            padding: "10px 20px",
+            fontSize: 12,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          {isHappyHour ? (
+            <>
+              It's Happy Hour Until <span css={{ opacity: 0.6 }}>→</span>{" "}
+              {formattedEndTime}
+            </>
+          ) : (
+            <>
+              Coming Up <span css={{ opacity: 0.6 }}>·</span> {nextHappyHourDay}{" "}
+              at {nextHappyHourTime}
+            </>
+          )}
+        </div>
+
+        <div
+          css={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            padding: "16px 30px",
+            [theme.tablet]: { padding: "14px 24px" },
+            [theme.mobile]: { padding: "12px 20px 8px" },
+          }}
+        >
           <a
             href={`/establishment/${slug}`}
-            css={{
-              textDecoration: 'none',
-              color: 'inherit',
-            }}
+            css={{ textDecoration: "none", color: "inherit", flex: 1 }}
           >
             <h3
               css={{
                 ...theme.h3Alt,
                 fontFamily: theme.fancyFontFamily,
                 fontSize: 24,
-                textWrap: 'balance',
-                textAlign: 'left',
-                margin: '16px 30px',
-                cursor: 'pointer',
-                transition: 'color 0.2s',
-                '&:hover': {
-                  color: theme.oceanBlue,
-                },
-                [theme.tablet]: {
-                  margin: '14px 24px',
-                },
-                [theme.mobile]: {
-                  margin: '12px 20px 8px',
-                },
+                textWrap: "balance",
+                textAlign: "left",
+                cursor: "pointer",
+                transition: "color 0.2s",
+                "&:hover": { color: theme.oceanBlue },
               }}
             >
               {name}
             </h3>
           </a>
+          <div css={{ display: "flex", gap: 4, flexShrink: 0 }}>
+            {happyHourMenu && (
+              <IconButton
+                icon={Icons.Menu}
+                href={happyHourMenu}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            )}
+            {website && (
+              <IconButton
+                icon={Icons.Website}
+                href={website}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            )}
+            {instagram && (
+              <IconButton
+                icon={Icons.Instagram}
+                href={instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            )}
+          </div>
         </div>
         <div
           css={{
-            textAlign: 'left',
-            margin: '30px 30px 10px',
+            textAlign: "left",
+            margin: "0px 30px 10px",
             [theme.tablet]: {
-              margin: '24px 24px 10px',
+              margin: "24px 24px 10px",
             },
             [theme.mobile]: {
-              margin: '0 20px',
+              margin: "0 20px",
             },
           }}
         >
           <div
             css={{
-              display: 'flex',
-              justifyContent: 'space-between',
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
             <div
               css={{
-                display: 'grid',
+                display: "grid",
                 marginRight: 0,
                 marginBottom: 10,
-                justifyContent: 'start',
+                justifyContent: "start",
               }}
             >
               <div
                 css={{
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                  fontSize: '0.875rem',
-                  lineHeight: '1.25rem',
+                  alignItems: "center",
+                  gap: "0.25rem",
+                  fontSize: "1rem",
+                  lineHeight: "1.25rem",
                 }}
               >
-                <MapPin
+                {/* <MapPin
                   css={{
-                    height: '1rem',
-                    width: '1rem',
+                    height: "1rem",
+                    width: "1rem",
                     marginRight: 4,
                   }}
-                />
+                /> */}
                 {neighborhood}
               </div>
             </div>
           </div>
 
-          <div css={{ marginBottom: '1rem' }}>
-            <details>
-              <summary
+          <div css={{ marginBottom: "1rem" }}>
+            <div>
+              {/* <summary
                 css={{
-                  cursor: 'pointer',
-                  fontSize: 12,
+                  cursor: "pointer",
+                  fontSize: 16,
                   marginTop: 6,
+                  listStyle: "none",
                 }}
               >
-                Happy Hour Details
-              </summary>
+                Happy Hour Details:
+              </summary> */}
               <div
                 css={{
                   marginTop: 4,
                   marginBottom: 16,
                   fontSize: 16,
-                  lineHeight: '1.25rem',
+                  lineHeight: "1.25rem",
                   [theme.mobile]: {
                     marginBottom: 8,
                   },
                 }}
               >
-                {happyHourDetails?.includes('\n') ? (
+                {happyHourDetails?.includes("\n") ? (
                   <ul
                     css={{
                       paddingInlineStart: 20,
-                      maxWidth: 'max-content',
+                      maxWidth: "max-content",
                     }}
                   >
                     {happyHourDetails
-                      .split('\n')
+                      .split("\n")
                       .filter(Boolean)
                       .map((line, index) => (
                         <li
                           key={index}
                           css={{
                             fontSize: 14,
-                            listStyleType: 'disc',
-                            textAlign: 'left',
-                            '&:last-child': {
+                            listStyleType: "disc",
+                            textAlign: "left",
+                            "&:last-child": {
                               marginBottom: 16,
                             },
                           }}
@@ -350,70 +361,43 @@ export default function EstablishmentTile({
                       ))}
                   </ul>
                 ) : (
-                  <div css={{ fontSize: 14, marginBottom: 16 }}>{happyHourDetails}</div>
+                  <div css={{ fontSize: 14, marginBottom: 16 }}>
+                    {happyHourDetails}
+                  </div>
                 )}
               </div>
-            </details>
-            <div
-              css={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                marginTop: 16,
-              }}
-            >
-              {whatWeHaveHere.includes('cocktails') && <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>}
-              {whatWeHaveHere.includes('wine') && <AmmenityPill icon={Wine}>Wine</AmmenityPill>}
-              {whatWeHaveHere.includes('beer') && <AmmenityPill icon={Beer}>Beer</AmmenityPill>}
-              {whatWeHaveHere.includes('food') && <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>}
-              {whatWeHaveHere.includes('naDrinks') && <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>}
-              {whatWeHaveHere.includes('coffee') && <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>}
-              {theSpaceIsLike.includes('indoor') && <AmmenityPill icon={Store}>Indoors</AmmenityPill>}
-              {theSpaceIsLike.includes('patio') && <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>}
-              {theSpaceIsLike.includes('barSeating') && <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>}
-              {theSpaceIsLike.includes('dogFriendly') && <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>}
-              {theSpaceIsLike.includes('smallGroups') && <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>}
-              {theSpaceIsLike.includes('bigGroups') && <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>}
-              {theSpaceIsLike.includes('reservationsRec') && (
-                <AmmenityPill icon={CalendarCheck}>Reso Reco'd</AmmenityPill>
-              )}
-              {theSpaceIsLike.includes('staffPick') && (
-                <AmmenityPill
-                  icon={Sparkles}
-                  css={{
-                    background: theme.lemonYellow,
-                  }}
-                >
-                  Staff Pick!
-                </AmmenityPill>
-              )}
             </div>
           </div>
         </div>
       </div>
       <div
         css={{
-          borderRadius: '0 0 17px 17px',
-          padding: '16px 0 8px',
-          backgroundColor: theme.lightGrout,
+          borderRadius: "0 0 16px 16px",
+          padding: "16px 0 8px",
+          // backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
+          // color: theme.white,
+          color: theme.black,
           [theme.tablet]: {
-            padding: '12px 0 8px',
+            padding: "12px 0 8px",
           },
           [theme.mobile]: {
-            padding: '8px 0',
+            padding: "8px 0",
           },
         }}
       >
         <details>
           <summary
             css={{
-              cursor: 'pointer',
+              cursor: "pointer",
               fontSize: 12,
-              margin: '0 30px 12px',
+              margin: "0 30px 12px",
+              paddingTop: "16px",
+              borderTop: "1px solid #e4e3e4",
               [theme.tablet]: {
-                margin: '0 24px 12px',
+                margin: "0 24px 12px",
               },
               [theme.mobile]: {
-                margin: '0 20px 12px',
+                margin: "0 20px 12px",
               },
             }}
           >
@@ -421,15 +405,15 @@ export default function EstablishmentTile({
           </summary>
           <div
             css={{
-              textTransform: 'capitalize',
+              textTransform: "capitalize",
               fontSize: 12,
-              margin: '0 30px 20px',
+              margin: "0 30px 20px",
               maxWidth: 300,
               [theme.tablet]: {
-                margin: '0 24px 20px',
+                margin: "0 24px 20px",
               },
               [theme.mobile]: {
-                margin: '0 20px 16px',
+                margin: "0 20px 16px",
               },
             }}
           >
@@ -438,7 +422,9 @@ export default function EstablishmentTile({
             {hours.map((line, index) => (
               <div key={index}>{line}</div>
             ))}
-            <div css={{ marginTop: 6, marginBottom: 4, fontWeight: 600 }}>Happy Hour Hours: </div>
+            <div css={{ marginTop: 6, marginBottom: 4, fontWeight: 600 }}>
+              Happy Hour Hours:{" "}
+            </div>
             {happyHourTimes && (
               <div>
                 {happyHourTimes.map((line, index) => (
@@ -446,50 +432,65 @@ export default function EstablishmentTile({
                 ))}
               </div>
             )}
-            <div css={{ marginTop: 8 }}>
-              {happyHourMenu && (
-                <IconButton
-                  icon={Icons.Menu}
-                  href={happyHourMenu}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  css={{
-                    width: 'auto',
-                    transform: 'scale(1.5)',
-                    justifyContent: 'center',
-                  }}
-                />
+            <div
+              css={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginTop: 16,
+                marginBottom: 4,
+              }}
+            >
+              {whatWeHaveHere.includes("cocktails") && (
+                <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>
               )}
-              {website && (
-                <IconButton
-                  icon={Icons.Website}
-                  href={website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  css={{
-                    width: 'auto',
-                    transform: 'scale(1.5)',
-                    justifyContent: 'center',
-                  }}
-                />
+              {whatWeHaveHere.includes("wine") && (
+                <AmmenityPill icon={Wine}>Wine</AmmenityPill>
               )}
-              {instagram && (
-                <IconButton
-                  icon={Icons.Instagram}
-                  href={instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  css={{
-                    width: 'auto',
-                    transform: 'scale(1.5)',
-                    justifyContent: 'center',
-                  }}
-                />
+              {whatWeHaveHere.includes("beer") && (
+                <AmmenityPill icon={Beer}>Beer</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("food") && (
+                <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("naDrinks") && (
+                <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>
+              )}
+              {whatWeHaveHere.includes("coffee") && (
+                <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("indoor") && (
+                <AmmenityPill icon={Store}>Indoors</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("patio") && (
+                <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("barSeating") && (
+                <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("dogFriendly") && (
+                <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("smallGroups") && (
+                <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("bigGroups") && (
+                <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("reservationsRec") && (
+                <AmmenityPill icon={CalendarCheck}>Reso Reco'd</AmmenityPill>
+              )}
+              {theSpaceIsLike.includes("staffPick") && (
+                <AmmenityPill
+                  icon={Sparkles}
+                  css={{ background: theme.lemonYellow }}
+                >
+                  Staff Pick!
+                </AmmenityPill>
               )}
             </div>
           </div>
         </details>
       </div>
     </div>
-  );
+  )
 }

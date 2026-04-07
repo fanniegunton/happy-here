@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
-import theme from '@styles/theme';
-import { Search, X, Map, List } from 'lucide-react';
-import type { Filters } from '@/types/establishment';
+import React from "react"
+import theme from "@styles/theme"
+import { Search, X, Map, List } from "lucide-react"
+import type { Filters } from "@/types/establishment"
 
 interface FilterBarProps {
-  filters: Filters;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  resultCount?: number;
-  isMapPage?: boolean;
+  filters: Filters
+  searchQuery: string
+  setSearchQuery: (query: string) => void
+  resultCount?: number
+  isMapPage?: boolean
 }
 
 export default function FilterBar({
@@ -38,7 +38,7 @@ export default function FilterBar({
     setHasDogFriendly,
     hasNaDrinks,
     setHasNaDrinks,
-  } = filters;
+  } = filters
 
   const hasActiveFilters =
     hasWine ||
@@ -49,48 +49,41 @@ export default function FilterBar({
     hasPatio ||
     hasBarSeating ||
     hasDogFriendly ||
-    hasNaDrinks;
+    hasNaDrinks
 
   const clearAllFilters = () => {
-    setHasWine(false);
-    setHasBeer(false);
-    setHasCocktails(false);
-    setHasFood(false);
-    setHasCoffee(false);
-    setHasPatio(false);
-    setHasBarSeating(false);
-    setHasDogFriendly(false);
-    setHasNaDrinks(false);
-    setSearchQuery('');
-  };
+    setHasWine(false)
+    setHasBeer(false)
+    setHasCocktails(false)
+    setHasFood(false)
+    setHasCoffee(false)
+    setHasPatio(false)
+    setHasBarSeating(false)
+    setHasDogFriendly(false)
+    setHasNaDrinks(false)
+    setSearchQuery("")
+  }
 
   return (
     <>
       {/* Search Bar */}
       <div
         css={{
-          margin: '0 auto 20px',
-          padding: '0 20px',
-          [theme.mobile]: {
-            margin: '0 30px 20px',
-            padding: 0,
-          },
+          margin: "0 -40px",
+          padding: "16px 40px",
+          borderBottom: `1px solid ${theme.lightGrout}`,
+          [theme.mobile]: { margin: 0, padding: "12px 30px" },
         }}
       >
-        <div
-          css={{
-            position: 'relative',
-            maxWidth: 600,
-          }}
-        >
+        <div css={{ position: "relative", maxWidth: 600 }}>
           <Search
-            size={20}
+            size={16}
             css={{
-              position: 'absolute',
+              position: "absolute",
               left: 12,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              opacity: 0.5,
+              top: "50%",
+              transform: "translateY(-50%)",
+              opacity: 0.4,
             }}
           />
           <input
@@ -99,221 +92,135 @@ export default function FilterBar({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             css={{
-              width: '100%',
-              padding: '12px 16px 12px 44px',
-              fontSize: 14,
-              border: `2px solid ${theme.lightGrout}`,
-              borderRadius: 12,
-              outline: 'none',
-              transition: 'border-color 0.2s',
-              '&:focus': {
-                borderColor: theme.oceanBlue,
-              },
+              width: "100%",
+              padding: "10px 16px 10px 36px",
+              fontSize: 12,
+              letterSpacing: "0.03em",
+              border: `1px solid ${theme.lightGrout}`,
+              borderRadius: "20px",
+              outline: "none",
+              background: "transparent",
+              transition: "border-color 0.2s",
+              "&:focus": { borderColor: "black" },
             }}
           />
         </div>
       </div>
 
-      {/* Filter Header with Clear Button and Map Link */}
+      {/* Filter bar */}
       <div
         css={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          margin: '0 auto 10px',
-          padding: '0 20px 20px',
-          [theme.mobile]: {
-            margin: '0 30px 10px',
-            padding: 0,
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: 12,
-          },
+          margin: "0 -40px",
+          padding: "16px 40px",
+          borderBottom: "1px solid black",
+          display: "flex",
+          flexDirection: "column",
+          gap: 12,
+          [theme.mobile]: { margin: 0, padding: "12px 30px" },
         }}
       >
-        <div
+        <span
           css={{
-            ...theme.postTitle,
-            fontWeight: 700,
+            fontSize: 12,
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            fontWeight: 500,
           }}
         >
-          Only show me places with:
-        </div>
-        <div
-          css={{
-            display: 'flex',
-            gap: 12,
-            alignItems: 'center',
-          }}
-        >
-          <a
-            href={isMapPage ? '/' : '/map'}
+          Show Me
+        </span>
+
+        <div css={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        {[
+          { label: "Wine", active: hasWine, toggle: () => setHasWine(!hasWine) },
+          { label: "Beer", active: hasBeer, toggle: () => setHasBeer(!hasBeer) },
+          { label: "Cocktails", active: hasCocktails, toggle: () => setHasCocktails(!hasCocktails) },
+          { label: "Food", active: hasFood, toggle: () => setHasFood(!hasFood) },
+          { label: "Coffee", active: hasCoffee, toggle: () => setHasCoffee(!hasCoffee) },
+          { label: "Patio", active: hasPatio, toggle: () => setHasPatio(!hasPatio) },
+          { label: "Bar Seating", active: hasBarSeating, toggle: () => setHasBarSeating(!hasBarSeating) },
+          { label: "NA Drinks", active: hasNaDrinks, toggle: () => setHasNaDrinks(!hasNaDrinks) },
+          { label: "🐶🐾 Friendly", active: hasDogFriendly, toggle: () => setHasDogFriendly(!hasDogFriendly) },
+        ].map(({ label, active, toggle }) => (
+          <button
+            key={label}
+            onClick={toggle}
             css={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '8px 16px',
-              fontSize: 14,
-              fontWeight: 600,
-              color: theme.oceanBlue,
-              background: 'transparent',
-              border: `2px solid ${theme.oceanBlue}`,
-              borderRadius: 8,
-              textDecoration: 'none',
-              transition: 'all 0.2s',
-              '&:hover': {
-                background: theme.oceanBlue,
-                color: theme.white,
-              },
+              padding: "0.5rem 1rem",
+              borderRadius: "20px",
+              cursor: "pointer",
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              fontFamily: "inherit",
+              transition: "background-color 0.2s, color 0.2s",
+              ...(active
+                ? { backgroundColor: "#A78BB5", color: "white", border: "1px solid #A78BB5" }
+                : { backgroundColor: "transparent", color: "black", border: "1px solid black", "&:hover": { backgroundColor: "black", color: "white" } }),
             }}
           >
-            {isMapPage ? <List size={16} /> : <Map size={16} />}
-            {isMapPage ? 'List View' : 'Map View'}
+            {label}
+          </button>
+        ))}
+        </div>
+
+        {/* Controls */}
+        <div css={{ display: "flex", gap: 8, alignItems: "center" }}>
+          {resultCount !== undefined && (
+            <span css={{ fontSize: 12, letterSpacing: "0.03em", opacity: 0.6 }}>
+              {resultCount} {resultCount === 1 ? "spot" : "spots"}
+            </span>
+          )}
+          <a
+            href={isMapPage ? "/" : "/map"}
+            css={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "0.5rem 1rem",
+              fontSize: 12,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              fontWeight: 500,
+              color: "black",
+              background: "transparent",
+              border: "1px solid black",
+              borderRadius: "20px",
+              textDecoration: "none",
+              transition: "all 0.2s",
+              "&:hover": { background: "black", color: "white" },
+            }}
+          >
+            {isMapPage ? <List size={12} /> : <Map size={12} />}
+            {isMapPage ? "List" : "Map"}
           </a>
           {(hasActiveFilters || searchQuery) && (
             <button
               onClick={clearAllFilters}
               css={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '8px 16px',
-                fontSize: 14,
-                fontWeight: 600,
-                color: theme.oceanBlue,
-                background: 'transparent',
-                border: `2px solid ${theme.oceanBlue}`,
-                borderRadius: 8,
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                '&:hover': {
-                  background: theme.oceanBlue,
-                  color: theme.white,
-                },
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "0.5rem 1rem",
+                fontSize: 12,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                fontWeight: 500,
+                color: "black",
+                background: "transparent",
+                border: "1px solid black",
+                borderRadius: "20px",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                "&:hover": { background: "black", color: "white" },
               }}
             >
-              <X size={16} />
-              Clear All Filters
+              <X size={12} />
+              Clear
             </button>
           )}
         </div>
       </div>
-
-      {/* Result Count */}
-      {resultCount !== undefined && (
-        <div
-          css={{
-            margin: '0 auto 10px',
-            padding: '0 20px 10px',
-            fontSize: 14,
-            [theme.mobile]: {
-              margin: '0 30px 10px',
-              padding: 0,
-            },
-          }}
-        >
-          Showing {resultCount} {resultCount === 1 ? 'establishment' : 'establishments'}
-        </div>
-      )}
-
-      <div
-        css={{
-          margin: '0 auto',
-          padding: '0 20px 20px',
-          ...theme.subtitle,
-          fontSize: 14,
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, auto))',
-          gap: '8px 40px',
-          [theme.mobile]: {
-            margin: '0 30px 20px',
-            padding: 0,
-            gridTemplateColumns: '1fr 1fr',
-          },
-        }}
-      >
-        <label>
-          <input
-            type="checkbox"
-            checked={hasWine}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasWine(!hasWine)}
-          />
-          Wine
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasBeer}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasBeer(!hasBeer)}
-          />
-          Beer
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasCocktails}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasCocktails(!hasCocktails)}
-          />
-          Cocktails
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasFood}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasFood(!hasFood)}
-          />
-          Food
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasCoffee}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasCoffee(!hasCoffee)}
-          />
-          Coffee
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasPatio}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasPatio(!hasPatio)}
-          />
-          Patio
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasBarSeating}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasBarSeating(!hasBarSeating)}
-          />
-          Bar Seating
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasNaDrinks}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasNaDrinks(!hasNaDrinks)}
-          />
-          NA Drinks
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={hasDogFriendly}
-            css={{ marginRight: 10, cursor: 'pointer' }}
-            onChange={() => setHasDogFriendly(!hasDogFriendly)}
-          />
-          🐶🐾 Friendly
-        </label>
-      </div>
     </>
-  );
+  )
 }

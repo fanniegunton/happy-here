@@ -10,3 +10,5 @@ yarn-error.log
 /public
 /functions
 /dist
+
+.claude/worktrees

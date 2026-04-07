@@ -190,45 +190,34 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
         resultCount={filteredEstablishments.length}
       />
 
-      {/* Divider before happy hour now section */}
-      {happyHourNow.length > 0 && (
-        <div
-          css={{
-            margin: "40px -40px 0",
-            borderTop: "4px dotted #006eff",
-            [theme.mobile]: {
-              margin: "30px -20px 0",
-              borderTop: "2px dotted #006eff",
-            },
-          }}
-        />
-      )}
-
       {/* Happy Hour Now Section */}
       {happyHourNow.length > 0 && (
         <>
-          <h2
+          <div
             css={{
-              ...theme.h2,
-              fontFamily: theme.fancyFontFamily,
-              fontSize: 36,
-              marginBottom: 24,
-              marginTop: 60,
-              textAlign: "left",
-              [theme.tablet]: {
-                margin: "36px auto 24px",
-                textWrapStyle: "auto",
-                maxWidth: 375,
-                textAlign: "center",
-              },
-              [theme.mobile]: {
-                fontSize: 28,
-                padding: "0 16px",
-              },
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              marginTop: 64,
+              marginBottom: 32,
+              [theme.mobile]: { padding: "0 30px" },
             }}
           >
-            Where Is It Happy Hour Right Now?!
-          </h2>
+            <h2
+              css={{
+                fontFamily: theme.newFontFamily,
+                fontSize: 120,
+                lineHeight: 1,
+                letterSpacing: "-0.05em",
+                fontWeight: 900,
+                [theme.tablet]: { fontSize: 80 },
+                [theme.mobile]: { fontSize: 52 },
+              }}
+            >
+              HAPPENING NOW
+            </h2>
+            <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>✦</span>
+          </div>
           <div
             css={{
               display: "grid",
@@ -257,45 +246,33 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
         </>
       )}
 
-      {/* Divider between sections */}
-      {happyHourNow.length > 0 && happyHourLater.length > 0 && (
-        <div
-          css={{
-            margin: "60px -40px",
-            borderTop: "4px dotted #006eff",
-            [theme.mobile]: {
-              margin: "40px -20px",
-              borderTop: "2px dotted #006eff",
-            },
-          }}
-        />
-      )}
-
       {/* Happy Hour Later Section */}
       {happyHourLater.length > 0 && (
         <>
-          <h2
+          <div
             css={{
-              ...theme.h2,
-              fontFamily: theme.fancyFontFamily,
-              fontSize: 36,
-              marginBottom: 24,
-              marginTop: 20,
-              textAlign: "left",
-              [theme.tablet]: {
-                margin: "36px auto 24px",
-                textWrapStyle: "auto",
-                maxWidth: 375,
-                textAlign: "center",
-              },
-              [theme.mobile]: {
-                fontSize: 28,
-                padding: "0 16px",
-              },
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              marginTop: 96,
+              marginBottom: 32,
             }}
           >
-            Let the Countdown Begin! ⏰
-          </h2>
+            <h2
+              css={{
+                fontFamily: theme.newFontFamily,
+                fontSize: 120,
+                lineHeight: 1,
+                letterSpacing: "-0.05em",
+                fontWeight: 900,
+                [theme.tablet]: { fontSize: 80 },
+                [theme.mobile]: { fontSize: 52 },
+              }}
+            >
+              COMING UP
+            </h2>
+            <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>✦</span>
+          </div>
           <div
             css={{
               display: "grid",
