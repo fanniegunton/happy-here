@@ -129,24 +129,24 @@ export default function EstablishmentTile({
         }}
       >
         {/* Image container with badge positioned relative to it */}
-        {photo && (
-          <div
+        <div
+          css={{
+            position: "relative",
+            width: "100%",
+            overflow: "hidden",
+            borderRadius: "16px 16px 0 0",
+          }}
+        >
+          <a
+            href={`/establishment/${slug}`}
             css={{
-              position: "relative",
-              width: "100%",
-              overflow: "hidden",
-              borderRadius: "16px 16px 0 0",
+              textDecoration: "none",
+              color: "inherit",
+              display: "block",
+              cursor: "pointer",
             }}
           >
-            <a
-              href={`/establishment/${slug}`}
-              css={{
-                textDecoration: "none",
-                color: "inherit",
-                display: "block",
-                cursor: "pointer",
-              }}
-            >
+            {photo ? (
               <SanityImage
                 image={photo}
                 width={300}
@@ -161,23 +161,38 @@ export default function EstablishmentTile({
                   transition: "opacity 0.2s",
                 }}
               />
-            </a>
+            ) : (
+              <img
+                src="/default-establishment.jpg"
+                alt={`Photo of ${name}`}
+                width={300}
+                height={200}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  aspectRatio: "3 / 2",
+                  objectFit: "cover",
+                  filter: "grayscale(60%)",
+                  transition: "opacity 0.2s",
+                }}
+              />
+            )}
+          </a>
 
-            {/* Duotone color overlay */}
-            <div
-              css={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-                backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
-                mixBlendMode: "multiply",
-                pointerEvents: "none",
-              }}
-            />
-          </div>
-        )}
+          {/* Duotone color overlay */}
+          <div
+            css={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
+              mixBlendMode: "multiply",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
 
         {/* Status strip */}
         <div
