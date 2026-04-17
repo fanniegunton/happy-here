@@ -198,7 +198,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               display: "flex",
               alignItems: "center",
               gap: 16,
-              marginTop: 64,
+              marginTop: 48,
               marginBottom: 32,
               [theme.mobile]: { padding: "0 30px" },
             }}
@@ -207,6 +207,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               css={{
                 fontFamily: theme.newFontFamily,
                 fontSize: 120,
+                textTransform: "uppercase",
                 lineHeight: 1,
                 letterSpacing: "-0.05em",
                 fontWeight: 900,
@@ -214,9 +215,11 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
-              HAPPENING NOW
+              Happening Now
             </h2>
-            <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>✦</span>
+            <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
+              ✦
+            </span>
           </div>
           <div
             css={{
@@ -256,12 +259,14 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               gap: 16,
               marginTop: 96,
               marginBottom: 32,
+              [theme.mobile]: { padding: "0 30px" },
             }}
           >
             <h2
               css={{
                 fontFamily: theme.newFontFamily,
                 fontSize: 120,
+                textTransform: "uppercase",
                 lineHeight: 1,
                 letterSpacing: "-0.05em",
                 fontWeight: 900,
@@ -269,9 +274,11 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
-              COMING UP
+              Coming Up
             </h2>
-            <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>✦</span>
+            <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
+              ✦
+            </span>
           </div>
           <div
             css={{
