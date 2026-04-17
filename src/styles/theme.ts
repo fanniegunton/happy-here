@@ -29,8 +29,8 @@ const colors = {
   oceanBlue: "#006eff",
   valenciaOrange: "#e09232",
   lilac: "#b5b5ff",
-  lavender: "A78BB5",
-  tobacco: "8B5E2A",
+  lavender: "#A78BB5",
+  tobacco: "#8B5E2A",
 } as const
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"
