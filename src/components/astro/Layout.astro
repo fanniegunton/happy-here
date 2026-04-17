@@ -180,12 +180,12 @@ const {
   </head>
   <body>
     <div class="app-container">
-      <Nav />
+      <Nav client:load />
       <main>
         <slot />
       </main>
-      <Footer />
     </div>
+    <Footer client:load />
   </body>
 </html>
 
