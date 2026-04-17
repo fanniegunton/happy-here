@@ -60,7 +60,7 @@ export default function Nav() {
           },
         }}
       >
-        <a href="/map">Map</a>
+        {/* <a href="/map">Map</a> */}
         <a href="/about">About</a>
         <a href="mailto:happyhappyhere@gmail.com">Contact</a>
         <a

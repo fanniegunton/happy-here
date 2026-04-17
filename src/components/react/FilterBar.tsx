@@ -171,7 +171,7 @@ export default function FilterBar({
               {resultCount} {resultCount === 1 ? "spot" : "spots"}
             </span>
           )}
-          <a
+          {/* <a
             href={isMapPage ? "/" : "/map"}
             css={{
               display: "flex",
@@ -193,7 +193,7 @@ export default function FilterBar({
           >
             {isMapPage ? <List size={12} /> : <Map size={12} />}
             {isMapPage ? "List" : "Map"}
-          </a>
+          </a> */}
           {(hasActiveFilters || searchQuery) && (
             <button
               onClick={clearAllFilters}
