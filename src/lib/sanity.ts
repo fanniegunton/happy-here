@@ -97,7 +97,6 @@ export async function getEstablishmentById(id: string): Promise<SanityEstablishm
   return result ? normalizeEstablishment(result) : null;
 }
 
-// Generate slug from establishment name (matches Gatsby's logic)
 export function generateSlug(name: string): string {
   return name
     .toLowerCase()

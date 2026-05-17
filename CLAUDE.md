@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Happy Here is a Gatsby-based web application for discovering establishments with happy hour specials. The app displays establishments in real-time sorted order based on current happy hour status, with filtering capabilities by amenities (wine, beer, cocktails, food, coffee, patio, etc.).
+Happy Here is an Astro-based web application for discovering establishments with happy hour specials. The app displays establishments in real-time sorted order based on current happy hour status, with filtering capabilities by amenities (wine, beer, cocktails, food, coffee, patio, etc.).
 
 ## Key Commands
 
 ```bash
 # Development
-pnpm dev                 # Start Gatsby development server
+pnpm dev                 # Start Astro development server
 
 # Build & Production
 pnpm build              # Build production site
-pnpm clean              # Clean Gatsby cache and public directory
+pnpm clean              # Clean Astro build output and cache
 
 # Testing
 pnpm test               # Run vitest tests
@@ -25,18 +25,18 @@ pnpm test               # Run vitest tests
 ### Data Source
 - Content is sourced from Sanity CMS (headless CMS)
 - Environment variables required: `SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_TOKEN`
-- In development mode, draft content is visible and watchMode is enabled
+- In development mode, draft content is visible (`perspective: 'previewDrafts'`)
 - Test establishment (ID: `b95f53fc-ae57-4605-b4b6-6ceb785a1756`) is filtered out in production
 
 ### Core Features
 
 **Real-time Happy Hour Tracking:**
-- `parseHours.js` contains the business logic for parsing and validating time strings
-- `sortEstablishments.js` sorts establishments by:
+- `parseHours.ts` contains the business logic for parsing and validating time strings
+- `sortEstablishments.ts` sorts establishments by:
   1. Currently in happy hour (sorted by end time, soonest ending first)
   2. Not in happy hour (sorted by next happy hour start time)
 - `EstablishmentTile` component updates every 30 seconds to reflect current happy hour status
-- Time-related utilities: `getTodayTime.js`, `getNextStartTime.js`, `formatMilitaryTime.js`
+- Time-related utilities: `getTodayTime.ts`, `getNextStartTime.ts`, `formatMilitaryTime.ts`
 
 **Filtering System:**
 - FilterBar component manages filter state using React hooks
@@ -47,16 +47,22 @@ pnpm test               # Run vitest tests
 
 ### Component Structure
 
-- `Layout.jsx` - Main wrapper with navigation, styling, and footer
-- `EstablishmentTile.jsx` - Complex component displaying establishment details with GraphQL fragment
-- `FilterBar.jsx` - Checkbox-based filter UI
-- `Header.jsx`, `Nav.jsx`, `Footer.jsx` - Navigation and structural components
-- Utility components: `IconButton.jsx`, `AmmenityPill.jsx`, `Checkbox.jsx`, `NoResults.jsx`
+Components are split between two directories:
+- `src/components/astro/` — Astro components (e.g., `Layout.astro`)
+- `src/components/react/` — React components (all `.tsx`)
+
+Key components:
+- `Layout.astro` - Main wrapper with navigation, styling, and footer
+- `EstablishmentTile.tsx` - Establishment card with happy hour status
+- `FilterBar.tsx` - Checkbox-based filter UI
+- `Header.tsx`, `Nav.tsx`, `Footer.tsx` - Navigation and structural components
+- Utility components: `IconButton.tsx`, `AmmenityPill.tsx`, `ExternalLink.tsx`, `NoResults.tsx`
+- `SanityImage.tsx` - Image component using `@sanity/image-url`
 
 ### Styling
 
 - Uses Emotion CSS-in-JS (`@emotion/react`)
-- Theme configuration in `src/styles/theme.js` with:
+- Theme configuration in `src/styles/theme.ts` with:
   - Responsive breakpoints: smallMobile (400px), mobile (700px), tablet (900px), smallDesktop (1100px)
   - Color palette with named colors (oceanBlue, lemonYellow, lightGrout, etc.)
   - Typography styles using Lato (display) and Playfair Display (fancy/serif)
@@ -71,12 +77,14 @@ CSS and styling in this codebase are intentional and carefully considered. When 
 
 ### Pages
 
-- `index.jsx` - Home page with establishment grid and filtering
-- `about.jsx`, `journal.jsx`, `lists.jsx`, `establishment.jsx` - Additional pages (some are placeholders)
+Pages are Astro files in `src/pages/`:
+- `index.astro` - Home page with establishment grid and filtering
+- `about.astro`, `journal.astro`, `lists.astro` - Additional pages (some are placeholders)
+- `establishment/[slug].astro` - Dynamic establishment detail page
 
 ## Development Notes
 
-- No templates or gatsby-node.js - pages are static
+- Static assets go in `static/` (Astro's `publicDir` is configured to `static/`)
 - Icons from `lucide-react` for UI elements
-- Sanity images handled via `gatsby-plugin-sanity-image`
-- Google Analytics tracking via `gatsby-plugin-gtag`
+- Sanity images handled via `@sanity/image-url`
+- Google Analytics tracking via `@astrojs/partytown`

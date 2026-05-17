@@ -4,7 +4,8 @@ import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static', // SSG like Gatsby
+  output: 'static',
+  publicDir: 'static',
   integrations: [
     react({
       // Enable Emotion support in React components
