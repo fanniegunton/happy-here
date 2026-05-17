@@ -5,7 +5,6 @@ import IconButton from "./IconButton"
 import { hoursCover } from "@lib/parseHours"
 import SanityImage from "./SanityImage"
 import {
-  MapPin,
   UtensilsCrossed,
   Beer,
   Wine,
@@ -28,6 +27,24 @@ import { getNextStartTime } from "@lib/getNextStartTime"
 import { formatMilitaryTime } from "@lib/formatMilitaryTime"
 import { generateSlug } from "@lib/slug"
 import type { SanityEstablishment } from "@/types/sanity"
+
+function toTitleCase(s: string): string {
+  return s
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (c) => c.toUpperCase())
+    .trim()
+}
+
+function getNeighborhoodLabel(
+  neighborhood: SanityEstablishment["neighborhood"] | undefined
+): string {
+  if (!neighborhood) return ""
+  const subKey = Object.keys(neighborhood).find((k) =>
+    k.startsWith("subNeighborhood")
+  )
+  if (subKey && neighborhood[subKey]) return toTitleCase(neighborhood[subKey])
+  return neighborhood.region ? toTitleCase(neighborhood.region) : ""
+}
 
 interface EstablishmentTileProps extends SanityEstablishment {}
 
@@ -187,7 +204,7 @@ export default function EstablishmentTile({
               right: 0,
               bottom: 0,
               left: 0,
-              backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
+              backgroundColor: isHappyHour ? "#A78BB5" : "#FFA87A",
               mixBlendMode: "multiply",
               pointerEvents: "none",
             }}
@@ -198,9 +215,9 @@ export default function EstablishmentTile({
         <div
           css={{
             width: "100%",
-            backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
+            backgroundColor: isHappyHour ? "#A78BB5" : "#b97c5c",
             color: theme.white,
-            padding: "10px 20px",
+            padding: "10px 30px",
             fontSize: 12,
             fontWeight: 600,
             textTransform: "uppercase",
@@ -208,6 +225,9 @@ export default function EstablishmentTile({
             display: "flex",
             alignItems: "center",
             gap: 8,
+            [theme.mobile]: {
+              padding: "10px 20px",
+            },
           }}
         >
           {isHappyHour ? (
@@ -306,38 +326,24 @@ export default function EstablishmentTile({
                 justifyContent: "start",
               }}
             >
-              <div
-                css={{
-                  alignItems: "center",
-                  gap: "0.25rem",
-                  fontSize: "1rem",
-                  lineHeight: "1.25rem",
-                }}
-              >
-                {/* <MapPin
+              {neighborhood && (
+                <div
                   css={{
-                    height: "1rem",
-                    width: "1rem",
-                    marginRight: 4,
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    fontSize: "1rem",
+                    lineHeight: "1.25rem",
+                    fontWeight: 700,
                   }}
-                /> */}
-                {neighborhood}
-              </div>
+                >
+                  {getNeighborhoodLabel(neighborhood)}
+                </div>
+              )}
             </div>
           </div>
 
           <div css={{ marginBottom: "1rem" }}>
             <div>
-              {/* <summary
-                css={{
-                  cursor: "pointer",
-                  fontSize: 16,
-                  marginTop: 6,
-                  listStyle: "none",
-                }}
-              >
-                Happy Hour Details:
-              </summary> */}
               <div
                 css={{
                   marginTop: 4,
@@ -388,9 +394,7 @@ export default function EstablishmentTile({
       <div
         css={{
           borderRadius: "0 0 16px 16px",
-          padding: "16px 0 8px",
-          // backgroundColor: isHappyHour ? "#A78BB5" : "#8B5E2A",
-          // color: theme.white,
+          paddingBottom: 8,
           color: theme.black,
           [theme.tablet]: {
             padding: "12px 0 8px",

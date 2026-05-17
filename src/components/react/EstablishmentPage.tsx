@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
-import theme from '@styles/theme';
-import SanityImage from './SanityImage';
-import IconButton from './IconButton';
-import Icons from '@lib/icons';
-import AmmenityPill from './AmmenityPill';
-import { hoursCover } from '@lib/parseHours';
-import { getTodayEndTime } from '@lib/getTodayTime';
-import { getNextStartTime } from '@lib/getNextStartTime';
-import { formatMilitaryTime } from '@lib/formatMilitaryTime';
+import { useEffect, useState } from "react"
+import theme from "@styles/theme"
+import SanityImage from "./SanityImage"
+import IconButton from "./IconButton"
+import Icons from "@lib/icons"
+import AmmenityPill from "./AmmenityPill"
+import { hoursCover } from "@lib/parseHours"
+import { getTodayEndTime } from "@lib/getTodayTime"
+import { getNextStartTime } from "@lib/getNextStartTime"
+import { formatMilitaryTime } from "@lib/formatMilitaryTime"
 import {
   MapPin,
   UtensilsCrossed,
@@ -26,48 +26,70 @@ import {
   CalendarCheck,
   Sparkles,
   ArrowLeft,
-} from 'lucide-react';
-import type { SanityEstablishment } from '@/types/sanity';
+} from "lucide-react"
+import type { SanityEstablishment } from "@/types/sanity"
 
-interface EstablishmentPageProps {
-  establishment: SanityEstablishment;
+function toTitleCase(s: string): string {
+  return s
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (c) => c.toUpperCase())
+    .trim()
 }
 
-export default function EstablishmentPage({ establishment }: EstablishmentPageProps) {
-  const [isHappyHour, setHappyHour] = useState(false);
+function getNeighborhoodLabel(
+  neighborhood: SanityEstablishment["neighborhood"] | undefined
+): string {
+  if (!neighborhood) return ""
+  const subKey = Object.keys(neighborhood).find((k) =>
+    k.startsWith("subNeighborhood")
+  )
+  if (subKey && neighborhood[subKey]) return toTitleCase(neighborhood[subKey])
+  return neighborhood.region ? toTitleCase(neighborhood.region) : ""
+}
+
+interface EstablishmentPageProps {
+  establishment: SanityEstablishment
+}
+
+export default function EstablishmentPage({
+  establishment,
+}: EstablishmentPageProps) {
+  const [isHappyHour, setHappyHour] = useState(false)
 
   useEffect(() => {
     const checkHours = () => {
-      setHappyHour(hoursCover(establishment.happyHourTimes ?? [], new Date()));
-    };
-    checkHours();
-    const timer = window.setInterval(checkHours, 30_000);
-    return () => window.clearInterval(timer);
-  }, [establishment.happyHourTimes]);
+      setHappyHour(hoursCover(establishment.happyHourTimes ?? [], new Date()))
+    }
+    checkHours()
+    const timer = window.setInterval(checkHours, 30_000)
+    return () => window.clearInterval(timer)
+  }, [establishment.happyHourTimes])
 
-  const todayEndTime = getTodayEndTime(establishment.happyHourTimes ?? []);
-  const formattedEndTime = todayEndTime !== null ? formatMilitaryTime(todayEndTime) : 'Closed';
+  const todayEndTime = getTodayEndTime(establishment.happyHourTimes ?? [])
+  const formattedEndTime =
+    todayEndTime !== null ? formatMilitaryTime(todayEndTime) : "Closed"
 
-  let nextHappyHourDay = '';
-  let nextHappyHourTime = '';
+  let nextHappyHourDay = ""
+  let nextHappyHourTime = ""
 
-  const nextStartDate = getNextStartTime(establishment.happyHourTimes ?? []);
+  const nextStartDate = getNextStartTime(establishment.happyHourTimes ?? [])
   if (nextStartDate) {
-    const militaryTime = nextStartDate.getHours() * 100 + nextStartDate.getMinutes();
-    const formattedTime = formatMilitaryTime(militaryTime);
-    const now = new Date();
+    const militaryTime =
+      nextStartDate.getHours() * 100 + nextStartDate.getMinutes()
+    const formattedTime = formatMilitaryTime(militaryTime)
+    const now = new Date()
     const dayLabel =
       nextStartDate.toDateString() === now.toDateString()
-        ? 'Today'
-        : nextStartDate.toLocaleDateString('en-US', { weekday: 'long' });
-    nextHappyHourDay = dayLabel;
-    nextHappyHourTime = formattedTime;
+        ? "Today"
+        : nextStartDate.toLocaleDateString("en-US", { weekday: "long" })
+    nextHappyHourDay = dayLabel
+    nextHappyHourTime = formattedTime
   }
 
-  const whatWeHaveHere = establishment.whatWeHaveHere ?? [];
-  const theSpaceIsLike = establishment.theSpaceIsLike ?? [];
-  const hours = establishment.hours ?? [];
-  const happyHourTimes = establishment.happyHourTimes ?? [];
+  const whatWeHaveHere = establishment.whatWeHaveHere ?? []
+  const theSpaceIsLike = establishment.theSpaceIsLike ?? []
+  const hours = establishment.hours ?? []
+  const happyHourTimes = establishment.happyHourTimes ?? []
 
   return (
     <div>
@@ -75,16 +97,16 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
       <a
         href="/"
         css={{
-          display: 'inline-flex',
-          alignItems: 'center',
+          display: "inline-flex",
+          alignItems: "center",
           gap: 8,
           color: theme.oceanBlue,
-          textDecoration: 'none',
+          textDecoration: "none",
           fontSize: 14,
           fontWeight: 600,
           marginBottom: 24,
-          '&:hover': {
-            textDecoration: 'underline',
+          "&:hover": {
+            textDecoration: "underline",
           },
         }}
       >
@@ -96,13 +118,13 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
         {/* Title and Happy Hour Status */}
         <div
           css={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
             marginBottom: 16,
             gap: 24,
             [theme.mobile]: {
-              flexDirection: 'column',
+              flexDirection: "column",
               gap: 16,
             },
           }}
@@ -114,7 +136,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                 fontSize: 48,
                 fontWeight: 300,
                 lineHeight: 1.35,
-                margin: '0 0 12px 0',
+                margin: "0 0 12px 0",
                 [theme.mobile]: {
                   fontSize: 32,
                 },
@@ -124,15 +146,16 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
             </h1>
             <div
               css={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
                 gap: 8,
                 color: theme.black,
                 fontSize: 18,
               }}
             >
               <MapPin size={20} />
-              {establishment.neighborhood}
+              {establishment.neighborhood &&
+                getNeighborhoodLabel(establishment.neighborhood)}
             </div>
           </div>
 
@@ -142,9 +165,9 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               css={{
                 backgroundColor: theme.oceanBlue,
                 color: theme.white,
-                padding: '16px 24px',
+                padding: "16px 24px",
                 borderRadius: 12,
-                textAlign: 'center',
+                textAlign: "center",
                 fontWeight: 600,
                 minWidth: 200,
               }}
@@ -152,8 +175,8 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               <div
                 css={{
                   fontSize: 12,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
                   opacity: 0.9,
                   marginBottom: 4,
                 }}
@@ -167,9 +190,9 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               css={{
                 backgroundColor: theme.lightGrout,
                 color: theme.black,
-                padding: '16px 24px',
+                padding: "16px 24px",
                 borderRadius: 12,
-                textAlign: 'center',
+                textAlign: "center",
                 fontWeight: 600,
                 minWidth: 200,
               }}
@@ -177,8 +200,8 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               <div
                 css={{
                   fontSize: 12,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
                   opacity: 0.7,
                   marginBottom: 4,
                 }}
@@ -202,9 +225,9 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
             height={400}
             alt={`Photo of ${establishment.name}`}
             style={{
-              width: '100%',
+              width: "100%",
               height: 400,
-              objectFit: 'cover',
+              objectFit: "cover",
               borderRadius: 20,
               marginBottom: 24,
             }}
@@ -214,7 +237,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
         {/* Contact Icons */}
         <div
           css={{
-            display: 'flex',
+            display: "flex",
             gap: 16,
             marginBottom: 24,
             paddingBottom: 24,
@@ -227,7 +250,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               href={establishment.happyHourMenu}
               target="_blank"
               rel="noopener noreferrer"
-              css={{ transform: 'scale(1.3)' }}
+              css={{ transform: "scale(1.3)" }}
             />
           )}
           {establishment.website && (
@@ -236,7 +259,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               href={establishment.website}
               target="_blank"
               rel="noopener noreferrer"
-              css={{ transform: 'scale(1.3)' }}
+              css={{ transform: "scale(1.3)" }}
             />
           )}
           {establishment.instagram && (
@@ -245,7 +268,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               href={establishment.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              css={{ transform: 'scale(1.3)' }}
+              css={{ transform: "scale(1.3)" }}
             />
           )}
         </div>
@@ -253,11 +276,11 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
         {/* Main Content Grid */}
         <div
           css={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr',
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr",
             gap: 32,
             [theme.tablet]: {
-              gridTemplateColumns: '1fr',
+              gridTemplateColumns: "1fr",
               gap: 24,
             },
           }}
@@ -277,11 +300,11 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                 >
                   Happy Hour Details
                 </h2>
-                {establishment.happyHourDetails.includes('\n') ? (
+                {establishment.happyHourDetails.includes("\n") ? (
                   <ul
                     css={{
-                      listStyleType: 'disc',
-                      listStylePosition: 'outside',
+                      listStyleType: "disc",
+                      listStylePosition: "outside",
                       paddingLeft: 20,
                       marginLeft: 0,
                       fontSize: 16,
@@ -289,7 +312,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                     }}
                   >
                     {establishment.happyHourDetails
-                      .split('\n')
+                      .split("\n")
                       .filter(Boolean)
                       .map((line, index) => (
                         <li
@@ -304,7 +327,9 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                       ))}
                   </ul>
                 ) : (
-                  <p css={{ fontSize: 16, lineHeight: 1.6 }}>{establishment.happyHourDetails}</p>
+                  <p css={{ fontSize: 16, lineHeight: 1.6 }}>
+                    {establishment.happyHourDetails}
+                  </p>
                 )}
               </div>
             )}
@@ -323,28 +348,55 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
               </h2>
               <div
                 css={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  flexWrap: "wrap",
                   gap: 8,
                 }}
               >
-                {whatWeHaveHere.includes('cocktails') && <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>}
-                {whatWeHaveHere.includes('wine') && <AmmenityPill icon={Wine}>Wine</AmmenityPill>}
-                {whatWeHaveHere.includes('beer') && <AmmenityPill icon={Beer}>Beer</AmmenityPill>}
-                {whatWeHaveHere.includes('food') && <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>}
-                {whatWeHaveHere.includes('naDrinks') && <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>}
-                {whatWeHaveHere.includes('coffee') && <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>}
-                {theSpaceIsLike.includes('indoor') && <AmmenityPill icon={Store}>Indoors</AmmenityPill>}
-                {theSpaceIsLike.includes('patio') && <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>}
-                {theSpaceIsLike.includes('barSeating') && <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>}
-                {theSpaceIsLike.includes('dogFriendly') && <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>}
-                {theSpaceIsLike.includes('smallGroups') && <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>}
-                {theSpaceIsLike.includes('bigGroups') && <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>}
-                {theSpaceIsLike.includes('reservationsRec') && (
+                {whatWeHaveHere.includes("cocktails") && (
+                  <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("wine") && (
+                  <AmmenityPill icon={Wine}>Wine</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("beer") && (
+                  <AmmenityPill icon={Beer}>Beer</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("food") && (
+                  <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("naDrinks") && (
+                  <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("coffee") && (
+                  <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("indoor") && (
+                  <AmmenityPill icon={Store}>Indoors</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("patio") && (
+                  <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("barSeating") && (
+                  <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("dogFriendly") && (
+                  <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("smallGroups") && (
+                  <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("bigGroups") && (
+                  <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("reservationsRec") && (
                   <AmmenityPill icon={CalendarCheck}>Reso Reco'd</AmmenityPill>
                 )}
-                {theSpaceIsLike.includes('staffPick') && (
-                  <AmmenityPill icon={Sparkles} css={{ background: theme.lemonYellow }}>
+                {theSpaceIsLike.includes("staffPick") && (
+                  <AmmenityPill
+                    icon={Sparkles}
+                    css={{ background: theme.lemonYellow }}
+                  >
                     Staff Pick!
                   </AmmenityPill>
                 )}
@@ -376,14 +428,16 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                   css={{
                     fontSize: 14,
                     fontWeight: 600,
-                    textTransform: 'uppercase',
+                    textTransform: "uppercase",
                     opacity: 0.7,
                     marginBottom: 8,
                   }}
                 >
                   Address
                 </h4>
-                <p css={{ fontSize: 14, textTransform: 'capitalize' }}>{establishment.address}</p>
+                <p css={{ fontSize: 14, textTransform: "capitalize" }}>
+                  {establishment.address}
+                </p>
               </div>
 
               <div css={{ marginBottom: 16 }}>
@@ -391,7 +445,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                   css={{
                     fontSize: 14,
                     fontWeight: 600,
-                    textTransform: 'uppercase',
+                    textTransform: "uppercase",
                     opacity: 0.7,
                     marginBottom: 8,
                   }}
@@ -411,7 +465,7 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
                     css={{
                       fontSize: 14,
                       fontWeight: 600,
-                      textTransform: 'uppercase',
+                      textTransform: "uppercase",
                       opacity: 0.7,
                       marginBottom: 8,
                     }}
@@ -430,5 +484,5 @@ export default function EstablishmentPage({ establishment }: EstablishmentPagePr
         </div>
       </div>
     </div>
-  );
+  )
 }

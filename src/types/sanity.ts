@@ -23,7 +23,7 @@ export interface SanityEstablishment {
   _type: 'establishment';
   name: string;
   address: string;
-  neighborhood: string;
+  neighborhood: { region: string; [key: string]: string };
   photo?: SanityImageAsset;
   website?: string;
   instagram?: string;
