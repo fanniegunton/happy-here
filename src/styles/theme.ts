@@ -43,6 +43,7 @@ const theme = {
   ...breakpoints,
   displayFontFamily,
   fancyFontFamily,
+  newFontFamily,
 
   h1: {
     fontFamily: newFontFamily,
