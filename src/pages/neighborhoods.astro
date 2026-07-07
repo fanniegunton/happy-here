@@ -1,0 +1,34 @@
+---
+import Layout from '@components/astro/Layout.astro';
+import NeighborhoodsPage from '@components/react/NeighborhoodsPage';
+import { getAllEstablishments } from '@lib/sanity';
+import { generateSlug } from '@lib/slug';
+
+const allEstablishments = await getAllEstablishments();
+const establishments = import.meta.env.PROD
+  ? allEstablishments.filter((est) => est._id !== 'b95f53fc-ae57-4605-b4b6-6ceb785a1756')
+  : allEstablishments;
+
+function toTitleCase(s: string): string {
+  return s.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase()).trim();
+}
+
+const regionMap = new Map<string, { label: string; slug: string; count: number }>();
+for (const est of establishments) {
+  if (!est.neighborhood?.region) continue;
+  const region = est.neighborhood.region;
+  if (!regionMap.has(region)) {
+    const label = toTitleCase(region);
+    regionMap.set(region, { label, slug: generateSlug(label), count: 0 });
+  }
+  regionMap.get(region)!.count++;
+}
+
+const neighborhoods = [...regionMap.entries()]
+  .map(([region, data]) => ({ region, ...data }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+---
+
+<Layout title="Neighborhoods - Happy Here">
+  <NeighborhoodsPage neighborhoods={neighborhoods} client:load />
+</Layout>
