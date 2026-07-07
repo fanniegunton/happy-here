@@ -8,7 +8,10 @@ export default function Footer() {
   return (
     <footer
       css={{
-        marginTop: 60,
+        marginTop: 80,
+        [theme.tablet]: {
+          marginTop: 60,
+        },
         [theme.mobile]: {
           marginTop: 40,
           background: theme.lavender,
@@ -22,6 +25,9 @@ export default function Footer() {
           background: theme.lavender,
           color: "#FFFFFF",
           padding: "40px 80px 80px",
+          [theme.tablet]: {
+            padding: "40px 40px 80px",
+          },
           [theme.mobile]: {
             display: "block",
             padding: 20,
@@ -30,11 +36,11 @@ export default function Footer() {
           },
         }}
       >
-        <div css={{ flex: 1 }}>
+        <div css={{ flex: 1, color: theme.black }}>
           <div
             css={{
-              fontFamily: theme.displayFontFamily,
-              fontSize: 18,
+              fontFamily: theme.newFontFamily,
+              fontSize: 24,
               fontWeight: 400,
               lineHeight: 1.0,
               textTransform: "uppercase",
@@ -70,7 +76,8 @@ export default function Footer() {
                 alt="Instagram"
                 css={{
                   width: "auto",
-                  filter: "brightness(0) invert(1)",
+                  maxWidth: 30,
+                  // filter: "brightness(0) invert(1)",
                   [theme.mobile]: {
                     alignContent: "end",
                     marginLeft: 8,
@@ -83,8 +90,8 @@ export default function Footer() {
           <div
             css={{
               marginTop: 40,
-              fontFamily: theme.fancyFontFamily,
-              fontSize: 18,
+              fontFamily: theme.displayFontFamily,
+              fontSize: 24,
               lineHeight: 1.8,
               maxWidth: "60%",
               [theme.mobile]: {
