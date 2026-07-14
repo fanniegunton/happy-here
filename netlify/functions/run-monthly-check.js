@@ -21,9 +21,31 @@ const GITHUB_OWNER = process.env.GITHUB_OWNER;
 const GITHUB_REPO = process.env.GITHUB_REPO;
 const GITHUB_WORKFLOW_ID = process.env.GITHUB_WORKFLOW_ID || "happy-here-update.yml";
 
+// Called cross-origin from the Sanity Studio, so CORS headers are required
+const ALLOWED_ORIGINS = [
+  "https://happy-here.sanity.studio",
+  "http://localhost:3333",
+];
+
+function corsHeaders(event) {
+  const origin = event.headers?.origin || event.headers?.Origin;
+  if (!ALLOWED_ORIGINS.includes(origin)) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
 export const handler = async (event) => {
+  const cors = corsHeaders(event);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers: cors };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method not allowed" };
+    return { statusCode: 405, headers: cors, body: "Method not allowed" };
   }
 
   let body = {};
@@ -36,6 +58,7 @@ export const handler = async (event) => {
   if (!GITHUB_TOKEN || !GITHUB_OWNER || !GITHUB_REPO) {
     return {
       statusCode: 500,
+      headers: cors,
       body: JSON.stringify({
         error: "GitHub env vars not configured. Set GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO.",
       }),
@@ -68,7 +91,7 @@ export const handler = async (event) => {
     if (response.status === 204) {
       return {
         statusCode: 200,
-        headers: { "Content-Type": "application/json" },
+        headers: { ...cors, "Content-Type": "application/json" },
         body: JSON.stringify({
           triggered: true,
           mode,
@@ -81,6 +104,7 @@ export const handler = async (event) => {
     const errorData = await response.json().catch(() => ({}));
     return {
       statusCode: response.status,
+      headers: cors,
       body: JSON.stringify({
         error: errorData.message || `GitHub API returned ${response.status}`,
       }),
@@ -88,6 +112,7 @@ export const handler = async (event) => {
   } catch (err) {
     return {
       statusCode: 500,
+      headers: cors,
       body: JSON.stringify({ error: err.message }),
     };
   }

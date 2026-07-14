@@ -30,16 +30,38 @@ const VerificationSchema = z.object({
   notes: z.string().nullable(),
 });
 
+// Called cross-origin from the Sanity Studio, so CORS headers are required
+const ALLOWED_ORIGINS = [
+  "https://happy-here.sanity.studio",
+  "http://localhost:3333",
+];
+
+function corsHeaders(event) {
+  const origin = event.headers?.origin || event.headers?.Origin;
+  if (!ALLOWED_ORIGINS.includes(origin)) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
 export const handler = async (event) => {
+  const cors = corsHeaders(event);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers: cors };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method not allowed" };
+    return { statusCode: 405, headers: cors, body: "Method not allowed" };
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) };
+    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: "Invalid JSON" }) };
   }
 
   const { id, name, website, existingHappyHourDetails } = body;
@@ -47,6 +69,7 @@ export const handler = async (event) => {
   if (!website) {
     return {
       statusCode: 400,
+      headers: cors,
       body: JSON.stringify({ error: "No website provided" }),
     };
   }
@@ -87,7 +110,7 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { ...cors, "Content-Type": "application/json" },
       body: JSON.stringify(result),
     };
   } catch (err) {
@@ -101,7 +124,7 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200, // Return 200 so the action can handle it gracefully
-      headers: { "Content-Type": "application/json" },
+      headers: { ...cors, "Content-Type": "application/json" },
       body: JSON.stringify({
         isOperational: false,
         permanentlyClosed: false,

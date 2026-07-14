@@ -30,6 +30,22 @@ const sanity = createClient({
 
 const PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 
+// Called cross-origin from the Sanity Studio, so CORS headers are required
+const ALLOWED_ORIGINS = [
+  "https://happy-here.sanity.studio",
+  "http://localhost:3333",
+];
+
+function corsHeaders(event) {
+  const origin = event.headers?.origin || event.headers?.Origin;
+  if (!ALLOWED_ORIGINS.includes(origin)) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
 /**
  * Find a Place ID by name + address using the Places Text Search API.
  */
@@ -55,13 +71,20 @@ async function getPlaceStatus(placeId) {
 }
 
 export const handler = async (event) => {
+  const cors = corsHeaders(event);
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers: cors };
+  }
+
   if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method not allowed" };
+    return { statusCode: 405, headers: cors, body: "Method not allowed" };
   }
 
   if (!PLACES_API_KEY) {
     return {
       statusCode: 500,
+      headers: cors,
       body: JSON.stringify({ error: "GOOGLE_PLACES_API_KEY not configured" }),
     };
   }
@@ -117,12 +140,13 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { ...cors, "Content-Type": "application/json" },
       body: JSON.stringify(results),
     };
   } catch (err) {
     return {
       statusCode: 500,
+      headers: cors,
       body: JSON.stringify({ error: err.message }),
     };
   }
