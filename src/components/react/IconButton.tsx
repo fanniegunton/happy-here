@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
+import theme from '@styles/theme';
 import ExternalLink from './ExternalLink';
 
 // Type for Astro image imports
@@ -40,10 +41,16 @@ export default function IconButton({
       {...linkProps}
       css={{
         display: 'inline-flex',
-        marginBottom: 8,
+        marginBottom: 0,
         textDecoration: 'none',
         whiteSpace: 'nowrap',
         alignItems: 'center',
+        '&:hover img': {
+          filter: 'drop-shadow(1px 0 4px #A78BB5)',
+        },
+        [theme.mobile]: {
+          marginBottom: 8,
+        },
       }}
       className={className}
     >
@@ -51,10 +58,15 @@ export default function IconButton({
         src={icon.src}
         alt=""
         css={{
-          width: 16,
-          height: 16,
+          width: 28,
+          height: 28,
           marginRight: 8,
-          flex: '0 0 16px',
+          flex: '0 0 28px',
+          [theme.mobile]: {
+            width: 16,
+            height: 16,
+            flex: '0 0 16px',
+          },
         }}
       />
       {children && (

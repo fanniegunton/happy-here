@@ -19,7 +19,6 @@ import {
   ConciergeBell,
   CalendarCheck,
   Sparkles,
-  type LucideIcon,
 } from "lucide-react"
 import Icons from "@lib/icons"
 import AmmenityPill from "./AmmenityPill"
@@ -29,31 +28,6 @@ import { formatMilitaryTime } from "@lib/formatMilitaryTime"
 import { generateSlug } from "@lib/slug"
 import { DEAL_TYPE_LABELS } from "@lib/dealTypes"
 import type { SanityEstablishment, OtherDealType } from "@/types/sanity"
-
-const MAX_VISIBLE_DEALS = 4
-
-// Priority order for the above-the-fold amenity pills. Edit this array to
-// change the order amenities appear in on the card.
-const HIGHLIGHT_PILL_PRIORITY: Array<{
-  category: "whatWeHaveHere" | "theSpaceIsLike"
-  value: string
-  icon: LucideIcon
-  label: string
-}> = [
-  { category: "theSpaceIsLike", value: "patio", icon: TreePalm, label: "Patio" },
-  { category: "theSpaceIsLike", value: "dogFriendly", icon: PawPrint, label: "Dog Friendly" },
-  { category: "whatWeHaveHere", value: "food", icon: UtensilsCrossed, label: "Food" },
-  { category: "whatWeHaveHere", value: "cocktails", icon: Martini, label: "Cocktails" },
-  { category: "whatWeHaveHere", value: "wine", icon: Wine, label: "Wine" },
-  { category: "whatWeHaveHere", value: "beer", icon: Beer, label: "Beer" },
-  { category: "whatWeHaveHere", value: "coffee", icon: Coffee, label: "Coffee" },
-  { category: "whatWeHaveHere", value: "naDrinks", icon: CupSoda, label: "NA Drinks" },
-  { category: "theSpaceIsLike", value: "barSeating", icon: ConciergeBell, label: "Bar Seats" },
-  { category: "theSpaceIsLike", value: "reservationsRec", icon: CalendarCheck, label: "Reso Reco'd" },
-  { category: "theSpaceIsLike", value: "indoor", icon: Store, label: "Indoors" },
-  { category: "theSpaceIsLike", value: "smallGroups", icon: UserRound, label: "Up to 4 People" },
-  { category: "theSpaceIsLike", value: "bigGroups", icon: UsersRound, label: "4+ People OK" },
-]
 
 function toTitleCase(s: string): string {
   return s
@@ -73,12 +47,12 @@ function getNeighborhoodLabel(
   return neighborhood.region ? toTitleCase(neighborhood.region) : ""
 }
 
-interface EstablishmentTileProps extends SanityEstablishment {
+interface HappeningsTileProps extends SanityEstablishment {
   dealType?: OtherDealType
   dealName?: string
 }
 
-export default function EstablishmentTile({
+export default function HappeningsTile({
   _id,
   name,
   address,
@@ -94,26 +68,8 @@ export default function EstablishmentTile({
   theSpaceIsLike = [],
   dealType,
   dealName,
-}: EstablishmentTileProps) {
+}: HappeningsTileProps) {
   const [isHappyHour, setHappyHour] = useState(false)
-  const [dealsExpanded, setDealsExpanded] = useState(false)
-  const [detailsOpen, setDetailsOpen] = useState(false)
-
-  const dealLines = happyHourDetails?.includes("\n")
-    ? happyHourDetails.split("\n").filter(Boolean)
-    : []
-  const visibleDealLines = dealsExpanded
-    ? dealLines
-    : dealLines.slice(0, MAX_VISIBLE_DEALS)
-  const hiddenDealCount = dealLines.length - MAX_VISIBLE_DEALS
-
-  const isStaffPick = theSpaceIsLike.includes("staffPick")
-
-  const visibleHighlights = HIGHLIGHT_PILL_PRIORITY.filter(({ category, value }) =>
-    category === "whatWeHaveHere"
-      ? whatWeHaveHere.includes(value as never)
-      : theSpaceIsLike.includes(value as never)
-  )
 
   // Create URL-friendly slug from establishment name
   const slug = generateSlug(name)
@@ -133,6 +89,8 @@ export default function EstablishmentTile({
       window.clearInterval(timer)
     }
   }, [happyHourTimes])
+
+  const dealTypeLabel = dealType ? DEAL_TYPE_LABELS[dealType] : "Happy Hour"
 
   const todayEndTime = getTodayEndTime(happyHourTimes)
   const formattedEndTime =
@@ -165,16 +123,15 @@ export default function EstablishmentTile({
       key={_id}
       css={{
         background: theme.white,
-        borderRadius: 16,
-        overflow: "hidden",
+        borderRadius: 20,
         // border: isHappyHour ? "4px solid #A78BB5" : "4px solid #8B5E2A",
-        maxWidth: 580,
+        maxWidth: 525,
         width: "100%",
-        minHeight: 420,
         display: "flex",
         flexDirection: "column",
+        height: "100%",
         [theme.tablet]: {
-          maxWidth: 500,
+          maxWidth: 450,
         },
         [theme.mobile]: {
           maxWidth: 380,
@@ -182,93 +139,29 @@ export default function EstablishmentTile({
         },
       }}
     >
-      {/* Status strip */}
       <div
         css={{
+          margin: "0 auto",
+          alignItems: "start",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          textAlign: "center",
           width: "100%",
-          backgroundColor: isHappyHour
-            ? theme.happyHourStrip
-            : theme.comingUpStrip,
-          color: theme.white,
-          padding: "10px 20px",
-          fontSize: 12,
-          fontWeight: 600,
-          textTransform: "uppercase",
-          letterSpacing: "0.05em",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          [theme.mobile]: {
-            padding: "10px 20px",
-          },
-        }}
-      >
-        {isHappyHour ? (
-          <>
-            It's Happy Hour Until <span css={{ opacity: 0.6 }}>→</span>{" "}
-            {formattedEndTime}
-          </>
-        ) : (
-          <>
-            Coming Up <span css={{ opacity: 0.6 }}>·</span>{" "}
-            {nextHappyHourDay} at {nextHappyHourTime}
-          </>
-        )}
-      </div>
-
-      {/* Body: photo (left) + content (right) */}
-      <div
-        css={{
-          display: "grid",
-          gridTemplateColumns: "176px 1fr",
-          alignItems: "stretch",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           flex: 1,
-          [theme.tablet]: {
-            gridTemplateColumns: "150px 1fr",
-          },
-          [theme.mobile]: {
-            gridTemplateColumns: "1fr",
-          },
+          display: "flex",
         }}
       >
-        {/* Photo well */}
+        {/* Image container with badge positioned relative to it */}
         <div
           css={{
             position: "relative",
             width: "100%",
-            height: "100%",
-            minHeight: 230,
             overflow: "hidden",
-            [theme.mobile]: {
-              aspectRatio: "4 / 3",
-              height: "auto",
-              minHeight: 0,
-              width: "100%",
-            },
+            borderRadius: "16px 16px 0 0",
           }}
         >
-          {isStaffPick && (
-            <div
-              css={{
-                position: "absolute",
-                top: 12,
-                left: 12,
-                zIndex: 1,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 4,
-                borderRadius: "9999px",
-                background: theme.lemonYellow,
-                color: theme.black,
-                padding: "4px 10px",
-                fontSize: 12,
-                fontWeight: 600,
-              }}
-            >
-              <Sparkles size={14} />
-              Staff Pick
-            </div>
-          )}
           <a
             href={`/establishment/${slug}`}
             css={{
@@ -276,8 +169,6 @@ export default function EstablishmentTile({
               color: "inherit",
               display: "block",
               cursor: "pointer",
-              width: "100%",
-              height: "100%",
             }}
           >
             {photo ? (
@@ -289,7 +180,7 @@ export default function EstablishmentTile({
                 style={{
                   display: "block",
                   width: "100%",
-                  height: "100%",
+                  aspectRatio: "3 / 2",
                   objectFit: "cover",
                   // filter: "grayscale(60%)",
                   transition: "opacity 0.2s",
@@ -304,7 +195,7 @@ export default function EstablishmentTile({
                 style={{
                   display: "block",
                   width: "100%",
-                  height: "100%",
+                  aspectRatio: "3 / 2",
                   objectFit: "cover",
                   // filter: "grayscale(60%)",
                   transition: "opacity 0.2s",
@@ -327,29 +218,54 @@ export default function EstablishmentTile({
             }}
           />
         </div> */}
-        </div>
 
-        {/* Content column */}
-        <div
-          css={{
-            padding: "16px 20px 18px",
-            display: "flex",
-            flexDirection: "column",
-            minWidth: 0,
-            textAlign: "left",
-          }}
-        >
+          {/* Status strip */}
+          <div
+            css={{
+              width: "100%",
+              backgroundColor: isHappyHour ? "#A78BB5" : "#b97c5c",
+              color: theme.white,
+              padding: "10px 20px",
+              fontSize: 12,
+              fontWeight: 800,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              display: "flex",
+              alignItems: "center",
+              justifyItems: "start",
+              gap: 8,
+              [theme.mobile]: {
+                padding: "10px 20px",
+              },
+            }}
+          >
+            {isHappyHour ? (
+              <>
+                It's {dealTypeLabel} Until <span css={{ opacity: 0.6 }}>→</span>{" "}
+                {formattedEndTime}
+              </>
+            ) : (
+              <>
+                {nextHappyHourDay} <span css={{ opacity: 0.6 }}>·</span>{" "}
+                {dealTypeLabel} at {nextHappyHourTime}
+              </>
+            )}
+          </div>
+
           <div
             css={{
               display: "flex",
-              alignItems: "flex-start",
+              alignItems: "center",
               justifyContent: "space-between",
-              gap: 4,
+              width: "100%",
+              padding: "16px 30px",
+              [theme.tablet]: { padding: "14px 24px" },
+              [theme.mobile]: { padding: "12px 20px 8px" },
             }}
           >
             <a
               href={`/establishment/${slug}`}
-              css={{ textDecoration: "none", color: "inherit", flex: 1, minWidth: 0 }}
+              css={{ textDecoration: "none", color: "inherit", flex: 1 }}
             >
               <h3
                 css={{
@@ -361,10 +277,7 @@ export default function EstablishmentTile({
                   cursor: "pointer",
                   transition: "color 0.2s",
                   "&:hover": {
-                    textShadow: `${theme.lavender} 1px 0 10px`,
-                  },
-                  [theme.mobile]: {
-                    fontSize: 23,
+                    textShadow: "#A78BB5 1px 0 10px",
                   },
                 }}
               >
@@ -377,6 +290,9 @@ export default function EstablishmentTile({
                 justifyContent: "flex-end",
                 gap: 4,
                 flexShrink: 0,
+                "& > a:last-child img": {
+                  marginRight: 0,
+                },
                 // "&:hover": {
                 //   textShadow: "#A78BB5 1px 0 10px",
                 // },
@@ -408,142 +324,111 @@ export default function EstablishmentTile({
               )}
             </div>
           </div>
-
-          {neighborhood && (
+          <div
+            css={{
+              textAlign: "left",
+              margin: "0px 30px 10px",
+              [theme.tablet]: {
+                margin: "24px 24px 10px",
+              },
+              [theme.mobile]: {
+                margin: "0 20px",
+              },
+            }}
+          >
+            {/* <div
+            css={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <div
               css={{
-                fontSize: "1rem",
-                lineHeight: "1.25rem",
-                fontWeight: 700,
-                marginTop: 4,
+                display: "grid",
+                marginRight: 0,
                 marginBottom: 10,
+                justifyContent: "start",
               }}
             >
-              {getNeighborhoodLabel(neighborhood)}
-            </div>
-          )}
-
-          <div css={{ marginBottom: "1rem" }}>
-            <div>
-              {dealType && (
+              {neighborhood && (
                 <div
                   css={{
-                    fontSize: 14,
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    fontSize: "1rem",
+                    lineHeight: "1.25rem",
                     fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    opacity: 0.7,
-                    marginTop: 4,
                   }}
                 >
-                  {dealName
-                    ? `${DEAL_TYPE_LABELS[dealType]}: ${dealName}`
-                    : DEAL_TYPE_LABELS[dealType]}
+                  {getNeighborhoodLabel(neighborhood)}
                 </div>
               )}
-              <div
-                css={{
-                  marginTop: 4,
-                  marginBottom: 16,
-                  fontSize: 16,
-                  lineHeight: "1.25rem",
-                  [theme.mobile]: {
-                    marginBottom: 8,
-                  },
-                }}
-              >
-                {happyHourDetails?.includes("\n") ? (
-                  <>
+            </div>
+          </div> */}
+
+            <div css={{ marginBottom: "1rem" }}>
+              <div>
+                <div
+                  css={{
+                    marginTop: 4,
+                    marginBottom: 16,
+                    fontSize: 16,
+                    lineHeight: "1.25rem",
+                    [theme.mobile]: {
+                      marginBottom: 8,
+                    },
+                  }}
+                >
+                  {happyHourDetails?.includes("\n") ? (
                     <ul
                       css={{
                         paddingInlineStart: 20,
                         maxWidth: "max-content",
                       }}
                     >
-                      {visibleDealLines.map((line, index) => (
-                        <li
-                          key={index}
-                          css={{
-                            fontSize: 14,
-                            listStyleType: "disc",
-                            textAlign: "left",
-                            "&:last-child": {
-                              marginBottom: 16,
-                            },
-                          }}
-                        >
-                          {line}
-                        </li>
-                      ))}
+                      {happyHourDetails
+                        .split("\n")
+                        .filter(Boolean)
+                        .map((line, index) => (
+                          <li
+                            key={index}
+                            css={{
+                              fontSize: 14,
+                              listStyleType: "disc",
+                              textAlign: "left",
+                              "&:last-child": {
+                                marginBottom: 16,
+                              },
+                            }}
+                          >
+                            {line}
+                          </li>
+                        ))}
                     </ul>
-                    {!dealsExpanded && hiddenDealCount > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setDealsExpanded(true)}
-                        css={{
-                          display: "block",
-                          background: "none",
-                          border: "none",
-                          padding: 0,
-                          marginTop: -8,
-                          marginBottom: 16,
-                          fontSize: 13,
-                          fontFamily: "inherit",
-                          color: "inherit",
-                          opacity: 0.7,
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        +{hiddenDealCount} more
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <div css={{ fontSize: 14, marginBottom: 16 }}>
-                    {happyHourDetails}
-                  </div>
-                )}
+                  ) : (
+                    <div css={{ fontSize: 14, marginBottom: 16 }}>
+                      {happyHourDetails}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-
-          {visibleHighlights.length > 0 && (
-            <div
-              css={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                marginBottom: 10,
-              }}
-            >
-              {visibleHighlights.map(({ value, icon, label }) => (
-                <AmmenityPill key={value} icon={icon}>
-                  {label}
-                </AmmenityPill>
-              ))}
-            </div>
-          )}
         </div>
-      </div>
-
-      {/* Details: full-width, spans both columns */}
-      <div
-        css={{
-          color: theme.black,
-          paddingBottom: 8,
-          [theme.tablet]: {
-            padding: "12px 0 8px",
-          },
-          [theme.mobile]: {
-            padding: "8px 0",
-          },
-        }}
-      >
-        <details
-            open={detailsOpen}
-            onToggle={(e) => setDetailsOpen(e.currentTarget.open)}
-          >
+        <div
+          css={{
+            borderRadius: "0 0 16px 16px",
+            paddingBottom: 8,
+            color: theme.black,
+            [theme.tablet]: {
+              padding: "12px 0 8px",
+            },
+            [theme.mobile]: {
+              padding: "8px 0",
+            },
+          }}
+        >
+          <details>
             <summary
               css={{
                 cursor: "pointer",
@@ -551,7 +436,7 @@ export default function EstablishmentTile({
                 textAlign: "left",
                 margin: "0 30px 12px",
                 paddingTop: "16px",
-                borderTop: `1px solid ${theme.lightGrout}`,
+                borderTop: "1px solid #e4e3e4",
                 [theme.tablet]: {
                   margin: "0 24px 12px",
                 },
@@ -564,8 +449,8 @@ export default function EstablishmentTile({
             </summary>
             <div
               css={{
-                textAlign: "left",
                 textTransform: "capitalize",
+                textAlign: "left",
                 fontSize: 12,
                 margin: "0 30px 20px",
                 maxWidth: 300,
@@ -592,8 +477,65 @@ export default function EstablishmentTile({
                   ))}
                 </div>
               )}
+              <div
+                css={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  marginTop: 16,
+                  marginBottom: 4,
+                }}
+              >
+                {whatWeHaveHere.includes("cocktails") && (
+                  <AmmenityPill icon={Martini}>Cocktails</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("wine") && (
+                  <AmmenityPill icon={Wine}>Wine</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("beer") && (
+                  <AmmenityPill icon={Beer}>Beer</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("food") && (
+                  <AmmenityPill icon={UtensilsCrossed}>Food</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("naDrinks") && (
+                  <AmmenityPill icon={CupSoda}>NA Drinks</AmmenityPill>
+                )}
+                {whatWeHaveHere.includes("coffee") && (
+                  <AmmenityPill icon={Coffee}>Coffee</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("indoor") && (
+                  <AmmenityPill icon={Store}>Indoors</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("patio") && (
+                  <AmmenityPill icon={TreePalm}>Patio</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("barSeating") && (
+                  <AmmenityPill icon={ConciergeBell}>Bar Seats</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("dogFriendly") && (
+                  <AmmenityPill icon={PawPrint}>Dog Friendly</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("smallGroups") && (
+                  <AmmenityPill icon={UserRound}>Up to 4 People</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("bigGroups") && (
+                  <AmmenityPill icon={UsersRound}>4+ People OK</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("reservationsRec") && (
+                  <AmmenityPill icon={CalendarCheck}>Reso Reco'd</AmmenityPill>
+                )}
+                {theSpaceIsLike.includes("staffPick") && (
+                  <AmmenityPill
+                    icon={Sparkles}
+                    css={{ background: theme.lemonYellow }}
+                  >
+                    Staff Pick!
+                  </AmmenityPill>
+                )}
+              </div>
             </div>
           </details>
+        </div>
       </div>
     </div>
   )

@@ -1,17 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import React, { useMemo, useEffect, useState } from "react"
 import theme from "@styles/theme"
-import EstablishmentTile from "./EstablishmentTile"
+import HappeningsTile from "./HappeningsTile"
 import FilterBar from "./FilterBar"
 import { sortEstablishments } from "@lib/sortEstablishments"
 import { hoursCover } from "@lib/parseHours"
+import { flattenOtherDeals } from "@lib/flattenOtherDeals"
 import type { SanityEstablishment } from "@/types/sanity"
+import { uppercase } from "zod"
 
-interface HomeClientProps {
+interface HappeningsPageProps {
   establishments: SanityEstablishment[]
 }
 
-export default function HomeClient({ establishments = [] }: HomeClientProps) {
+export default function HappeningsPage({
+  establishments = [],
+}: HappeningsPageProps) {
   // Filter state - initialize to false on SSR, read from URL on client
   const [searchQuery, setSearchQuery] = useState("")
   const [hasWine, setHasWine] = useState(false)
@@ -94,26 +98,34 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
     hasNaDrinks,
   ])
 
-  // Sort establishments by happy hour status
-  const sortedEstablishments = useMemo(
-    () => sortEstablishments(establishments),
+  // Flatten every establishment's otherDeals into one tile per deal entry
+  const dealTiles = useMemo(
+    () => flattenOtherDeals(establishments),
     [establishments]
   )
 
+  // Sort deal tiles the same way Home sorts establishments: currently
+  // happening deals first (soonest ending first), then upcoming deals
+  // (soonest starting first)
+  const sortedDealTiles = useMemo(
+    () => sortEstablishments(dealTiles),
+    [dealTiles]
+  )
+
   // Apply filters
-  const filteredEstablishments = useMemo(() => {
-    let result = sortedEstablishments
+  const filteredDealTiles = useMemo(() => {
+    let result = sortedDealTiles
 
     // Apply search
     if (searchQuery.trim()) {
       const searchTerms = searchQuery.trim().toLowerCase().split(/\s+/)
-      result = result.filter((est) => {
+      result = result.filter((deal) => {
         const searchableContent = [
-          est.name,
-          est.neighborhood,
-          est.address,
-          ...(est.whatWeHaveHere || []),
-          ...(est.theSpaceIsLike || []),
+          deal.name,
+          deal.neighborhood,
+          deal.address,
+          ...(deal.whatWeHaveHere || []),
+          ...(deal.theSpaceIsLike || []),
         ]
           .filter(Boolean)
           .join(" ")
@@ -125,31 +137,35 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
 
     // Apply amenity filters
     if (hasWine)
-      result = result.filter((est) => est.whatWeHaveHere?.includes("wine"))
+      result = result.filter((deal) => deal.whatWeHaveHere?.includes("wine"))
     if (hasBeer)
-      result = result.filter((est) => est.whatWeHaveHere?.includes("beer"))
+      result = result.filter((deal) => deal.whatWeHaveHere?.includes("beer"))
     if (hasCocktails)
-      result = result.filter((est) => est.whatWeHaveHere?.includes("cocktails"))
+      result = result.filter((deal) =>
+        deal.whatWeHaveHere?.includes("cocktails")
+      )
     if (hasFood)
-      result = result.filter((est) => est.whatWeHaveHere?.includes("food"))
+      result = result.filter((deal) => deal.whatWeHaveHere?.includes("food"))
     if (hasCoffee)
-      result = result.filter((est) => est.whatWeHaveHere?.includes("coffee"))
+      result = result.filter((deal) => deal.whatWeHaveHere?.includes("coffee"))
     if (hasNaDrinks)
-      result = result.filter((est) => est.whatWeHaveHere?.includes("naDrinks"))
+      result = result.filter((deal) =>
+        deal.whatWeHaveHere?.includes("naDrinks")
+      )
     if (hasPatio)
-      result = result.filter((est) => est.theSpaceIsLike?.includes("patio"))
+      result = result.filter((deal) => deal.theSpaceIsLike?.includes("patio"))
     if (hasBarSeating)
-      result = result.filter((est) =>
-        est.theSpaceIsLike?.includes("barSeating")
+      result = result.filter((deal) =>
+        deal.theSpaceIsLike?.includes("barSeating")
       )
     if (hasDogFriendly)
-      result = result.filter((est) =>
-        est.theSpaceIsLike?.includes("dogFriendly")
+      result = result.filter((deal) =>
+        deal.theSpaceIsLike?.includes("dogFriendly")
       )
 
     return result
   }, [
-    sortedEstablishments,
+    sortedDealTiles,
     searchQuery,
     hasWine,
     hasBeer,
@@ -162,23 +178,23 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
     hasDogFriendly,
   ])
 
-  // Separate by happy hour status
-  const happyHourNow = useMemo(
+  // Separate by whether the deal's times currently cover now
+  const happeningNow = useMemo(
     () =>
-      filteredEstablishments.filter(
-        (est) =>
-          est.happyHourTimes && hoursCover(est.happyHourTimes, new Date())
+      filteredDealTiles.filter(
+        (deal) =>
+          deal.happyHourTimes && hoursCover(deal.happyHourTimes, new Date())
       ),
-    [filteredEstablishments]
+    [filteredDealTiles]
   )
 
-  const happyHourLater = useMemo(
+  const happeningLater = useMemo(
     () =>
-      filteredEstablishments.filter(
-        (est) =>
-          !est.happyHourTimes || !hoursCover(est.happyHourTimes, new Date())
+      filteredDealTiles.filter(
+        (deal) =>
+          !deal.happyHourTimes || !hoursCover(deal.happyHourTimes, new Date())
       ),
-    [filteredEstablishments]
+    [filteredDealTiles]
   )
 
   return (
@@ -198,7 +214,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             textTransform: "uppercase",
           }}
         >
-          Happy Hour
+          Happenings
         </h2>
         <h3
           css={{
@@ -208,7 +224,8 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             textWrap: "pretty",
           }}
         >
-          Happy Hour now, Happy Hour later. Happy Here!
+          Collecting all of the OTHER deals like: Daily Specials, Reverse Happy
+          Hour, Industry Night, etc.
         </h3>
       </div>
 
@@ -216,11 +233,11 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
         filters={filters}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        resultCount={filteredEstablishments.length}
+        resultCount={filteredDealTiles.length}
       />
 
-      {/* Happy Hour Now Section */}
-      {happyHourNow.length > 0 && (
+      {/* Happening Now Section */}
+      {happeningNow.length > 0 && (
         <>
           <div
             css={{
@@ -235,6 +252,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             <h2
               css={{
                 fontFamily: theme.newFontFamily,
+                fontFamily: theme.newFontFamily,
                 fontSize: 80,
                 textTransform: "uppercase",
                 lineHeight: 1,
@@ -244,7 +262,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
-              Happy Hour Now
+              Happening Now
             </h2>
             <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
               ✦
@@ -253,12 +271,14 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              gridTemplateColumns: "1fr 1fr 1fr",
               margin: "0 auto",
               justifyContent: "center",
               justifyItems: "center",
-              alignItems: "start",
               gap: "40px 40px",
+              [theme.smallDesktop]: {
+                gridTemplateColumns: "1fr 1fr",
+              },
               [theme.tablet]: {
                 gridTemplateColumns: "1fr",
                 gap: 30,
@@ -269,15 +289,15 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               },
             }}
           >
-            {happyHourNow.map((est) => (
-              <EstablishmentTile key={est._id} {...est} />
+            {happeningNow.map((deal) => (
+              <HappeningsTile key={deal._id} {...deal} />
             ))}
           </div>
         </>
       )}
 
-      {/* Happy Hour Later Section */}
-      {happyHourLater.length > 0 && (
+      {/* Coming Up Section */}
+      {happeningLater.length > 0 && (
         <>
           <div
             css={{
@@ -310,12 +330,14 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              gridTemplateColumns: "1fr 1fr 1fr",
               margin: "0 auto",
               justifyContent: "center",
               justifyItems: "center",
-              alignItems: "start",
               gap: "40px 40px",
+              [theme.smallDesktop]: {
+                gridTemplateColumns: "1fr 1fr",
+              },
               [theme.tablet]: {
                 gridTemplateColumns: "1fr",
                 gap: 30,
@@ -326,15 +348,15 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               },
             }}
           >
-            {happyHourLater.map((est) => (
-              <EstablishmentTile key={est._id} {...est} />
+            {happeningLater.map((deal) => (
+              <HappeningsTile key={deal._id} {...deal} />
             ))}
           </div>
         </>
       )}
 
       {/* No Results */}
-      {filteredEstablishments.length === 0 && (
+      {filteredDealTiles.length === 0 && (
         <div
           css={{
             textAlign: "center",
@@ -350,17 +372,21 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               marginBottom: 16,
             }}
           >
-            No establishments found
+            {dealTiles.length === 0
+              ? "No happenings yet, check back soon"
+              : "No happenings found"}
           </h3>
-          <p
-            css={{
-              ...theme.body,
-              color: theme.black,
-              opacity: 0.7,
-            }}
-          >
-            Try adjusting your filters or search query
-          </p>
+          {dealTiles.length > 0 && (
+            <p
+              css={{
+                ...theme.body,
+                color: theme.black,
+                opacity: 0.7,
+              }}
+            >
+              Try adjusting your filters or search query
+            </p>
+          )}
         </div>
       )}
     </>

@@ -1,6 +1,5 @@
 ---
 import Layout from '@components/astro/Layout.astro';
-import Header from '@components/react/Header';
 import MapPage from '@components/react/MapPage';
 import { getAllEstablishments } from '@lib/sanity';
 
@@ -18,8 +17,6 @@ const establishmentsWithLocation = filteredEstablishments.filter(
 ---
 
 <Layout title="Map View - Happy Here">
-  <Header />
-
   <div style="padding: 0 20px; margin-bottom: 40px;">
     <MapPage establishments={establishmentsWithLocation} client:load />
   </div>

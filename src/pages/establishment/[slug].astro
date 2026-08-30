@@ -1,6 +1,5 @@
 ---
 import Layout from '@components/astro/Layout.astro';
-import Header from '@components/react/Header';
 import EstablishmentPage from '@components/react/EstablishmentPage';
 import { getAllEstablishments, generateSlug } from '@lib/sanity';
 import type { SanityEstablishment } from '@/types/sanity';
@@ -23,8 +22,6 @@ const { establishment } = Astro.props;
 ---
 
 <Layout title={`${establishment.name} - Happy Here`}>
-  <Header />
-
   {/* React component for real-time happy hour status */}
   <EstablishmentPage establishment={establishment} client:load />
 </Layout>

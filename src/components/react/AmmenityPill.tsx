@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
-import theme from '@styles/theme';
-import type { LucideIcon } from 'lucide-react';
+import React from "react"
+import theme from "@styles/theme"
+import type { LucideIcon } from "lucide-react"
 
 interface AmmenityPillProps {
-  icon: LucideIcon;
-  iconColor?: string;
-  children: React.ReactNode;
-  className?: string;
+  icon: LucideIcon
+  iconColor?: string
+  children: React.ReactNode
+  className?: string
 }
 
 export default function AmmenityPill({
@@ -20,18 +20,18 @@ export default function AmmenityPill({
     <div
       css={{
         marginBottom: 8,
-        display: 'inline-flex',
-        alignItems: 'center',
-        borderRadius: '9999px',
-        background: '#E8DDEF',
-        color: '#000000',
-        padding: '2px 10px',
+        display: "inline-flex",
+        alignItems: "center",
+        borderRadius: "9999px",
+        background: "#E8DDEF",
+        color: "#000000",
+        padding: "2px 10px",
         fontSize: 12,
         fontWeight: 600,
-        textWrap: 'pretty',
-        height: 'fit-content',
-        width: 'auto',
-        marginRight: 4,
+        textWrap: "pretty",
+        height: "fit-content",
+        width: "auto",
+        marginRight: 8,
       }}
       className={className}
     >
@@ -39,10 +39,10 @@ export default function AmmenityPill({
         css={{
           color: iconColor,
           marginRight: 8,
-          flex: '0 0 16px',
+          flex: "0 0 16px",
         }}
       />
       <div>{children}</div>
     </div>
-  );
+  )
 }

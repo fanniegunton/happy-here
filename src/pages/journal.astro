@@ -1,8 +1,20 @@
 ---
 import Layout from '@components/astro/Layout.astro';
 import JournalPage from '@components/react/JournalPage';
+import { getJournalSettings, getAllPosts, urlFor } from '@lib/sanity';
+
+// Fetch data at build time
+const journalSettings = await getJournalSettings();
+const posts = await getAllPosts();
+
+const description =
+  journalSettings?.description ||
+  'Stories, guides, and updates from the Happy Here team.';
+const ogImage = journalSettings?.mainImage
+  ? urlFor(journalSettings.mainImage).width(1200).height(630).auto('format').url()
+  : undefined;
 ---
 
-<Layout title="Journal - Happy Here">
-  <JournalPage client:load />
+<Layout title="Journal - Happy Here" description={description} image={ogImage}>
+  <JournalPage journalSettings={journalSettings} posts={posts} client:load />
 </Layout>
