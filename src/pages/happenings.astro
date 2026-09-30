@@ -1,6 +1,6 @@
 ---
 import Layout from '@components/astro/Layout.astro';
-import HomePage from '@components/react/HomePage';
+import HappeningsPage from '@components/react/HappeningsPage';
 import { getAllEstablishments } from '@lib/sanity';
 
 // Fetch data at build time
@@ -12,13 +12,14 @@ const filteredEstablishments = import.meta.env.PROD
   : establishments;
 ---
 
-<Layout title="Happy Here - Find Happy Hours in Austin">
+<Layout title="Happenings - Happy Here">
   {/*
     Client-side React component handles:
+    - Flattening each establishment's otherDeals into one tile per deal
     - Filter state management
     - Search functionality
-    - Real-time happy hour checking
+    - Real-time deal-status checking
     - Dynamic rendering
   */}
-  <HomePage establishments={filteredEstablishments} client:load />
+  <HappeningsPage establishments={filteredEstablishments} client:load />
 </Layout>

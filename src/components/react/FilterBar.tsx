@@ -67,44 +67,35 @@ export default function FilterBar({
   return (
     <>
       {/* Search Bar */}
-      <div
-        css={{
-          margin: "0 -40px",
-          padding: "16px 40px",
-          borderBottom: `1px solid ${theme.lightGrout}`,
-          [theme.mobile]: { margin: 0, padding: "12px 30px" },
-        }}
-      >
-        <div css={{ position: "relative", maxWidth: 600 }}>
-          <Search
-            size={16}
-            css={{
-              position: "absolute",
-              left: 12,
-              top: "50%",
-              transform: "translateY(-50%)",
-              opacity: 0.4,
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Search by name or neighborhood..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            css={{
-              width: "100%",
-              padding: "10px 16px 10px 36px",
-              fontSize: 12,
-              letterSpacing: "0.03em",
-              border: `1px solid ${theme.lightGrout}`,
-              borderRadius: "20px",
-              outline: "none",
-              background: "transparent",
-              transition: "border-color 0.2s",
-              "&:focus": { borderColor: "black" },
-            }}
-          />
-        </div>
+      <div css={{ position: "relative", maxWidth: 600 }}>
+        <Search
+          size={16}
+          css={{
+            position: "absolute",
+            left: 12,
+            top: "50%",
+            transform: "translateY(-50%)",
+            opacity: 0.4,
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Search by name or neighborhood..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          css={{
+            width: "100%",
+            padding: "10px 16px 10px 36px",
+            fontSize: 12,
+            letterSpacing: "0.03em",
+            border: `1px solid ${theme.lightGrout}`,
+            borderRadius: "20px",
+            outline: "none",
+            background: "transparent",
+            transition: "border-color 0.2s",
+            "&:focus": { borderColor: "black" },
+          }}
+        />
       </div>
 
       {/* Filter bar */}
@@ -115,53 +106,110 @@ export default function FilterBar({
           borderBottom: "1px solid black",
           display: "flex",
           flexDirection: "column",
-          gap: 12,
+          gap: 16,
           [theme.mobile]: { margin: 0, padding: "12px 30px" },
         }}
       >
         <span
           css={{
-            fontSize: 12,
+            fontSize: 16,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
             fontWeight: 500,
+            opacity: 0.9,
           }}
         >
-          Show Me
+          Show Me Only:
         </span>
 
-        <div css={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        {[
-          { label: "Wine", active: hasWine, toggle: () => setHasWine(!hasWine) },
-          { label: "Beer", active: hasBeer, toggle: () => setHasBeer(!hasBeer) },
-          { label: "Cocktails", active: hasCocktails, toggle: () => setHasCocktails(!hasCocktails) },
-          { label: "Food", active: hasFood, toggle: () => setHasFood(!hasFood) },
-          { label: "Coffee", active: hasCoffee, toggle: () => setHasCoffee(!hasCoffee) },
-          { label: "Patio", active: hasPatio, toggle: () => setHasPatio(!hasPatio) },
-          { label: "Bar Seating", active: hasBarSeating, toggle: () => setHasBarSeating(!hasBarSeating) },
-          { label: "NA Drinks", active: hasNaDrinks, toggle: () => setHasNaDrinks(!hasNaDrinks) },
-          { label: "🐶🐾 Friendly", active: hasDogFriendly, toggle: () => setHasDogFriendly(!hasDogFriendly) },
-        ].map(({ label, active, toggle }) => (
-          <button
-            key={label}
-            onClick={toggle}
-            css={{
-              padding: "0.5rem 1rem",
-              borderRadius: "20px",
-              cursor: "pointer",
-              fontSize: 12,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              fontFamily: "inherit",
-              transition: "background-color 0.2s, color 0.2s",
-              ...(active
-                ? { backgroundColor: "#A78BB5", color: "white", border: "1px solid #A78BB5" }
-                : { backgroundColor: "transparent", color: "black", border: "1px solid black", "&:hover": { backgroundColor: "black", color: "white" } }),
-            }}
-          >
-            {label}
-          </button>
-        ))}
+        <div
+          css={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            flexWrap: "wrap",
+          }}
+        >
+          {[
+            {
+              label: "Wine",
+              active: hasWine,
+              toggle: () => setHasWine(!hasWine),
+            },
+            {
+              label: "Beer",
+              active: hasBeer,
+              toggle: () => setHasBeer(!hasBeer),
+            },
+            {
+              label: "Cocktails",
+              active: hasCocktails,
+              toggle: () => setHasCocktails(!hasCocktails),
+            },
+            {
+              label: "Food",
+              active: hasFood,
+              toggle: () => setHasFood(!hasFood),
+            },
+            {
+              label: "Coffee",
+              active: hasCoffee,
+              toggle: () => setHasCoffee(!hasCoffee),
+            },
+            {
+              label: "Patio",
+              active: hasPatio,
+              toggle: () => setHasPatio(!hasPatio),
+            },
+            {
+              label: "Bar Seating",
+              active: hasBarSeating,
+              toggle: () => setHasBarSeating(!hasBarSeating),
+            },
+            {
+              label: "NA Drinks",
+              active: hasNaDrinks,
+              toggle: () => setHasNaDrinks(!hasNaDrinks),
+            },
+            {
+              label: "🐶🐾 Friendly",
+              active: hasDogFriendly,
+              toggle: () => setHasDogFriendly(!hasDogFriendly),
+            },
+          ].map(({ label, active, toggle }) => (
+            <button
+              key={label}
+              onClick={toggle}
+              css={{
+                padding: "0.5rem 1rem",
+                borderRadius: "20px",
+                cursor: "pointer",
+                fontSize: 12,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                fontFamily: "inherit",
+                transition: "background-color 0.2s, color 0.2s",
+                ...(active
+                  ? {
+                      backgroundColor: "black",
+                      color: "white",
+                      border: "2px solid black",
+                    }
+                  : {
+                      backgroundColor: "transparent",
+                      color: "black",
+                      border: "2px solid black",
+                      "&:hover": {
+                        backgroundColor: "#A78BB5",
+                        color: "white",
+                        border: "2px solid #A78BB5",
+                      },
+                    }),
+              }}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         {/* Controls */}

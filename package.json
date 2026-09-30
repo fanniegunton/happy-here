@@ -19,6 +19,8 @@
     "@astrojs/partytown": "^2.1.2",
     "@browserbasehq/stagehand": "^3.6.0",
     "@emotion/react": "^11.10.5",
+    "@portabletext/to-html": "^5.0.2",
+    "@portabletext/types": "^4.0.2",
     "@sanity/client": "^7.12.1",
     "@sanity/image-url": "^1.0.2",
     "@upstash/redis": "^1.35.0",

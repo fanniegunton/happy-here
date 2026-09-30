@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react"
 import theme from "@styles/theme"
-import Header from "./Header"
 
 interface Neighborhood {
   region: string
@@ -19,7 +18,6 @@ export default function NeighborhoodsPage({
 }: NeighborhoodsPageProps) {
   return (
     <>
-      <Header />
       <div
         css={{
           padding: "0 20px",

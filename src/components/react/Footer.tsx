@@ -65,7 +65,7 @@ export default function Footer() {
             <a href="/lists">Lists</a>
             <a href="/about">About</a>
             <a href="/journal">Journal</a>
-            <a href="mailto:happyhappyhere@gmail.com">Contact</a>
+            <a href="/contact">Contact</a>
             <a
               href="https://www.instagram.com/takeouttracker/"
               target="_blank"

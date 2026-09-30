@@ -1,22 +1,31 @@
 /** @jsxImportSource @emotion/react */
 import React, { useMemo, useState, useEffect } from "react"
 import theme from "@styles/theme"
-import Header from "./Header"
 import FilterBar from "./FilterBar"
 import EstablishmentTile from "./EstablishmentTile"
+import SanityImage from "./SanityImage"
+import PortableTextBody from "./PortableTextBody"
 import { sortEstablishments } from "@lib/sortEstablishments"
 import { hoursCover } from "@lib/parseHours"
-import type { SanityEstablishment } from "@/types/sanity"
+import { neighborhoodColorSchemes } from "@styles/neighborhoodColorSchemes"
+import type { SanityEstablishment, SanityNeighborhood } from "@/types/sanity"
 
 interface NeighborhoodPageProps {
   establishments: SanityEstablishment[]
   neighborhoodLabel: string
+  neighborhoodContent?: SanityNeighborhood | null
+  mainCopyHtml?: string
 }
 
 export default function NeighborhoodPage({
   establishments,
   neighborhoodLabel,
+  neighborhoodContent,
+  mainCopyHtml,
 }: NeighborhoodPageProps) {
+  const scheme = neighborhoodContent?.colorScheme
+    ? neighborhoodColorSchemes[neighborhoodContent.colorScheme]
+    : null
   const [searchQuery, setSearchQuery] = useState("")
   const [hasWine, setHasWine] = useState(false)
   const [hasBeer, setHasBeer] = useState(false)
@@ -131,9 +140,16 @@ export default function NeighborhoodPage({
   )
 
   return (
-    <>
-      <Header />
-
+    <div
+      css={{
+        // PLACEHOLDER color-scheme accent, set only when a neighborhood document
+        // specifies one — see @styles/neighborhoodColorSchemes for the mechanism.
+        ...(scheme && {
+          ["--neighborhood-accent" as any]: scheme.accent,
+          ["--neighborhood-background" as any]: scheme.background,
+        }),
+      }}
+    >
       <FilterBar
         filters={filters}
         searchQuery={searchQuery}
@@ -168,6 +184,36 @@ export default function NeighborhoodPage({
         </a>
       </div>
 
+      {neighborhoodContent?.photos && neighborhoodContent.photos.length > 0 && (
+        <div
+          css={{
+            display: "flex",
+            gap: 16,
+            overflowX: "auto",
+            marginBottom: 32,
+            [theme.mobile]: { padding: "0 30px" },
+          }}
+        >
+          {neighborhoodContent.photos.map((photo, index) => (
+            <SanityImage
+              key={index}
+              image={photo}
+              width={500}
+              height={333}
+              alt={`Photo of ${neighborhoodLabel}`}
+              style={{
+                display: "block",
+                width: 500,
+                flexShrink: 0,
+                aspectRatio: "3 / 2",
+                objectFit: "cover",
+                borderRadius: 20,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
       <div
         css={{
           display: "flex",
@@ -201,11 +247,40 @@ export default function NeighborhoodPage({
             // letterSpacing: "-0.05em",
             // fontWeight: 900,
             [theme.mobile]: { fontSize: 28 },
+            color: scheme ? "var(--neighborhood-accent)" : undefined,
           }}
         >
           ✦
         </span>
       </div>
+
+      {neighborhoodContent?.quickDescription && (
+        <p
+          css={{
+            ...theme.subtitle,
+            maxWidth: 700,
+            marginBottom: 48,
+            [theme.mobile]: { padding: "0 30px", marginBottom: 32 },
+          }}
+        >
+          {neighborhoodContent.quickDescription}
+        </p>
+      )}
+
+      {mainCopyHtml && (
+        <div
+          css={{
+            maxWidth: 700,
+            marginBottom: 48,
+            padding: 24,
+            borderRadius: 20,
+            background: scheme ? "var(--neighborhood-background)" : undefined,
+            [theme.mobile]: { margin: "0 30px 32px", padding: 16 },
+          }}
+        >
+          <PortableTextBody html={mainCopyHtml} />
+        </div>
+      )}
 
       {happyHourNow.length > 0 && (
         <>
@@ -232,7 +307,7 @@ export default function NeighborhoodPage({
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
-              Happening Now
+              Happy Hour Now
             </h2>
             <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
               ✦
@@ -241,12 +316,12 @@ export default function NeighborhoodPage({
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
+              gridTemplateColumns: "1fr 1fr",
               margin: "0 auto",
               justifyContent: "center",
               justifyItems: "center",
+              alignItems: "start",
               gap: "40px 40px",
-              [theme.smallDesktop]: { gridTemplateColumns: "1fr 1fr" },
               [theme.tablet]: { gridTemplateColumns: "1fr", gap: 30 },
               [theme.mobile]: { margin: 0, gap: 24 },
             }}
@@ -291,12 +366,12 @@ export default function NeighborhoodPage({
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
+              gridTemplateColumns: "1fr 1fr",
               margin: "0 auto",
               justifyContent: "center",
               justifyItems: "center",
+              alignItems: "start",
               gap: "40px 40px",
-              [theme.smallDesktop]: { gridTemplateColumns: "1fr 1fr" },
               [theme.tablet]: { gridTemplateColumns: "1fr", gap: 30 },
               [theme.mobile]: { margin: 0, gap: 24 },
             }}
@@ -324,6 +399,6 @@ export default function NeighborhoodPage({
           </p>
         </div>
       )}
-    </>
+    </div>
   )
 }

@@ -1,6 +1,13 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-import type { SanityEstablishment, SanityImageAsset } from '@/types/sanity';
+import { getExcerpt } from './portableText';
+import type {
+  SanityEstablishment,
+  SanityImageAsset,
+  SanityPost,
+  SanityJournalSettings,
+  SanityNeighborhood,
+} from '@/types/sanity';
 
 // Server-side client for fetching data (uses private token)
 // Only initialize on server to avoid client-side errors
@@ -45,7 +52,8 @@ export const ESTABLISHMENT_PROJECTION = `
   whatWeHaveHere,
   theSpaceIsLike,
   ownershipIdentifiedAs,
-  location
+  location,
+  otherDeals[]{ _key, dealType, dealName, times, details }
 `;
 
 // Normalize establishment data to ensure arrays are never null
@@ -57,6 +65,7 @@ function normalizeEstablishment(est: any): SanityEstablishment {
     whatWeHaveHere: est.whatWeHaveHere || [],
     theSpaceIsLike: est.theSpaceIsLike || [],
     ownershipIdentifiedAs: est.ownershipIdentifiedAs || [],
+    otherDeals: est.otherDeals || [],
   };
 }
 
@@ -95,6 +104,85 @@ export async function getEstablishmentById(id: string): Promise<SanityEstablishm
   }`;
   const result = await sanityClient.fetch(query, { id });
   return result ? normalizeEstablishment(result) : null;
+}
+
+// GROQ query projection for post data
+export const POST_PROJECTION = `
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  mainImage,
+  "author": author->{ _id, name, url, avatar },
+  "categories": categories[]->{ _id, title, description },
+  publishedAt,
+  body
+`;
+
+// Fetch the journalSettings singleton
+export async function getJournalSettings(): Promise<SanityJournalSettings | null> {
+  if (!sanityClient) {
+    throw new Error('getJournalSettings can only be called on the server');
+  }
+  const query = `*[_type == "journalSettings"][0] {
+    _id,
+    description,
+    mainImage
+  }`;
+  const result = await sanityClient.fetch(query);
+  return result || null;
+}
+
+// Fetch all posts, most recently published first, with a derived excerpt for card previews
+export async function getAllPosts(): Promise<SanityPost[]> {
+  if (!sanityClient) {
+    throw new Error('getAllPosts can only be called on the server');
+  }
+  const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+    ${POST_PROJECTION}
+  }`;
+  const posts: SanityPost[] = await sanityClient.fetch(query);
+  return posts.map((post) => ({ ...post, excerpt: getExcerpt(post.body) }));
+}
+
+// Fetch a single post by slug
+export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
+  if (!sanityClient) {
+    throw new Error('getPostBySlug can only be called on the server');
+  }
+  const query = `*[_type == "post" && slug.current == $slug][0] {
+    ${POST_PROJECTION}
+  }`;
+  const result = await sanityClient.fetch(query, { slug });
+  return result || null;
+}
+
+// GROQ query projection for neighborhood content
+export const NEIGHBORHOOD_PROJECTION = `
+  _id,
+  _type,
+  region,
+  subNeighborhood,
+  quickDescription,
+  photos,
+  mainCopy,
+  colorScheme
+`;
+
+// Fetch the neighborhood document for a region. The neighborhood route is
+// region-level (one page aggregates every subNeighborhood under a region), so
+// prefer a region-wide document (no subNeighborhood set) and fall back to any
+// subNeighborhood-specific document if that's all that's been created so far.
+// Returns null when no matching document exists yet — expected during rollout.
+export async function getNeighborhoodContent(region: string): Promise<SanityNeighborhood | null> {
+  if (!sanityClient) {
+    throw new Error('getNeighborhoodContent can only be called on the server');
+  }
+  const query = `*[_type == "neighborhood" && region == $region] | order(defined(subNeighborhood) asc) [0] {
+    ${NEIGHBORHOOD_PROJECTION}
+  }`;
+  const result = await sanityClient.fetch(query, { region });
+  return result || null;
 }
 
 export function generateSlug(name: string): string {

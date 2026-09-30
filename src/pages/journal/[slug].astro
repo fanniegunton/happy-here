@@ -1,0 +1,33 @@
+---
+import Layout from '@components/astro/Layout.astro';
+import JournalPostPage from '@components/react/JournalPostPage';
+import { getAllPosts, urlFor } from '@lib/sanity';
+import { postBodyToHtml } from '@lib/postBodyToHtml';
+import type { SanityPost } from '@/types/sanity';
+
+// Generate static paths for all posts at build time
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: SanityPost;
+}
+
+const { post } = Astro.props;
+
+const bodyHtml = postBodyToHtml(post.body);
+const description = post.excerpt || `${post.title} - Happy Here Journal`;
+const ogImage = post.mainImage
+  ? urlFor(post.mainImage).width(1200).height(630).auto('format').url()
+  : undefined;
+---
+
+<Layout title={`${post.title} - Happy Here Journal`} description={description} image={ogImage}>
+  <JournalPostPage post={post} bodyHtml={bodyHtml} client:load />
+</Layout>

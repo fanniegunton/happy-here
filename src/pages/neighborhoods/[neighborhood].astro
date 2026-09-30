@@ -1,61 +1,77 @@
 ---
-import Layout from '@components/astro/Layout.astro';
-import NeighborhoodPage from '@components/react/NeighborhoodPage';
-import { getAllEstablishments } from '@lib/sanity';
-import { generateSlug } from '@lib/slug';
-import type { SanityEstablishment } from '@/types/sanity';
+import Layout from "@components/astro/Layout.astro"
+import NeighborhoodPage from "@components/react/NeighborhoodPage"
+import { getAllEstablishments, getNeighborhoodContent } from "@lib/sanity"
+import { postBodyToHtml } from "@lib/postBodyToHtml"
+import { generateSlug } from "@lib/slug"
+import type { SanityEstablishment } from "@/types/sanity"
 
 export async function getStaticPaths() {
-  const allEstablishments = await getAllEstablishments();
+  const allEstablishments = await getAllEstablishments()
   const establishments = import.meta.env.PROD
-    ? allEstablishments.filter((est) => est._id !== 'b95f53fc-ae57-4605-b4b6-6ceb785a1756')
-    : allEstablishments;
+    ? allEstablishments.filter(
+        (est) => est._id !== "b95f53fc-ae57-4605-b4b6-6ceb785a1756"
+      )
+    : allEstablishments
 
   function toTitleCase(s: string): string {
-    return s.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase()).trim();
+    return s
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (c) => c.toUpperCase())
+      .trim()
   }
 
-  const TEST_ID = 'b95f53fc-ae57-4605-b4b6-6ceb785a1756';
+  const TEST_ID = "b95f53fc-ae57-4605-b4b6-6ceb785a1756"
   const testSpot = !import.meta.env.PROD
     ? allEstablishments.find((est) => est._id === TEST_ID)
-    : undefined;
+    : undefined
 
-  const regionMap = new Map<string, SanityEstablishment[]>();
+  const regionMap = new Map<string, SanityEstablishment[]>()
   for (const est of establishments) {
-    if (!est.neighborhood?.region) continue;
-    const region = est.neighborhood.region;
-    if (!regionMap.has(region)) regionMap.set(region, []);
-    regionMap.get(region)!.push(est);
+    if (!est.neighborhood?.region) continue
+    const region = est.neighborhood.region
+    if (!regionMap.has(region)) regionMap.set(region, [])
+    regionMap.get(region)!.push(est)
   }
 
-  // In dev, add the test spot to every neighborhood so "Happening Now" is previewable everywhere
+  // In dev, add the test spot to every neighborhood so "Happy Hour Now" is previewable everywhere
   if (testSpot) {
     for (const list of regionMap.values()) {
-      if (!list.find((e) => e._id === TEST_ID)) list.push(testSpot);
+      if (!list.find((e) => e._id === TEST_ID)) list.push(testSpot)
     }
   }
 
-  return [...regionMap.entries()].map(([region, regionEstablishments]) => {
-    const label = toTitleCase(region);
-    return {
-      params: { neighborhood: generateSlug(label) },
-      props: { establishments: regionEstablishments, neighborhoodLabel: label },
-    };
-  });
+  return Promise.all(
+    [...regionMap.entries()].map(async ([region, regionEstablishments]) => {
+      const label = toTitleCase(region)
+      const neighborhoodContent = await getNeighborhoodContent(region)
+      return {
+        params: { neighborhood: generateSlug(label) },
+        props: { establishments: regionEstablishments, neighborhoodLabel: label, neighborhoodContent },
+      }
+    })
+  )
 }
 
 interface Props {
-  establishments: SanityEstablishment[];
-  neighborhoodLabel: string;
+  establishments: SanityEstablishment[]
+  neighborhoodLabel: string
+  neighborhoodContent: Awaited<ReturnType<typeof getNeighborhoodContent>>
 }
 
-const { establishments, neighborhoodLabel } = Astro.props;
+const { establishments, neighborhoodLabel, neighborhoodContent } = Astro.props
+
+const mainCopyHtml = neighborhoodContent?.mainCopy
+  ? postBodyToHtml(neighborhoodContent.mainCopy)
+  : undefined
 ---
 
 <Layout title={`${neighborhoodLabel} - Happy Here`}>
   <NeighborhoodPage
     establishments={establishments}
     neighborhoodLabel={neighborhoodLabel}
+    neighborhoodContent={neighborhoodContent}
+    mainCopyHtml={mainCopyHtml}
     client:load
   />
 </Layout>

@@ -32,11 +32,14 @@ const colors = {
   lavender: "#A78BB5",
   tobacco: "#8B5E2A",
   peach: "#FFA87A",
+  happyHourStrip: "#855F97",
+  comingUpStrip: "#9E5F3F",
 } as const
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"
 const fancyFontFamily = "Playfair Display, Georgia, serif"
 const newFontFamily = "owners, sans-serif"
+const newFontFamilyAlt = "owners wide, sans-serif"
 
 const theme = {
   ...colors,
@@ -59,7 +62,7 @@ const theme = {
     },
   },
   h2: {
-    fontFamily: displayFontFamily,
+    fontFamily: newFontFamilyAlt,
     fontWeight: 400,
     fontSize: 48,
     lineHeight: 1.35,
@@ -72,7 +75,7 @@ const theme = {
   },
 
   h3: {
-    fontFamily: displayFontFamily,
+    fontFamily: newFontFamilyAlt,
     fontSize: 36,
     fontWeight: 700,
     lineHeight: 1.35,
@@ -86,7 +89,7 @@ const theme = {
   },
 
   h3Alt: {
-    fontFamily: fancyFontFamily,
+    fontFamily: newFontFamily,
     fontSize: 36,
     fontWeight: 500,
     lineHeight: 1.35,
@@ -114,7 +117,7 @@ const theme = {
     },
   },
   postTitle: {
-    fontFamily: fancyFontFamily,
+    fontFamily: newFontFamily,
     fontSize: 28,
     fontWeight: 400,
     lineHeight: 1.3,
