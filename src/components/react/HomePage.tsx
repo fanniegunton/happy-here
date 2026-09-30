@@ -270,7 +270,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             }}
           >
             {happyHourNow.map((est) => (
-              <EstablishmentTile key={est._id} {...est} />
+              <EstablishmentTile key={est._id} {...est} showHappenings />
             ))}
           </div>
         </>
@@ -327,7 +327,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             }}
           >
             {happyHourLater.map((est) => (
-              <EstablishmentTile key={est._id} {...est} />
+              <EstablishmentTile key={est._id} {...est} showHappenings />
             ))}
           </div>
         </>

@@ -19,6 +19,7 @@ import {
   ConciergeBell,
   CalendarCheck,
   Sparkles,
+  CalendarClock,
   type LucideIcon,
 } from "lucide-react"
 import Icons from "@lib/icons"
@@ -28,6 +29,10 @@ import { getNextStartTime } from "@lib/getNextStartTime"
 import { formatMilitaryTime } from "@lib/formatMilitaryTime"
 import { generateSlug } from "@lib/slug"
 import { DEAL_TYPE_LABELS } from "@lib/dealTypes"
+import {
+  getConcurrentHappenings,
+  type ConcurrentHappening,
+} from "@lib/getConcurrentHappenings"
 import type { SanityEstablishment, OtherDealType } from "@/types/sanity"
 
 const MAX_VISIBLE_DEALS = 4
@@ -73,9 +78,94 @@ function getNeighborhoodLabel(
   return neighborhood.region ? toTitleCase(neighborhood.region) : ""
 }
 
+const sameHappenings = (a: ConcurrentHappening[], b: ConcurrentHappening[]) =>
+  a.length === b.length &&
+  a.every(
+    (h, i) => h.deal._key === b[i].deal._key && h.endTime === b[i].endTime
+  )
+
+// A live "happening" (one of the venue's otherDeals) running alongside the
+// happy hour. Uses the same controlled <details>/<summary> disclosure as the
+// "Full Address, Hours, & Contact Info" row below, with the summary styled
+// as a dashed lavender pill so it reads as time-sensitive rather than a
+// static amenity tag.
+function HappeningChip({ deal, endTime }: ConcurrentHappening) {
+  const [open, setOpen] = useState(false)
+
+  const typeLabel = DEAL_TYPE_LABELS[deal.dealType]
+  const shortLabel = deal.dealName || typeLabel
+  const fullName = deal.dealName ? `${typeLabel}: ${deal.dealName}` : typeLabel
+  const detailLines = (deal.details || "").split("\n").filter(Boolean)
+
+  return (
+    <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+      <summary
+        aria-expanded={open}
+        css={{
+          listStyle: "none",
+          "&::-webkit-details-marker": {
+            display: "none",
+          },
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          borderRadius: "9999px",
+          border: `1px dashed ${theme.lavender}`,
+          background: theme.white,
+          color: theme.black,
+          padding: "2px 10px",
+          fontSize: 12,
+          fontWeight: 600,
+          textTransform: "lowercase",
+          cursor: "pointer",
+          "&:focus-visible": {
+            outline: `2px solid ${theme.lavender}`,
+            outlineOffset: 2,
+          },
+        }}
+      >
+        <CalendarClock size={14} css={{ color: theme.lavender, flexShrink: 0 }} />
+        <span>
+          {shortLabel}
+          {endTime !== null && (
+            <>
+              {" "}
+              <span css={{ opacity: 0.6 }}>·</span> til{" "}
+              {formatMilitaryTime(endTime)}
+            </>
+          )}
+        </span>
+      </summary>
+      <div
+        css={{
+          textAlign: "left",
+          fontSize: 12,
+          marginTop: 8,
+          padding: "8px 12px",
+          borderLeft: `2px dashed ${theme.lavender}`,
+        }}
+      >
+        <div css={{ marginBottom: 4, fontWeight: 600 }}>{fullName}</div>
+        {deal.times.map((line, index) => (
+          <div key={index}>{line}</div>
+        ))}
+        {detailLines.length > 0 && (
+          <div css={{ marginTop: 6 }}>
+            {detailLines.map((line, index) => (
+              <div key={index}>{line}</div>
+            ))}
+          </div>
+        )}
+      </div>
+    </details>
+  )
+}
+
 interface EstablishmentTileProps extends SanityEstablishment {
   dealType?: OtherDealType
   dealName?: string
+  // Opt-in: show live "happening" chips. Only the Home page enables this.
+  showHappenings?: boolean
 }
 
 export default function EstablishmentTile({
@@ -92,10 +182,13 @@ export default function EstablishmentTile({
   happyHourMenu,
   whatWeHaveHere = [],
   theSpaceIsLike = [],
+  otherDeals,
   dealType,
   dealName,
+  showHappenings = false,
 }: EstablishmentTileProps) {
   const [isHappyHour, setHappyHour] = useState(false)
+  const [happenings, setHappenings] = useState<ConcurrentHappening[]>([])
   const [dealsExpanded, setDealsExpanded] = useState(false)
   const [detailsOpen, setDetailsOpen] = useState(false)
 
@@ -120,7 +213,12 @@ export default function EstablishmentTile({
 
   useEffect(() => {
     const checkHours = () => {
-      setHappyHour(hoursCover(happyHourTimes, new Date()))
+      const now = new Date()
+      setHappyHour(hoursCover(happyHourTimes, now))
+      if (showHappenings) {
+        const next = getConcurrentHappenings(otherDeals, happyHourTimes, now)
+        setHappenings((prev) => (sameHappenings(prev, next) ? prev : next))
+      }
     }
 
     // Check hours right away
@@ -132,7 +230,7 @@ export default function EstablishmentTile({
     return () => {
       window.clearInterval(timer)
     }
-  }, [happyHourTimes])
+  }, [happyHourTimes, otherDeals, showHappenings])
 
   const todayEndTime = getTodayEndTime(happyHourTimes)
   const formattedEndTime =
@@ -420,6 +518,22 @@ export default function EstablishmentTile({
               }}
             >
               {getNeighborhoodLabel(neighborhood)}
+            </div>
+          )}
+
+          {happenings.length > 0 && (
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: 8,
+                marginBottom: 10,
+              }}
+            >
+              {happenings.map((happening) => (
+                <HappeningChip key={happening.deal._key} {...happening} />
+              ))}
             </div>
           )}
 
