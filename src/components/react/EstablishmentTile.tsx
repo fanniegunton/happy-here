@@ -98,7 +98,17 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
   const detailLines = (deal.details || "").split("\n").filter(Boolean)
 
   return (
-    <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+    <details
+      open={open}
+      onToggle={(e) => setOpen(e.currentTarget.open)}
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && open) {
+          setOpen(false)
+          e.currentTarget.querySelector("summary")?.focus()
+        }
+      }}
+      css={{ position: "relative" }}
+    >
       <summary
         aria-expanded={open}
         css={{
@@ -136,13 +146,33 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           )}
         </span>
       </summary>
+      {/* Floats over the tag rows so opening it doesn't change the tile body's
+          height (which would stretch the photo). On mobile the photo sits on
+          top instead of beside the text, so the drawer stays inline there. */}
       <div
         css={{
+          position: "absolute",
+          top: "calc(100% + 6px)",
+          left: 0,
+          zIndex: 2,
+          width: "max-content",
+          maxWidth: 280,
+          maxHeight: 200,
+          overflowY: "auto",
+          background: theme.white,
+          boxShadow: "var(--shadow-elevation-medium)",
           textAlign: "left",
           fontSize: 12,
-          marginTop: 8,
           padding: "8px 12px",
           borderLeft: `2px dashed ${theme.lavender}`,
+          [theme.mobile]: {
+            position: "static",
+            width: "auto",
+            maxWidth: "none",
+            maxHeight: "none",
+            boxShadow: "none",
+            marginTop: 8,
+          },
         }}
       >
         <div css={{ marginBottom: 4, fontWeight: 600 }}>{fullName}</div>
@@ -268,7 +298,6 @@ export default function EstablishmentTile({
         // border: isHappyHour ? "4px solid #A78BB5" : "4px solid #8B5E2A",
         maxWidth: 580,
         width: "100%",
-        minHeight: 420,
         display: "flex",
         flexDirection: "column",
         [theme.tablet]: {
@@ -321,8 +350,15 @@ export default function EstablishmentTile({
           gridTemplateColumns: "176px 1fr",
           alignItems: "stretch",
           flex: 1,
+          // The body holds the tile's minimum height (instead of the card) so
+          // opening the address/hours disclosure below grows the card rather
+          // than shrinking the photo. Equals the previous 420px card minimum
+          // minus the status strip (36.5px) and closed footer (53.5px desktop,
+          // 65.5px tablet).
+          minHeight: 330,
           [theme.tablet]: {
             gridTemplateColumns: "150px 1fr",
+            minHeight: 318,
           },
           [theme.mobile]: {
             gridTemplateColumns: "1fr",
