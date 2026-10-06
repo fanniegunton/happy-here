@@ -3,6 +3,8 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import theme from "@styles/theme"
 import { hoursCover } from "@lib/parseHours"
 import SanityImage from "./SanityImage"
+import IconButton from "./IconButton"
+import Icons from "@lib/icons"
 import {
   UtensilsCrossed,
   Beer,
@@ -224,8 +226,6 @@ export default function EstablishmentTile({
   address,
   neighborhood,
   photo,
-  // Menu/website/Instagram links are temporarily not shown on the card
-  // while their new placement is decided.
   website,
   instagram,
   hours = [],
@@ -253,6 +253,7 @@ export default function EstablishmentTile({
   const hiddenDealCount = dealLines.length - MAX_VISIBLE_DEALS
 
   const isStaffPick = theSpaceIsLike.includes("staffPick")
+  const hasLinks = Boolean(happyHourMenu || website || instagram)
 
   const visibleHighlights = HIGHLIGHT_PILL_PRIORITY.filter(({ category, value }) =>
     category === "whatWeHaveHere"
@@ -535,17 +536,70 @@ export default function EstablishmentTile({
             </a>
           </div>
 
-          {neighborhood && (
+          {(neighborhood || hasLinks) && (
             <div
               css={{
-                fontSize: "1rem",
-                lineHeight: "1.25rem",
-                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 8,
                 marginTop: 4,
                 marginBottom: 10,
               }}
             >
-              {getNeighborhoodLabel(neighborhood)}
+              <div
+                css={{
+                  fontSize: "1rem",
+                  lineHeight: "1.25rem",
+                  fontWeight: 700,
+                  minWidth: 0,
+                }}
+              >
+                {neighborhood && getNeighborhoodLabel(neighborhood)}
+              </div>
+              {hasLinks && (
+                <div
+                  css={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    flexShrink: 0,
+                    // Scale the shared 28px IconButton icons down to the
+                    // neighborhood line's 20px height.
+                    "& img": {
+                      width: 20,
+                      height: 20,
+                      flex: "0 0 20px",
+                      marginRight: 0,
+                    },
+                  }}
+                >
+                  {happyHourMenu && (
+                    <IconButton
+                      icon={Icons.Menu}
+                      href={happyHourMenu}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  )}
+                  {website && (
+                    <IconButton
+                      icon={Icons.Website}
+                      href={website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  )}
+                  {instagram && (
+                    <IconButton
+                      icon={Icons.Instagram}
+                      href={instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  )}
+                </div>
+              )}
             </div>
           )}
 
