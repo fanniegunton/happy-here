@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import theme from "@styles/theme"
 import IconButton from "./IconButton"
 import { hoursCover } from "@lib/parseHours"
@@ -91,6 +91,21 @@ const sameHappenings = (a: ConcurrentHappening[], b: ConcurrentHappening[]) =>
 // static amenity tag.
 function HappeningChip({ deal, endTime }: ConcurrentHappening) {
   const [open, setOpen] = useState(false)
+  const drawerRef = useRef<HTMLDivElement>(null)
+
+  // The tile body has a fixed height and clips overflow, so cap the floating
+  // drawer to the space left below the chip; it scrolls past that.
+  useLayoutEffect(() => {
+    const drawer = drawerRef.current
+    if (!open || !drawer) return
+    drawer.style.maxHeight = ""
+    if (getComputedStyle(drawer).position !== "absolute") return
+    const body = drawer.closest("[data-tile-body]")
+    if (!body) return
+    const available =
+      body.getBoundingClientRect().bottom - drawer.getBoundingClientRect().top - 8
+    drawer.style.maxHeight = `${Math.max(0, Math.min(200, available))}px`
+  }, [open])
 
   const typeLabel = DEAL_TYPE_LABELS[deal.dealType]
   const shortLabel = deal.dealName || typeLabel
@@ -150,6 +165,7 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           height (which would stretch the photo). On mobile the photo sits on
           top instead of beside the text, so the drawer stays inline there. */}
       <div
+        ref={drawerRef}
         css={{
           position: "absolute",
           top: "calc(100% + 6px)",
@@ -159,6 +175,7 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           maxWidth: 280,
           maxHeight: 200,
           overflowY: "auto",
+          boxSizing: "border-box",
           background: theme.white,
           boxShadow: "var(--shadow-elevation-medium)",
           textAlign: "left",
@@ -345,23 +362,29 @@ export default function EstablishmentTile({
 
       {/* Body: photo (left) + content (right) */}
       <div
+        data-tile-body
         css={{
           display: "grid",
           gridTemplateColumns: "176px 1fr",
           alignItems: "stretch",
-          flex: 1,
-          // The body holds the tile's minimum height (instead of the card) so
-          // opening the address/hours disclosure below grows the card rather
-          // than shrinking the photo. Equals the previous 420px card minimum
-          // minus the status strip (36.5px) and closed footer (53.5px desktop,
-          // 65.5px tablet).
-          minHeight: 330,
+          // Fixed height, independent of the Details section below. The card
+          // is a flex column, so `flex: "none"` keeps the card's flex sizing
+          // from overriding this height (a `flex: 1` basis would). The single
+          // grid row is pinned to that height so taller content is clipped
+          // instead of stretching the photo.
+          flex: "none",
+          height: 330,
+          gridTemplateRows: "minmax(0, 1fr)",
+          overflow: "hidden",
           [theme.tablet]: {
             gridTemplateColumns: "150px 1fr",
-            minHeight: 318,
           },
           [theme.mobile]: {
             gridTemplateColumns: "1fr",
+            // Photo stacks above the content here, so size to content.
+            height: "auto",
+            gridTemplateRows: "none",
+            overflow: "visible",
           },
         }}
       >
