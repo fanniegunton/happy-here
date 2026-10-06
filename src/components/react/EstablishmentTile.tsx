@@ -731,7 +731,7 @@ export default function EstablishmentTile({
                           }}
                         >
                           {pills.map(({ value, icon, label }) => (
-                            <AmmenityPill key={value} icon={icon}>
+                            <AmmenityPill key={value} icon={icon} iconOnly>
                               {label}
                             </AmmenityPill>
                           ))}
