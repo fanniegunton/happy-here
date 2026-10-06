@@ -60,6 +60,12 @@ const HIGHLIGHT_PILL_PRIORITY: Array<{
   { category: "theSpaceIsLike", value: "bigGroups", icon: UsersRound, label: "4+ People OK" },
 ]
 
+// Amenity pills are split into two labeled columns on the card.
+const PILL_GROUPS = [
+  { category: "whatWeHaveHere", heading: "Offerings" },
+  { category: "theSpaceIsLike", heading: "Space" },
+] as const
+
 function toTitleCase(s: string): string {
   return s
     .replace(/([A-Z])/g, " $1")
@@ -142,6 +148,7 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           fontSize: 12,
           fontWeight: 600,
           textTransform: "lowercase",
+          maxWidth: "100%",
           cursor: "pointer",
           "&:focus-visible": {
             outline: `2px solid ${theme.lavender}`,
@@ -161,15 +168,15 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           )}
         </span>
       </summary>
-      {/* Floats over the tag rows so opening it doesn't change the tile body's
-          height (which would stretch the photo). On mobile the photo sits on
-          top instead of beside the text, so the drawer stays inline there. */}
+      {/* Floats over the card content, anchored to the right edge of the
+          happenings column, so opening it doesn't change the tile body's
+          height. */}
       <div
         ref={drawerRef}
         css={{
           position: "absolute",
           top: "calc(100% + 6px)",
-          left: 0,
+          right: 0,
           zIndex: 2,
           width: "max-content",
           maxWidth: 280,
@@ -182,14 +189,6 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           fontSize: 12,
           padding: "8px 12px",
           borderLeft: `2px dashed ${theme.lavender}`,
-          [theme.mobile]: {
-            position: "static",
-            width: "auto",
-            maxWidth: "none",
-            maxHeight: "none",
-            boxShadow: "none",
-            marginTop: 8,
-          },
         }}
       >
         <div css={{ marginBottom: 4, fontWeight: 600 }}>{fullName}</div>
@@ -580,121 +579,168 @@ export default function EstablishmentTile({
             </div>
           )}
 
-          {happenings.length > 0 && (
-            <div
-              css={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: 8,
-                marginBottom: 10,
-              }}
-            >
-              {happenings.map((happening) => (
-                <HappeningChip key={happening.deal._key} {...happening} />
-              ))}
-            </div>
-          )}
-
-          <div css={{ marginBottom: "1rem" }}>
-            <div>
-              {dealType && (
-                <div
-                  css={{
-                    fontSize: 14,
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    opacity: 0.7,
-                    marginTop: 4,
-                  }}
-                >
-                  {dealName
-                    ? `${DEAL_TYPE_LABELS[dealType]}: ${dealName}`
-                    : DEAL_TYPE_LABELS[dealType]}
-                </div>
-              )}
-              <div
-                css={{
-                  marginTop: 4,
-                  marginBottom: 16,
-                  fontSize: 16,
-                  lineHeight: "1.25rem",
-                  [theme.mobile]: {
-                    marginBottom: 8,
-                  },
-                }}
-              >
-                {happyHourDetails?.includes("\n") ? (
-                  <>
-                    <ul
-                      css={{
-                        paddingInlineStart: 20,
-                        maxWidth: "max-content",
-                      }}
-                    >
-                      {visibleDealLines.map((line, index) => (
-                        <li
-                          key={index}
-                          css={{
-                            fontSize: 14,
-                            listStyleType: "disc",
-                            textAlign: "left",
-                            "&:last-child": {
-                              marginBottom: 16,
-                            },
-                          }}
-                        >
-                          {line}
-                        </li>
-                      ))}
-                    </ul>
-                    {!dealsExpanded && hiddenDealCount > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => setDealsExpanded(true)}
-                        css={{
-                          display: "block",
-                          background: "none",
-                          border: "none",
-                          padding: 0,
-                          marginTop: -8,
-                          marginBottom: 16,
-                          fontSize: 13,
-                          fontFamily: "inherit",
-                          color: "inherit",
-                          opacity: 0.7,
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        +{hiddenDealCount} more
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <div css={{ fontSize: 14, marginBottom: 16 }}>
-                    {happyHourDetails}
+          {/* Deals (left, 70%) + live happenings (right, 30%). Single column
+              when no happening is live. */}
+          <div
+            css={{
+              display: "grid",
+              gridTemplateColumns:
+                happenings.length > 0 ? "minmax(0, 7fr) minmax(0, 3fr)" : "minmax(0, 1fr)",
+              columnGap: 12,
+              alignItems: "start",
+            }}
+          >
+            <div css={{ marginBottom: "1rem" }}>
+              <div>
+                {dealType && (
+                  <div
+                    css={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      opacity: 0.7,
+                      marginTop: 4,
+                    }}
+                  >
+                    {dealName
+                      ? `${DEAL_TYPE_LABELS[dealType]}: ${dealName}`
+                      : DEAL_TYPE_LABELS[dealType]}
                   </div>
                 )}
+                <div
+                  css={{
+                    marginTop: 4,
+                    marginBottom: 16,
+                    fontSize: 16,
+                    lineHeight: "1.25rem",
+                    [theme.mobile]: {
+                      marginBottom: 8,
+                    },
+                  }}
+                >
+                  {happyHourDetails?.includes("\n") ? (
+                    <>
+                      <ul
+                        css={{
+                          paddingInlineStart: 20,
+                          maxWidth: "max-content",
+                        }}
+                      >
+                        {visibleDealLines.map((line, index) => (
+                          <li
+                            key={index}
+                            css={{
+                              fontSize: 14,
+                              listStyleType: "disc",
+                              textAlign: "left",
+                              "&:last-child": {
+                                marginBottom: 16,
+                              },
+                            }}
+                          >
+                            {line}
+                          </li>
+                        ))}
+                      </ul>
+                      {!dealsExpanded && hiddenDealCount > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setDealsExpanded(true)}
+                          css={{
+                            display: "block",
+                            background: "none",
+                            border: "none",
+                            padding: 0,
+                            marginTop: -8,
+                            marginBottom: 16,
+                            fontSize: 13,
+                            fontFamily: "inherit",
+                            color: "inherit",
+                            opacity: 0.7,
+                            textDecoration: "underline",
+                            cursor: "pointer",
+                          }}
+                        >
+                          +{hiddenDealCount} more
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <div css={{ fontSize: 14, marginBottom: 16 }}>
+                      {happyHourDetails}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
+
+            {happenings.length > 0 && (
+              <div
+                css={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: 8,
+                  marginBottom: 10,
+                  minWidth: 0,
+                }}
+              >
+                {happenings.map((happening) => (
+                  <HappeningChip key={happening.deal._key} {...happening} />
+                ))}
+              </div>
+            )}
           </div>
 
           {visibleHighlights.length > 0 && (
             <div
               css={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
+                display: "grid",
+                gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+                columnGap: 12,
+                alignItems: "start",
                 marginBottom: 10,
               }}
             >
-              {visibleHighlights.map(({ value, icon, label }) => (
-                <AmmenityPill key={value} icon={icon}>
-                  {label}
-                </AmmenityPill>
-              ))}
+              {PILL_GROUPS.map(({ category, heading }) => {
+                const pills = visibleHighlights.filter(
+                  (pill) => pill.category === category
+                )
+                return (
+                  <div key={category} css={{ minWidth: 0 }}>
+                    {pills.length > 0 && (
+                      <>
+                        <div
+                          css={{
+                            fontSize: 14,
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.05em",
+                            opacity: 0.7,
+                            marginBottom: 6,
+                          }}
+                        >
+                          {heading}
+                        </div>
+                        <div
+                          css={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            alignItems: "center",
+                          }}
+                        >
+                          {pills.map(({ value, icon, label }) => (
+                            <AmmenityPill key={value} icon={icon}>
+                              {label}
+                            </AmmenityPill>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>
