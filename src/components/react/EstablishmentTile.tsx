@@ -60,10 +60,16 @@ const HIGHLIGHT_PILL_PRIORITY: Array<{
   { category: "theSpaceIsLike", value: "bigGroups", icon: UsersRound, label: "4+ People OK" },
 ]
 
-// Amenity pills are split into two labeled columns on the card.
+// Amenity dots are split into two columns on the card: offerings (left)
+// and the space (right). Space dots use the status strip's mauve, which
+// keeps a 5.15:1 contrast with the white icon.
 const PILL_GROUPS = [
-  { category: "whatWeHaveHere", heading: "Offerings" },
-  { category: "theSpaceIsLike", heading: "Space" },
+  { category: "whatWeHaveHere", background: undefined, iconColor: undefined },
+  {
+    category: "theSpaceIsLike",
+    background: theme.happyHourStrip,
+    iconColor: theme.white,
+  },
 ] as const
 
 function toTitleCase(s: string): string {
@@ -703,44 +709,31 @@ export default function EstablishmentTile({
                 marginBottom: 10,
               }}
             >
-              {PILL_GROUPS.map(({ category, heading }) => {
-                const pills = visibleHighlights.filter(
-                  (pill) => pill.category === category
-                )
-                return (
-                  <div key={category} css={{ minWidth: 0 }}>
-                    {pills.length > 0 && (
-                      <>
-                        <div
-                          css={{
-                            fontSize: 14,
-                            fontWeight: 700,
-                            textTransform: "uppercase",
-                            letterSpacing: "0.05em",
-                            opacity: 0.7,
-                            marginBottom: 6,
-                          }}
-                        >
-                          {heading}
-                        </div>
-                        <div
-                          css={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            alignItems: "center",
-                          }}
-                        >
-                          {pills.map(({ value, icon, label }) => (
-                            <AmmenityPill key={value} icon={icon} iconOnly>
-                              {label}
-                            </AmmenityPill>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )
-              })}
+              {PILL_GROUPS.map(({ category, background, iconColor }) => (
+                <div
+                  key={category}
+                  css={{
+                    minWidth: 0,
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
+                >
+                  {visibleHighlights
+                    .filter((pill) => pill.category === category)
+                    .map(({ value, icon, label }) => (
+                      <AmmenityPill
+                        key={value}
+                        icon={icon}
+                        background={background}
+                        iconColor={iconColor}
+                        iconOnly
+                      >
+                        {label}
+                      </AmmenityPill>
+                    ))}
+                </div>
+              ))}
             </div>
           )}
         </div>
