@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import theme from "@styles/theme"
-import IconButton from "./IconButton"
 import { hoursCover } from "@lib/parseHours"
 import SanityImage from "./SanityImage"
 import {
@@ -22,7 +21,6 @@ import {
   CalendarClock,
   type LucideIcon,
 } from "lucide-react"
-import Icons from "@lib/icons"
 import AmmenityPill from "./AmmenityPill"
 import { getTodayEndTime } from "@lib/getTodayTime"
 import { getNextStartTime } from "@lib/getNextStartTime"
@@ -226,6 +224,8 @@ export default function EstablishmentTile({
   address,
   neighborhood,
   photo,
+  // Menu/website/Instagram links are temporarily not shown on the card
+  // while their new placement is decided.
   website,
   instagram,
   hours = [],
@@ -533,42 +533,6 @@ export default function EstablishmentTile({
                 {name}
               </h3>
             </a>
-            <div
-              css={{
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: 4,
-                flexShrink: 0,
-                // "&:hover": {
-                //   textShadow: "#A78BB5 1px 0 10px",
-                // },
-              }}
-            >
-              {happyHourMenu && (
-                <IconButton
-                  icon={Icons.Menu}
-                  href={happyHourMenu}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              )}
-              {website && (
-                <IconButton
-                  icon={Icons.Website}
-                  href={website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              )}
-              {instagram && (
-                <IconButton
-                  icon={Icons.Instagram}
-                  href={instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              )}
-            </div>
           </div>
 
           {neighborhood && (
