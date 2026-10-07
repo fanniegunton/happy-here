@@ -74,6 +74,9 @@ importers:
       react-leaflet:
         specifier: ^4.2.1
         version: 4.2.1(leaflet@1.9.4)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      sanity-image:
+        specifier: ^1.1.0
+        version: 1.1.0(react@19.2.4)
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -1272,6 +1275,9 @@ packages:
     resolution: {integrity: sha512-H8AE9Ur/t0+1VXujj90w0HrSOuv0Nq9r1vSZF2t5km20NTfosQsGGUXDaKdQZzwuLts7IyL1fYT4hM95TI9c4g==}
     cpu: [x64]
     os: [win32]
+
+  '@sanity-image/url-builder@1.1.0':
+    resolution: {integrity: sha512-ApAlwhF/cLxGY+VJKmYI8krLPySZuxRe4OiT95vJGCBra1cIvSZgkosKzpu/sBVRVujt8Jq0yF0pTko94H7iQQ==}
 
   '@sanity/client@7.14.0':
     resolution: {integrity: sha512-eXue3rc4MqJh89mvuTC0h0pdoY8lwXjlV8odFB3EF7aSFKF7F5BL0NU2mlTrCZYbPAlV3JTvMPPLGJCORqOKDw==}
@@ -3027,6 +3033,12 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
+  sanity-image@1.1.0:
+    resolution: {integrity: sha512-hdhZmN9fT2qNa8DVXjwRdilCtbzL1BhF9tZDB7rzaAMVDZxwV/shNApySZXks9sTlQgnfazArCATCjckwSH7GA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+
   sax@1.4.4:
     resolution: {integrity: sha512-1n3r/tGXO6b6VXMdFT54SHzT9ytu9yr7TaELowdYpMqY/Ao7EnlQGmAQ1+RatX7Tkkdm6hONI2owqNx2aZj5Sw==}
     engines: {node: '>=11.0.0'}
@@ -4698,6 +4710,8 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.56.0':
     optional: true
+
+  '@sanity-image/url-builder@1.1.0': {}
 
   '@sanity/client@7.14.0':
     dependencies:
@@ -6930,6 +6944,11 @@ snapshots:
   safe-stable-stringify@2.5.0: {}
 
   safer-buffer@2.1.2: {}
+
+  sanity-image@1.1.0(react@19.2.4):
+    dependencies:
+      '@sanity-image/url-builder': 1.1.0
+      react: 19.2.4
 
   sax@1.4.4: {}
 

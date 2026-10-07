@@ -224,6 +224,8 @@ export default function EstablishmentPage({
             width={900}
             height={400}
             alt={`Photo of ${establishment.name}`}
+            loading="eager"
+            sizes="(min-width: 900px) 900px, 100vw"
             style={{
               width: "100%",
               height: 400,

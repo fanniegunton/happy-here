@@ -1,43 +1,24 @@
 import React from 'react';
-import { urlFor } from '@lib/sanity';
+import { SanityImage as SanityImageBase, type WrapperProps } from 'sanity-image';
 import type { SanityImageAsset } from '@/types/sanity';
 
-interface SanityImageProps {
+type SanityImageProps = Omit<WrapperProps<'img'>, 'id' | 'hotspot' | 'crop' | 'alt'> & {
   image: SanityImageAsset;
-  width?: number;
-  height?: number;
   alt: string;
-  className?: string;
-  style?: React.CSSProperties;
-}
+};
 
-export default function SanityImage({
-  image,
-  width = 800,
-  height,
-  alt,
-  className,
-  style,
-}: SanityImageProps) {
+export default function SanityImage({ image, mode = 'cover', ...rest }: SanityImageProps) {
   if (!image || !image.asset) return null;
 
-  const imageUrl = urlFor(image)
-    .width(width)
-    .height(height || Math.round((width * 2) / 3))
-    .auto('format')
-    .quality(80)
-    .url();
-
   return (
-    <img
-      src={imageUrl}
-      alt={alt || ''}
-      width={width}
-      height={height}
-      className={className}
-      style={style}
-      loading="lazy"
-      decoding="async"
+    <SanityImageBase
+      id={image.asset._ref}
+      projectId={import.meta.env.PUBLIC_SANITY_PROJECT_ID}
+      dataset={import.meta.env.PUBLIC_SANITY_DATASET}
+      mode={mode}
+      hotspot={image.hotspot}
+      crop={image.crop}
+      {...rest}
     />
   );
 }

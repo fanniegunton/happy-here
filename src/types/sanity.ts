@@ -7,6 +7,8 @@ export interface SanityImageAsset {
     _type: 'reference';
   };
   alt?: string;
+  hotspot?: { x: number; y: number } | null;
+  crop?: { top: number; bottom: number; left: number; right: number } | null;
 }
 
 export interface SanityLocation {

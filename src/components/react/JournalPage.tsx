@@ -30,6 +30,8 @@ export default function JournalPage({ journalSettings, posts = [] }: JournalPage
           width={1450}
           height={400}
           alt="Happy Here Journal"
+          loading="eager"
+          sizes="(min-width: 1450px) 1450px, 100vw"
           style={{
             display: "block",
             width: "100%",
