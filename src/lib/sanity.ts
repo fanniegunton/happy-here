@@ -49,6 +49,7 @@ export const ESTABLISHMENT_PROJECTION = `
   happyHourTimes,
   happyHourDetails,
   happyHourMenu,
+  doesNotHaveHappyHour,
   whatWeHaveHere,
   theSpaceIsLike,
   ownershipIdentifiedAs,

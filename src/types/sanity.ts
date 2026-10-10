@@ -90,6 +90,9 @@ export interface SanityEstablishment {
   happyHourTimes?: string[];
   happyHourDetails?: string;
   happyHourMenu?: string;
+  // Checked in Studio for venues with no happy hour that still list
+  // happyHourTimes so their daily specials surface on the Home page.
+  doesNotHaveHappyHour?: boolean;
   whatWeHaveHere?: WhatWeHaveHere[];
   theSpaceIsLike?: TheSpaceIsLike[];
   ownershipIdentifiedAs?: string[];
