@@ -210,7 +210,7 @@ export default function HappeningsPage({
           css={{
             ...theme.h2,
             fontWeight: 600,
-            fontSize: 108,
+            fontSize: 100,
             textTransform: "uppercase",
           }}
         >
