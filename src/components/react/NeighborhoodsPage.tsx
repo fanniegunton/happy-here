@@ -37,10 +37,9 @@ export default function NeighborhoodsPage({
           <h1
             css={{
               ...theme.h2,
-              fontSize: 100,
+              fontSize: 88,
               textTransform: "uppercase",
               lineHeight: 1,
-              // letterSpacing: "-0.05em",
               fontWeight: 600,
               [theme.tablet]: { fontSize: 80 },
               "@media (max-width: 980px)": { fontSize: 64 },
