@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react"
 import theme from "@styles/theme"
 import wordmark from "../../assets/happy-here-wordmark.svg"
 import instagramIcon from "../../images/Instagram.svg"
+import { Menu, X } from "lucide-react"
 
 const ABOUT_MENU_ITEMS = [
   { label: "About Us", href: "/about" },
@@ -161,8 +162,20 @@ function AboutMenu() {
 }
 
 export default function Nav() {
+  // Mobile only: the links collapse behind a hamburger button. On larger
+  // screens the button is hidden and the links always show.
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+
   return (
     <nav
+      onKeyDown={(e) => {
+        // The About dropdown handles its own Escape first.
+        if (e.key === "Escape" && menuOpen && !e.defaultPrevented) {
+          setMenuOpen(false)
+          menuButtonRef.current?.focus()
+        }
+      }}
       css={{
         margin: "0 auto 20px",
         padding: "0",
@@ -170,8 +183,11 @@ export default function Nav() {
         alignItems: "start",
         justifyContent: "space-between",
         [theme.mobile]: {
-          display: "block",
-          margin: "0 auto 40px",
+          // Wordmark and hamburger share the top row; the links wrap to a
+          // full-width row below when open.
+          flexWrap: "wrap",
+          alignItems: "center",
+          margin: "0 auto",
         },
       }}
     >
@@ -189,7 +205,34 @@ export default function Nav() {
           }}
         />
       </a>
+      <button
+        ref={menuButtonRef}
+        type="button"
+        aria-expanded={menuOpen}
+        aria-controls="site-nav-links"
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        onClick={() => setMenuOpen((o) => !o)}
+        css={{
+          display: "none",
+          background: "none",
+          border: "none",
+          padding: 4,
+          margin: -4,
+          color: theme.black,
+          cursor: "pointer",
+          [theme.mobile]: {
+            display: "flex",
+          },
+        }}
+      >
+        {menuOpen ? (
+          <X size={28} aria-hidden />
+        ) : (
+          <Menu size={28} aria-hidden />
+        )}
+      </button>
       <div
+        id="site-nav-links"
         css={{
           fontFamily: theme.displayFontFamily,
           fontSize: 18,
@@ -207,6 +250,11 @@ export default function Nav() {
             fontSize: 18,
           },
           [theme.mobile]: {
+            // Hidden behind the hamburger until opened, then a centered
+            // column under the wordmark row.
+            display: menuOpen ? "flex" : "none",
+            flexDirection: "column",
+            flexBasis: "100%",
             marginTop: 16,
             justifyContent: "center",
             padding: "10px 0",

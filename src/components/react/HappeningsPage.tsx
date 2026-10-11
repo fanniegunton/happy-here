@@ -206,20 +206,30 @@ export default function HappeningsPage({
           [theme.mobile]: { padding: "0 30px" },
         }}
       >
-        <h2
+        <h1
           css={{
             ...theme.h2,
             fontWeight: 600,
             fontSize: 100,
             textTransform: "uppercase",
+            [theme.tablet]: { fontSize: 80 },
+            [theme.mobile]: {
+              fontSize: 44,
+            },
           }}
         >
           Happenings
-        </h2>
+        </h1>
         <h3
           css={{
-            ...theme.h3Alt,
             fontSize: 24,
+            fontFamily: theme.newFontFamily,
+            fontWeight: 500,
+            lineHeight: 1.35,
+            letterSpacing: "0.03em",
+            [theme.mobile]: {
+              fontSize: 22,
+            },
             maxWidth: "85%",
             textWrap: "pretty",
           }}
@@ -306,7 +316,7 @@ export default function HappeningsPage({
               gap: 16,
               marginTop: 96,
               marginBottom: 32,
-              [theme.mobile]: { padding: "0 30px" },
+              [theme.mobile]: { padding: "0 30px", marginTop: 72 },
             }}
           >
             <h2

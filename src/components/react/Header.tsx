@@ -10,7 +10,7 @@ export default function Header() {
       css={{
         margin: "0 -40px",
         padding: "24px 40px",
-        borderBottom: "1px solid black",
+        borderBottom: `1px solid ${theme.duskyPurple}`,
         display: "block",
         background: "#FAF8F4",
         [theme.mobile]: {

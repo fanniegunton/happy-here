@@ -4,8 +4,8 @@ import normalize from "emotion-normalize"
 const breakpoints = {
   smallMobile: "@media (max-width: 400px)",
   mobile: "@media (max-width: 700px)",
-  tablet: "@media (max-width: 900px)",
-  smallDesktop: "@media (max-width: 1100px)",
+  tablet: "@media (max-width: 1032px)",
+  smallDesktop: "@media (max-width: 1200px)",
 } as const
 
 const colors = {
@@ -34,6 +34,12 @@ const colors = {
   peach: "#FFA87A",
   happyHourStrip: "#855F97",
   comingUpStrip: "#9E5F3F",
+  deepMagenta: "#B13C8D",
+  madLavender: "#A696E0",
+  duskyPurple: "#6C619C",
+  orchidPink: "#CB6BB0",
+  bubblegumPink: "#FD70B4",
+  hotCoralRed: "#FC4165",
 } as const
 
 const displayFontFamily = "Lato, Helvetica, sans-serif"

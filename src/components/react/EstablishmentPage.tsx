@@ -28,24 +28,7 @@ import {
   ArrowLeft,
 } from "lucide-react"
 import type { SanityEstablishment } from "@/types/sanity"
-
-function toTitleCase(s: string): string {
-  return s
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (c) => c.toUpperCase())
-    .trim()
-}
-
-function getNeighborhoodLabel(
-  neighborhood: SanityEstablishment["neighborhood"] | undefined
-): string {
-  if (!neighborhood) return ""
-  const subKey = Object.keys(neighborhood).find((k) =>
-    k.startsWith("subNeighborhood")
-  )
-  if (subKey && neighborhood[subKey]) return toTitleCase(neighborhood[subKey])
-  return neighborhood.region ? toTitleCase(neighborhood.region) : ""
-}
+import { getNeighborhoodLabel } from "@lib/neighborhoods"
 
 interface EstablishmentPageProps {
   establishment: SanityEstablishment

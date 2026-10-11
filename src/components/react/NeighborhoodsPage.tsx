@@ -31,27 +31,28 @@ export default function NeighborhoodsPage({
             gap: 16,
             marginTop: 32,
             marginBottom: 48,
-            marginLeft: -20,
             [theme.mobile]: { marginBottom: 32 },
           }}
         >
-          <h2
+          <h1
             css={{
-              fontFamily: theme.newFontFamily,
-              fontSize: 120,
+              ...theme.h2,
+              fontSize: 100,
               textTransform: "uppercase",
               lineHeight: 1,
-              letterSpacing: "-0.05em",
-              fontWeight: 900,
+              // letterSpacing: "-0.05em",
+              fontWeight: 600,
               [theme.tablet]: { fontSize: 80 },
-              [theme.mobile]: { fontSize: 52 },
+              "@media (max-width: 980px)": { fontSize: 64 },
+              "@media (max-width: 830px)": { fontSize: 40 },
+              "@media (max-width: 480px)": { fontSize: 28 },
             }}
           >
             Neighborhoods
-          </h2>
-          <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
+          </h1>
+          {/* <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
             ✦
-          </span>
+          </span> */}
         </div>
 
         <ul css={{ padding: 0, margin: 0 }}>
