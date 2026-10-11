@@ -4,6 +4,7 @@ import NeighborhoodPage from "@components/react/NeighborhoodPage"
 import { getAllEstablishments, getNeighborhoodContent } from "@lib/sanity"
 import { postBodyToHtml } from "@lib/postBodyToHtml"
 import { generateSlug } from "@lib/slug"
+import { getRegionLabel } from "@lib/neighborhoods"
 import type { SanityEstablishment } from "@/types/sanity"
 
 export async function getStaticPaths() {
@@ -13,13 +14,6 @@ export async function getStaticPaths() {
         (est) => est._id !== "b95f53fc-ae57-4605-b4b6-6ceb785a1756"
       )
     : allEstablishments
-
-  function toTitleCase(s: string): string {
-    return s
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (c) => c.toUpperCase())
-      .trim()
-  }
 
   const TEST_ID = "b95f53fc-ae57-4605-b4b6-6ceb785a1756"
   const testSpot = !import.meta.env.PROD
@@ -43,7 +37,7 @@ export async function getStaticPaths() {
 
   return Promise.all(
     [...regionMap.entries()].map(async ([region, regionEstablishments]) => {
-      const label = toTitleCase(region)
+      const label = getRegionLabel(region)
       const neighborhoodContent = await getNeighborhoodContent(region)
       return {
         params: { neighborhood: generateSlug(label) },

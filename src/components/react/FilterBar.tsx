@@ -67,7 +67,13 @@ export default function FilterBar({
   return (
     <>
       {/* Search Bar */}
-      <div css={{ position: "relative", maxWidth: 600 }}>
+      <div
+        css={{
+          position: "relative",
+          maxWidth: 600,
+          [theme.mobile]: { maxWidth: 400, paddingLeft: 30 },
+        }}
+      >
         <Search
           size={16}
           css={{
@@ -76,6 +82,9 @@ export default function FilterBar({
             top: "50%",
             transform: "translateY(-50%)",
             opacity: 0.4,
+            // Shift by the wrapper's 30px mobile padding so the icon stays
+            // 12px inside the input.
+            [theme.mobile]: { left: 42 },
           }}
         />
         <input
@@ -103,31 +112,31 @@ export default function FilterBar({
         css={{
           margin: "0 -40px",
           padding: "16px 40px",
-          borderBottom: "1px solid black",
+          borderBottom: `1px solid ${theme.duskyPurple}`,
           display: "flex",
           flexDirection: "column",
           gap: 16,
           [theme.mobile]: { margin: 0, padding: "12px 30px" },
         }}
       >
-        <span
-          css={{
-            fontSize: 16,
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            fontWeight: 500,
-            opacity: 0.9,
-          }}
-        >
-          Show Me Only:
-        </span>
-
+        {/* Mobile: one sideways-scrolling row of pills instead of a wrapped
+            stack. It bleeds into the bar's 30px side padding so pills scroll
+            off the screen edge; the vertical padding keeps the 2px borders
+            unclipped. */}
         <div
           css={{
             display: "flex",
             alignItems: "center",
             gap: 12,
             flexWrap: "wrap",
+            [theme.mobile]: {
+              flexWrap: "nowrap",
+              overflowX: "auto",
+              margin: "0 -30px",
+              padding: "2px 30px",
+              scrollbarWidth: "none",
+              "&::-webkit-scrollbar": { display: "none" },
+            },
           }}
         >
           {[
@@ -189,6 +198,10 @@ export default function FilterBar({
                 letterSpacing: "0.05em",
                 fontFamily: "inherit",
                 transition: "background-color 0.2s, color 0.2s",
+                [theme.mobile]: {
+                  flexShrink: 0,
+                  whiteSpace: "nowrap",
+                },
                 ...(active
                   ? {
                       backgroundColor: "black",

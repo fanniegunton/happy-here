@@ -162,7 +162,7 @@ export default function NeighborhoodPage({
           display: "flex",
           alignItems: "center",
           gap: 16,
-          marginTop: 48,
+          marginTop: 36,
           marginBottom: 16,
           [theme.mobile]: { padding: "0 30px" },
         }}
@@ -219,39 +219,24 @@ export default function NeighborhoodPage({
           display: "flex",
           alignItems: "center",
           gap: 16,
-          marginBottom: 48,
+          marginBottom: 36,
           [theme.mobile]: { padding: "0 30px", marginBottom: 32 },
         }}
       >
-        <h1
+        <h2
           css={{
-            // fontFamily: theme.newFontFamily,
             fontFamily: theme.displayFontFamily,
-            // fontSize: 120,
-            fontSize: 48,
+            fontSize: 80,
             textTransform: "uppercase",
             lineHeight: 1,
             letterSpacing: "-0.05em",
             fontWeight: 900,
             [theme.tablet]: { fontSize: 80 },
-            [theme.mobile]: { fontSize: 52 },
+            [theme.mobile]: { fontSize: 44 },
           }}
         >
           {neighborhoodLabel}
-        </h1>
-        <span
-          css={{
-            fontSize: 42,
-            // textTransform: "uppercase",
-            // lineHeight: 1,
-            // letterSpacing: "-0.05em",
-            // fontWeight: 900,
-            [theme.mobile]: { fontSize: 28 },
-            color: scheme ? "var(--neighborhood-accent)" : undefined,
-          }}
-        >
-          ✦
-        </span>
+        </h2>
       </div>
 
       {neighborhoodContent?.quickDescription && (
@@ -302,9 +287,9 @@ export default function NeighborhoodPage({
                 textTransform: "uppercase",
                 lineHeight: 1,
                 letterSpacing: "-0.05em",
-                fontWeight: 900,
+                fontWeight: 400,
                 [theme.tablet]: { fontSize: 80 },
-                [theme.mobile]: { fontSize: 52 },
+                [theme.mobile]: { fontSize: 44 },
               }}
             >
               Happy Hour Now
@@ -342,7 +327,11 @@ export default function NeighborhoodPage({
               gap: 16,
               marginTop: 96,
               marginBottom: 32,
-              [theme.mobile]: { padding: "0 30px" },
+              [theme.mobile]: {
+                padding: "0 30px",
+                marginTop: 36,
+                borderTop: `1px solid ${theme.duskyPurple}`,
+              },
             }}
           >
             <h2
@@ -352,12 +341,12 @@ export default function NeighborhoodPage({
                 textTransform: "uppercase",
                 lineHeight: 1,
                 letterSpacing: "-0.05em",
-                fontWeight: 900,
+                fontWeight: 400,
                 [theme.tablet]: { fontSize: 80, marginTop: 64 },
-                [theme.mobile]: { fontSize: 52 },
+                [theme.mobile]: { fontSize: 44 },
               }}
             >
-              Coming Up
+              Future Happy Hours
             </h2>
             <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
               ✦
@@ -366,18 +355,20 @@ export default function NeighborhoodPage({
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              // Compact tiles: three across on desktop, two on small desktop.
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
               margin: "0 auto",
               justifyContent: "center",
               justifyItems: "center",
               alignItems: "start",
-              gap: "40px 40px",
+              gap: "32px 24px",
+              [theme.smallDesktop]: { gridTemplateColumns: "1fr 1fr" },
               [theme.tablet]: { gridTemplateColumns: "1fr", gap: 30 },
               [theme.mobile]: { margin: 0, gap: 24 },
             }}
           >
             {happyHourLater.map((est) => (
-              <EstablishmentTile key={est._id} {...est} />
+              <EstablishmentTile key={est._id} {...est} compact />
             ))}
           </div>
         </>

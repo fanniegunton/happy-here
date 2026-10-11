@@ -28,24 +28,7 @@ import { formatMilitaryTime } from "@lib/formatMilitaryTime"
 import { generateSlug } from "@lib/slug"
 import { DEAL_TYPE_LABELS } from "@lib/dealTypes"
 import type { SanityEstablishment, OtherDealType } from "@/types/sanity"
-
-function toTitleCase(s: string): string {
-  return s
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (c) => c.toUpperCase())
-    .trim()
-}
-
-function getNeighborhoodLabel(
-  neighborhood: SanityEstablishment["neighborhood"] | undefined
-): string {
-  if (!neighborhood) return ""
-  const subKey = Object.keys(neighborhood).find((k) =>
-    k.startsWith("subNeighborhood")
-  )
-  if (subKey && neighborhood[subKey]) return toTitleCase(neighborhood[subKey])
-  return neighborhood.region ? toTitleCase(neighborhood.region) : ""
-}
+import { getNeighborhoodLabel } from "@lib/neighborhoods"
 
 interface HappeningsTileProps extends SanityEstablishment {
   dealType?: OtherDealType
@@ -70,6 +53,8 @@ export default function HappeningsTile({
   dealName,
 }: HappeningsTileProps) {
   const [isHappyHour, setHappyHour] = useState(false)
+
+  const detailLines = (happyHourDetails || "").split("\n").filter(Boolean)
 
   // Create URL-friendly slug from establishment name
   const slug = generateSlug(name)
@@ -171,7 +156,7 @@ export default function HappeningsTile({
               cursor: "pointer",
             }}
           >
-            {photo ? (
+            {/* {photo ? (
               <SanityImage
                 image={photo}
                 width={300}
@@ -201,7 +186,7 @@ export default function HappeningsTile({
                   transition: "opacity 0.2s",
                 }}
               />
-            )}
+            )} */}
           </a>
 
           {/* Duotone color overlay */}
@@ -241,8 +226,8 @@ export default function HappeningsTile({
           >
             {isHappyHour ? (
               <>
-                It's {dealTypeLabel} Until <span css={{ opacity: 0.6 }}>→</span>{" "}
-                {formattedEndTime}
+                {dealTypeLabel} • Happening Now Until{" "}
+                <span css={{ opacity: 0.6 }}>→</span> {formattedEndTime}
               </>
             ) : (
               <>
@@ -379,17 +364,15 @@ export default function HappeningsTile({
                     },
                   }}
                 >
-                  {happyHourDetails?.includes("\n") ? (
+                  {/* Every detail line is bulleted, including a single line. */}
+                  {detailLines.length > 0 ? (
                     <ul
                       css={{
                         paddingInlineStart: 20,
                         maxWidth: "max-content",
                       }}
                     >
-                      {happyHourDetails
-                        .split("\n")
-                        .filter(Boolean)
-                        .map((line, index) => (
+                      {detailLines.map((line, index) => (
                           <li
                             key={index}
                             css={{

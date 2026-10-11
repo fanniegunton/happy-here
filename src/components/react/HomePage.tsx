@@ -190,17 +190,22 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
           [theme.mobile]: { padding: "0 30px" },
         }}
       >
-        <h2
+        <h1
           css={{
             ...theme.h2,
             fontWeight: 600,
-            fontSize: 108,
+            fontSize: 100,
             textTransform: "uppercase",
+            [theme.tablet]: { fontSize: 80 },
+            // [theme.mobile]: { fontSize: 44 },
+            [theme.mobile]: {
+              display: "none",
+            },
           }}
         >
           Happy Hour
-        </h2>
-        <h3
+        </h1>
+        {/* <h3
           css={{
             ...theme.h3Alt,
             fontSize: 24,
@@ -208,8 +213,8 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             textWrap: "pretty",
           }}
         >
-          Happy Hour now, Happy Hour later. Happy Here!
-        </h3>
+          What's live + what's coming up!
+        </h3> */}
       </div>
 
       <FilterBar
@@ -244,7 +249,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
-              Happy Hour Now
+              Live Now
             </h2>
             <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
               ✦
@@ -270,7 +275,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             }}
           >
             {happyHourNow.map((est) => (
-              <EstablishmentTile key={est._id} {...est} showHappenings />
+              <EstablishmentTile key={est._id} {...est} />
             ))}
           </div>
         </>
@@ -286,7 +291,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               gap: 16,
               marginTop: 96,
               marginBottom: 32,
-              [theme.mobile]: { padding: "0 30px" },
+              [theme.mobile]: { padding: "0 30px", marginTop: 72 },
             }}
           >
             <h2
@@ -301,7 +306,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
-              Coming Up
+              Future Happy Hours
             </h2>
             <span css={{ fontSize: 48, [theme.mobile]: { fontSize: 28 } }}>
               ✦
@@ -310,12 +315,16 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              // Compact tiles: three across on desktop, two on small desktop.
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
               margin: "0 auto",
               justifyContent: "center",
               justifyItems: "center",
               alignItems: "start",
-              gap: "40px 40px",
+              gap: "32px 24px",
+              [theme.smallDesktop]: {
+                gridTemplateColumns: "1fr 1fr",
+              },
               [theme.tablet]: {
                 gridTemplateColumns: "1fr",
                 gap: 30,
@@ -327,7 +336,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             }}
           >
             {happyHourLater.map((est) => (
-              <EstablishmentTile key={est._id} {...est} showHappenings />
+              <EstablishmentTile key={est._id} {...est} compact />
             ))}
           </div>
         </>

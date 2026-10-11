@@ -35,8 +35,14 @@ import {
   type ConcurrentHappening,
 } from "@lib/getConcurrentHappenings"
 import type { SanityEstablishment, OtherDealType } from "@/types/sanity"
+import { getNeighborhoodLabel } from "@lib/neighborhoods"
 
 const MAX_VISIBLE_DEALS = 4
+
+// Compact ("Coming Up") tiles cap the deal list at this many rendered lines,
+// counting wrapped lines, at this line height (px).
+const COMPACT_DEAL_LINES = 3
+const COMPACT_DEAL_LINE_HEIGHT = 18
 
 // Priority order for the above-the-fold amenity pills. Edit this array to
 // change the order amenities appear in on the card.
@@ -127,24 +133,6 @@ const PILL_GROUPS = [
     iconColor: theme.white,
   },
 ] as const
-
-function toTitleCase(s: string): string {
-  return s
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (c) => c.toUpperCase())
-    .trim()
-}
-
-function getNeighborhoodLabel(
-  neighborhood: SanityEstablishment["neighborhood"] | undefined
-): string {
-  if (!neighborhood) return ""
-  const subKey = Object.keys(neighborhood).find((k) =>
-    k.startsWith("subNeighborhood")
-  )
-  if (subKey && neighborhood[subKey]) return toTitleCase(neighborhood[subKey])
-  return neighborhood.region ? toTitleCase(neighborhood.region) : ""
-}
 
 // Grows the open happening panel out of the chip's top-right corner.
 const panelOpen = keyframes`
@@ -259,13 +247,6 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           </span>
         )}
         {/* Hidden until the chip is hovered (see "&:hover" above). */}
-        {/* <span
-          className="happening-click-hint"
-          aria-hidden="true"
-          css={{ display: "none" }}
-        >
-          (Click!)
-        </span> */}
       </summary>
       {/* The chip "opening up": anchored to the chip's top-right corner, it
           covers the chip and grows left and down in the chip's own shape
@@ -287,7 +268,6 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
           borderRadius: 24,
           border: `3px dashed ${theme.lavender}`,
           background: theme.white,
-          // boxShadow: "var(--shadow-elevation-medium)",
           boxShadow:
             "-0.2px 0.8px 0.9px rgba(253, 112, 180, 1), -0.8px 2.5px 3px -0.8px rgba(253, 112, 180, 1), -2px 6.3px 7.4px -1.7px rgba(253, 112, 180, 1), -4.8px 15.3px 18px -2.5px rgba(253, 112, 180, 1)",
           color: theme.black,
@@ -361,8 +341,10 @@ function HappeningChip({ deal, endTime }: ConcurrentHappening) {
 interface EstablishmentTileProps extends SanityEstablishment {
   dealType?: OtherDealType
   dealName?: string
-  // Opt-in: show live "happening" chips. Only the Home page enables this.
-  showHappenings?: boolean
+  // Smaller tile used for "Coming Up" sections: shorter body, narrower
+  // photo, smaller type, and deals capped at COMPACT_DEAL_LINES rendered
+  // lines.
+  compact?: boolean
 }
 
 export default function EstablishmentTile({
@@ -383,7 +365,7 @@ export default function EstablishmentTile({
   otherDeals,
   dealType,
   dealName,
-  showHappenings = false,
+  compact = false,
 }: EstablishmentTileProps) {
   const [isHappyHour, setHappyHour] = useState(false)
   const [happenings, setHappenings] = useState<ConcurrentHappening[]>([])
@@ -396,13 +378,52 @@ export default function EstablishmentTile({
   // specials show on the Home page. For those, the live happening chip
   // takes the wide side of the deals/happenings split.
   const happeningsLead = doesNotHaveHappyHour && happenings.length > 0
-  const visibleDealLines = dealsExpanded
-    ? dealLines
-    : dealLines.slice(0, MAX_VISIBLE_DEALS)
-  const hiddenDealCount = dealLines.length - MAX_VISIBLE_DEALS
+  // Compact tiles render every line and trim by measured height instead
+  // (see the layout effect below), so wrapped lines count toward the cap.
+  const visibleDealLines =
+    dealsExpanded || compact ? dealLines : dealLines.slice(0, MAX_VISIBLE_DEALS)
+  const [compactHiddenCount, setCompactHiddenCount] = useState(0)
+  const hiddenDealCount = compact
+    ? compactHiddenCount
+    : dealLines.length - MAX_VISIBLE_DEALS
+  const dealListRef = useRef<HTMLUListElement>(null)
+
+  // Compact: show only the deal items that fit entirely within
+  // COMPACT_DEAL_LINES rendered lines (wrapped lines included); the rest go
+  // under "+N more". Re-measures when the list's width changes, e.g. as
+  // fonts load or the viewport resizes.
+  useLayoutEffect(() => {
+    const list = dealListRef.current
+    if (!list) return
+    const items = Array.from(list.children) as HTMLElement[]
+    if (!compact || dealsExpanded) {
+      items.forEach((item) => (item.style.display = ""))
+      return
+    }
+    const measure = () => {
+      items.forEach((item) => (item.style.display = ""))
+      const top = items[0]?.getBoundingClientRect().top ?? 0
+      const limit = COMPACT_DEAL_LINES * COMPACT_DEAL_LINE_HEIGHT + 0.5
+      let fit = 0
+      for (const item of items) {
+        if (item.getBoundingClientRect().bottom - top > limit) break
+        fit++
+      }
+      // A single item taller than the cap still shows (clipped by the
+      // list's max-height) rather than leaving the deals area empty.
+      fit = Math.max(fit, 1)
+      items.forEach((item, i) => (item.style.display = i < fit ? "" : "none"))
+      setCompactHiddenCount(items.length - fit)
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    if (list.parentElement) observer.observe(list.parentElement)
+    return () => observer.disconnect()
+  }, [compact, dealsExpanded, happyHourDetails])
 
   const isStaffPick = theSpaceIsLike.includes("staffPick")
-  const hasLinks = Boolean(happyHourMenu || website || instagram)
+  // The menu link lives in the "Full Address, Hours, & Contact Info" drawer.
+  const hasLinks = Boolean(website || instagram)
 
   const visibleHighlights = HIGHLIGHT_PILL_PRIORITY.filter(
     ({ category, value }) =>
@@ -418,10 +439,8 @@ export default function EstablishmentTile({
     const checkHours = () => {
       const now = new Date()
       setHappyHour(hoursCover(happyHourTimes, now))
-      if (showHappenings) {
-        const next = getConcurrentHappenings(otherDeals, happyHourTimes, now)
-        setHappenings((prev) => (sameHappenings(prev, next) ? prev : next))
-      }
+      const next = getConcurrentHappenings(otherDeals, happyHourTimes, now)
+      setHappenings((prev) => (sameHappenings(prev, next) ? prev : next))
     }
 
     // Check hours right away
@@ -433,7 +452,7 @@ export default function EstablishmentTile({
     return () => {
       window.clearInterval(timer)
     }
-  }, [happyHourTimes, otherDeals, showHappenings])
+  }, [happyHourTimes, otherDeals])
 
   const todayEndTime = getTodayEndTime(happyHourTimes)
   const formattedEndTime =
@@ -469,12 +488,12 @@ export default function EstablishmentTile({
         borderRadius: 16,
         overflow: "hidden",
         // border: isHappyHour ? "4px solid #A78BB5" : "4px solid #8B5E2A",
-        maxWidth: 580,
+        maxWidth: compact ? 420 : 580,
         width: "100%",
         display: "flex",
         flexDirection: "column",
         [theme.tablet]: {
-          maxWidth: 500,
+          maxWidth: compact ? 420 : 500,
         },
         [theme.mobile]: {
           maxWidth: 380,
@@ -488,10 +507,10 @@ export default function EstablishmentTile({
           width: "100%",
           backgroundColor: isHappyHour
             ? theme.happyHourStrip
-            : theme.comingUpStrip,
+            : theme.deepMagenta,
           color: theme.white,
-          padding: "10px 20px",
-          fontSize: 12,
+          padding: compact ? "8px 14px" : "10px 20px",
+          fontSize: compact ? 11 : 12,
           fontWeight: 600,
           textTransform: "uppercase",
           letterSpacing: "0.05em",
@@ -521,7 +540,7 @@ export default function EstablishmentTile({
         data-tile-body
         css={{
           display: "grid",
-          gridTemplateColumns: "176px 1fr",
+          gridTemplateColumns: compact ? "128px 1fr" : "176px 1fr",
           alignItems: "stretch",
           // Fixed height, independent of the Details section below. The card
           // is a flex column, so `flex: "none"` keeps the card's flex sizing
@@ -529,11 +548,14 @@ export default function EstablishmentTile({
           // grid row is pinned to that height so taller content is clipped
           // instead of stretching the photo.
           flex: "none",
-          height: 330,
+          // Compact tiles grow to fit once "+N more" expands the deals.
+          ...(compact && dealsExpanded
+            ? { height: "auto", minHeight: 240 }
+            : { height: compact ? 240 : 330 }),
           gridTemplateRows: "minmax(0, 1fr)",
           overflow: "hidden",
           [theme.tablet]: {
-            gridTemplateColumns: "150px 1fr",
+            gridTemplateColumns: compact ? "128px 1fr" : "150px 1fr",
           },
           [theme.mobile]: {
             gridTemplateColumns: "1fr",
@@ -550,13 +572,15 @@ export default function EstablishmentTile({
             position: "relative",
             width: "100%",
             height: "100%",
-            minHeight: 230,
+            minHeight: compact ? 0 : 230,
             overflow: "hidden",
             [theme.mobile]: {
               aspectRatio: "4 / 3",
               height: "auto",
               minHeight: 0,
               width: "100%",
+              // Mobile: no photo; the tile starts with its name.
+              display: "none",
             },
           }}
         >
@@ -645,11 +669,12 @@ export default function EstablishmentTile({
         {/* Content column */}
         <div
           css={{
-            padding: "16px 20px 18px",
+            padding: compact ? "12px 14px 12px" : "16px 20px 18px",
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
             textAlign: "left",
+            [theme.mobile]: { paddingBottom: 8 },
           }}
         >
           <div
@@ -673,7 +698,7 @@ export default function EstablishmentTile({
                 css={{
                   ...theme.h3Alt,
                   fontFamily: theme.fancyFontFamily,
-                  fontSize: 26,
+                  fontSize: compact ? 20 : 26,
                   textWrap: "balance",
                   textAlign: "left",
                   cursor: "pointer",
@@ -699,14 +724,14 @@ export default function EstablishmentTile({
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 8,
-                marginTop: 4,
-                marginBottom: 10,
+                marginTop: compact ? 2 : 4,
+                marginBottom: compact ? 6 : 10,
               }}
             >
               <div
                 css={{
-                  fontSize: "1rem",
-                  lineHeight: "1.25rem",
+                  fontSize: compact ? 14 : "1rem",
+                  lineHeight: compact ? "18px" : "1.25rem",
                   fontWeight: 700,
                   minWidth: 0,
                 }}
@@ -721,23 +746,15 @@ export default function EstablishmentTile({
                     gap: 8,
                     flexShrink: 0,
                     // Scale the shared 28px IconButton icons down to the
-                    // neighborhood line's 20px height.
+                    // neighborhood line's height (20px; 16px compact).
                     "& img": {
-                      width: 20,
-                      height: 20,
-                      flex: "0 0 20px",
+                      width: compact ? 16 : 20,
+                      height: compact ? 16 : 20,
+                      flex: compact ? "0 0 16px" : "0 0 20px",
                       marginRight: 0,
                     },
                   }}
                 >
-                  {happyHourMenu && (
-                    <IconButton
-                      icon={Icons.Menu}
-                      href={happyHourMenu}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    />
-                  )}
                   {website && (
                     <IconButton
                       icon={Icons.Website}
@@ -768,13 +785,17 @@ export default function EstablishmentTile({
               gridTemplateColumns: happeningsLead
                 ? "minmax(0, 3fr) minmax(0, 7fr)"
                 : happenings.length > 0
-                  ? "minmax(0, 7fr) minmax(0, 3fr)"
-                  : "minmax(0, 1fr)",
+                ? "minmax(0, 7fr) minmax(0, 3fr)"
+                : "minmax(0, 1fr)",
               columnGap: 12,
               alignItems: "start",
             }}
           >
-            <div css={{ marginBottom: "1rem" }}>
+            <div
+              css={{
+                marginBottom: "1rem",
+              }}
+            >
               <div>
                 {dealType && (
                   <div
@@ -795,31 +816,48 @@ export default function EstablishmentTile({
                 <div
                   css={{
                     marginTop: 4,
-                    marginBottom: 16,
+                    marginBottom: compact ? 0 : 16,
                     fontSize: 16,
-                    lineHeight: "1.25rem",
+                    lineHeight: compact
+                      ? `${COMPACT_DEAL_LINE_HEIGHT}px`
+                      : "1.25rem",
                     [theme.mobile]: {
-                      marginBottom: 8,
+                      marginBottom: 0,
+                      // Only the outer wrapper's margin spaces the deals
+                      // from what follows, so zero the inner ones.
+                      "& li:last-child": { marginBottom: 0 },
+                      "& > div": { marginBottom: 0 },
+                      "& > button": { marginTop: 4, marginBottom: 0 },
                     },
                   }}
                 >
                   {dealLines.length > 0 ? (
                     <>
                       <ul
+                        ref={dealListRef}
                         css={{
-                          paddingInlineStart: 20,
+                          paddingInlineStart: compact ? 16 : 20,
                           maxWidth: "max-content",
+                          // Compact: clip at the line cap. Items that don't
+                          // fully fit are hidden by the layout effect; this
+                          // only trims a single over-long item.
+                          ...(compact &&
+                            !dealsExpanded && {
+                              maxHeight:
+                                COMPACT_DEAL_LINES * COMPACT_DEAL_LINE_HEIGHT,
+                              overflow: "hidden",
+                            }),
                         }}
                       >
                         {visibleDealLines.map((line, index) => (
                           <li
                             key={index}
                             css={{
-                              fontSize: 14,
+                              fontSize: compact ? 13 : 14,
                               listStyleType: "disc",
                               textAlign: "left",
                               "&:last-child": {
-                                marginBottom: 16,
+                                marginBottom: compact ? 0 : 16,
                               },
                             }}
                           >
@@ -836,9 +874,9 @@ export default function EstablishmentTile({
                             background: "none",
                             border: "none",
                             padding: 0,
-                            marginTop: -8,
-                            marginBottom: 16,
-                            fontSize: 13,
+                            marginTop: compact ? 4 : -8,
+                            marginBottom: compact ? 0 : 16,
+                            fontSize: compact ? 12 : 13,
                             fontFamily: "inherit",
                             color: "inherit",
                             opacity: 0.7,
@@ -851,7 +889,12 @@ export default function EstablishmentTile({
                       )}
                     </>
                   ) : (
-                    <div css={{ fontSize: 14, marginBottom: 16 }}>
+                    <div
+                      css={{
+                        fontSize: compact ? 13 : 14,
+                        marginBottom: compact ? 0 : 16,
+                      }}
+                    >
                       {happyHourDetails}
                     </div>
                   )}
@@ -867,6 +910,7 @@ export default function EstablishmentTile({
                   alignItems: "stretch",
                   gap: 8,
                   marginBottom: 10,
+                  [theme.mobile]: { marginBottom: 8 },
                   minWidth: 0,
                   // padding: "10px 6px",
                 }}
@@ -898,6 +942,20 @@ export default function EstablishmentTile({
                     display: "flex",
                     flexWrap: "wrap",
                     alignItems: "center",
+                    // Compact: shrink the 32px dots / 20px icons.
+                    ...(compact && {
+                      "& [role=img]": {
+                        width: 26,
+                        height: 26,
+                        marginRight: 6,
+                        marginBottom: 6,
+                      },
+                      "& [role=img] svg": {
+                        width: 16,
+                        height: 16,
+                        flex: "0 0 16px",
+                      },
+                    }),
                   }}
                 >
                   {visibleHighlights
@@ -946,10 +1004,10 @@ export default function EstablishmentTile({
           <summary
             css={{
               cursor: "pointer",
-              fontSize: 12,
+              fontSize: compact ? 11 : 12,
               textAlign: "left",
-              margin: "0 30px 12px",
-              paddingTop: "16px",
+              margin: compact ? "0 20px 10px" : "0 30px 12px",
+              paddingTop: compact ? "10px" : "16px",
               borderTop: `1px solid ${theme.lightGrout}`,
               [theme.tablet]: {
                 margin: "0 24px 12px",
@@ -966,7 +1024,7 @@ export default function EstablishmentTile({
               textAlign: "left",
               textTransform: "capitalize",
               fontSize: 12,
-              margin: "0 30px 20px",
+              margin: compact ? "0 20px 16px" : "0 30px 20px",
               maxWidth: 300,
               [theme.tablet]: {
                 margin: "0 24px 20px",
@@ -989,6 +1047,29 @@ export default function EstablishmentTile({
                 {happyHourTimes.map((line, index) => (
                   <div key={index}>{line}</div>
                 ))}
+              </div>
+            )}
+            {happyHourMenu && (
+              <div
+                css={{
+                  marginTop: 8,
+                  // Scale the shared 28px IconButton icon to the drawer text.
+                  "& img": {
+                    width: 16,
+                    height: 16,
+                    flex: "0 0 16px",
+                    marginRight: 6,
+                  },
+                }}
+              >
+                <IconButton
+                  icon={Icons.Menu}
+                  href={happyHourMenu}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Happy Hour Menu
+                </IconButton>
               </div>
             )}
           </div>
