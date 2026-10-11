@@ -218,21 +218,31 @@ export default function HappeningsTile({
               display: "flex",
               alignItems: "center",
               justifyItems: "start",
+              textAlign: "left",
               gap: 8,
               [theme.mobile]: {
                 padding: "10px 20px",
               },
             }}
           >
+            {/* The strip is a flex row, so each text run is its own flex
+                item. The times never shrink or wrap, so a long deal type
+                wraps the label instead of splitting "10PM" into "10P / M". */}
             {isHappyHour ? (
               <>
                 {dealTypeLabel} • Happening Now Until{" "}
-                <span css={{ opacity: 0.6 }}>→</span> {formattedEndTime}
+                <span css={{ opacity: 0.6 }}>→</span>{" "}
+                <span css={{ whiteSpace: "nowrap", flexShrink: 0 }}>
+                  {formattedEndTime}
+                </span>
               </>
             ) : (
               <>
                 {nextHappyHourDay} <span css={{ opacity: 0.6 }}>·</span>{" "}
-                {dealTypeLabel} at {nextHappyHourTime}
+                {dealTypeLabel}{" "}
+                <span css={{ whiteSpace: "nowrap", flexShrink: 0 }}>
+                  at {nextHappyHourTime}
+                </span>
               </>
             )}
           </div>
@@ -373,20 +383,20 @@ export default function HappeningsTile({
                       }}
                     >
                       {detailLines.map((line, index) => (
-                          <li
-                            key={index}
-                            css={{
-                              fontSize: 14,
-                              listStyleType: "disc",
-                              textAlign: "left",
-                              "&:last-child": {
-                                marginBottom: 16,
-                              },
-                            }}
-                          >
-                            {line}
-                          </li>
-                        ))}
+                        <li
+                          key={index}
+                          css={{
+                            fontSize: 14,
+                            listStyleType: "disc",
+                            textAlign: "left",
+                            "&:last-child": {
+                              marginBottom: 16,
+                            },
+                          }}
+                        >
+                          {line}
+                        </li>
+                      ))}
                     </ul>
                   ) : (
                     <div css={{ fontSize: 14, marginBottom: 16 }}>

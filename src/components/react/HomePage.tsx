@@ -197,24 +197,30 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
             fontSize: 100,
             textTransform: "uppercase",
             [theme.tablet]: { fontSize: 80 },
-            // [theme.mobile]: { fontSize: 44 },
-            [theme.mobile]: {
-              display: "none",
-            },
+            [theme.mobile]: { fontSize: 44 },
+            // [theme.mobile]: {
+            //   display: "none",
+            // },
           }}
         >
           Happy Hour
         </h1>
-        {/* <h3
+        <h3
           css={{
-            ...theme.h3Alt,
             fontSize: 24,
+            fontFamily: theme.newFontFamily,
+            fontWeight: 500,
+            lineHeight: 1.35,
+            letterSpacing: "0.03em",
+            [theme.mobile]: {
+              fontSize: 22,
+            },
             maxWidth: "85%",
             textWrap: "pretty",
           }}
         >
-          What's live + what's coming up!
-        </h3> */}
+          Allllll the Happy Hours–starting with what's on deck now
+        </h3>
       </div>
 
       <FilterBar
@@ -291,7 +297,7 @@ export default function HomeClient({ establishments = [] }: HomeClientProps) {
               gap: 16,
               marginTop: 96,
               marginBottom: 32,
-              [theme.mobile]: { padding: "0 30px", marginTop: 72 },
+              [theme.mobile]: { padding: "0 30px", marginTop: 64 },
             }}
           >
             <h2

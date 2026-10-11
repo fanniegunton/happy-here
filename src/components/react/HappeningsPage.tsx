@@ -235,7 +235,7 @@ export default function HappeningsPage({
           }}
         >
           Collecting all of the OTHER deals like: Daily Specials, Reverse Happy
-          Hour, Industry Night, etc.
+          Hour, Industry Night, et cetera.
         </h3>
       </div>
 
@@ -262,13 +262,12 @@ export default function HappeningsPage({
             <h2
               css={{
                 fontFamily: theme.newFontFamily,
-                fontFamily: theme.newFontFamily,
                 fontSize: 80,
                 textTransform: "uppercase",
                 lineHeight: 1,
                 letterSpacing: "-0.05em",
                 fontWeight: 400,
-                [theme.tablet]: { fontSize: 80 },
+                [theme.tablet]: { fontSize: 60 },
                 [theme.mobile]: { fontSize: 52 },
               }}
             >
@@ -316,7 +315,10 @@ export default function HappeningsPage({
               gap: 16,
               marginTop: 96,
               marginBottom: 32,
-              [theme.mobile]: { padding: "0 30px", marginTop: 72 },
+              [theme.mobile]: {
+                padding: "20px 30px 0",
+                marginTop: 64,
+              },
             }}
           >
             <h2
