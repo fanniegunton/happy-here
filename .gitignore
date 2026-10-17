@@ -17,3 +17,4 @@ yarn-error.log
 .claude/worktrees
 .claude/settings.local.json
 .playwright-mcp/
+.design
